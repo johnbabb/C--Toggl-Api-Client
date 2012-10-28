@@ -25,7 +25,7 @@ namespace Toggl.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("api_key_from_toggle")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2d1d95cef10e17831ec505e9e6f9f7ea")]
         public string ApiToken {
             get {
                 return ((string)(this["ApiToken"]));

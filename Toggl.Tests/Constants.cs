@@ -8,6 +8,6 @@ namespace Toggl.Tests
 {
     public static class Constants
     {
-        public const string ApiToken = "api_key_from_toggle";
+        public const string ApiToken = "2d1d95cef10e17831ec505e9e6f9f7ea";
     }
 }
