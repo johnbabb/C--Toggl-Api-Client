@@ -1,0 +1,8 @@
+C:\Users\John\Desktop\Toggle\Toggle\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\John\Desktop\Toggle\Toggle\bin\Debug\Toggle.pdb
+C:\Users\John\Desktop\Toggle\Toggle\bin\Debug\Newtonsoft.Json.dll
+C:\Users\John\Desktop\Toggle\Toggle\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\John\Desktop\Toggle\Toggle\bin\Debug\Newtonsoft.Json.xml
+C:\Users\John\Desktop\Toggle\Toggle\obj\x86\Debug\Toggle.pdb
+C:\Users\John\Desktop\Toggle\Toggle\bin\Debug\Toggle.dll
+C:\Users\John\Desktop\Toggle\Toggle\obj\x86\Debug\Toggle.dll

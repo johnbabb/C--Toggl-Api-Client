@@ -1,0 +1,15 @@
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\Toggle.Tests.exe
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\Toggle.Tests.pdb
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\nunit-console-runner.dll
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\nunit.framework.dll
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\nunit.util.dll
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\nunit.core.interfaces.dll
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\nunit.core.dll
+C:\Users\John\Desktop\Toggle\Toggle.Tests\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\John\Desktop\Toggle\Toggle.Tests\obj\x86\Debug\Toggle.Tests.exe
+C:\Users\John\Desktop\Toggle\Toggle.Tests\obj\x86\Debug\Toggle.Tests.pdb
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\Toggle.dll
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\Newtonsoft.Json.dll
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\Toggle.pdb
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\John\Desktop\Toggle\Toggle.Tests\bin\Debug\Newtonsoft.Json.xml
