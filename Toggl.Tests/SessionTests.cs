@@ -13,14 +13,11 @@ namespace Toggl.Tests
        
         [Test]
         [TestCase(Constants.ApiToken)]
-        public void Get_Session_By_Api_Token(string api_token)
+        public void GetSessionByApiToken(string apiToken)
         {
-            var t = new TogglService();
-            var lstKv = new List<KeyValuePair<string, string>>();
-            lstKv.Add(new KeyValuePair<string, string>("api_token", api_token));
-            
-            var s = t.GetSession(lstKv);
-            Assert.AreEqual(s.api_token, Constants.ApiToken);
+            var t = new TogglService(apiToken);
+            var s = t.GetSession();
+            Assert.AreEqual(s.ApiToken, Constants.ApiToken);
         }
     }
 }

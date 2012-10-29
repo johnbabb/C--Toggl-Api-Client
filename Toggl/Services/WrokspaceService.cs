@@ -11,15 +11,22 @@ namespace Toggl.Services
 {
     public class WorkspaceService
     {
-        private const string TogglBaseUrl = "https://www.toggl.com/api/v6";
 
-        private const string TogglWorkspaceUrl = TogglBaseUrl + "/workspaces.json";
+        private readonly string ListWorkspaceUrl = ApiRoutes.Workspace.ListWorkspaceUrl;
+
 
         private ITogglService ToggleSrv { get; set; }
+
+        public WorkspaceService(string apiKey)
+            : this(new TogglService(apiKey))
+        {
+
+        }
 
         public WorkspaceService()
             : this(new TogglService())
         {
+            
         }
 
         public WorkspaceService(ITogglService srv)
@@ -29,7 +36,7 @@ namespace Toggl.Services
 
         public List<Workspace> GetWorkspaces()
         {
-            return ToggleSrv.GetResponse(TogglWorkspaceUrl).GetData<List<Workspace>>();
+            return ToggleSrv.GetResponse(ListWorkspaceUrl).GetData<List<Workspace>>();
         }
     }
 }

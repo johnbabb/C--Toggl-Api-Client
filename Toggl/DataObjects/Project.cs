@@ -2,32 +2,33 @@
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.DataObjects;
 
 namespace Toggl
 {
-    public class Project
+    public class Project : BaseDataObject
     {
         [JsonProperty(PropertyName = "name")]
-        public string name { get; set; }
+        public string Name { get; set; }
         [JsonProperty(PropertyName = "billable")]
-        public bool billable { get; set; }
+        public bool? Billable { get; set; }
         [JsonProperty(PropertyName = "workspace")]
-        public Workspace workspace { get; set; }
+        public Workspace Workspace { get; set; }
         [JsonProperty(PropertyName = "id")]
-        public int id { get; set; }
+        public int? Id { get; set; }
         [JsonProperty(PropertyName = "fixed_fee")]
-        public string fixed_fee { get; set; }
+        public string FixedFee { get; set; }
         [JsonProperty(PropertyName = "hourly_rate")]
-        public string hourly_rate { get; set; }
+        public string HourlyRate { get; set; }
         [JsonProperty(PropertyName = "is_fixed_fee")]
-        public string is_fixed_fee { get; set; }
+        public string IsFixedFee { get; set; }
         [JsonProperty(PropertyName = "is_private")]
-        public string is_private { get; set; }
+        public string IsPrivate { get; set; }
         [JsonProperty(PropertyName = "client_project_name")]
-        public string client_project_name { get; set; }
+        public string ClientProjectName { get; set; }
         [JsonProperty(PropertyName = "estimated_workhours")]
-        public string estimated_workhours { get; set; }
+        public string EstimatedWorkhours { get; set; }
         [JsonProperty(PropertyName = "automatically_calculate_estimated_workhours")]
-        public string automatically_calculate_estimated_workhours { get; set; }
+        public bool? AutomaticallyCalculateEstimatedWorkhours { get; set; }
     }
 }

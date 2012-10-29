@@ -1,26 +1,27 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Toggl.DataObjects;
 
 namespace Toggl
 {
-    public class Task
+    public class Task : BaseDataObject
     {
         [JsonProperty(PropertyName = "name")]
-        public string name { get; set; }
+        public string Name { get; set; }
         [JsonProperty(PropertyName = "workspace")]
-        public Workspace workspace { get; set; }
+        public Workspace Workspace { get; set; }
         [JsonProperty(PropertyName = "id")]
-        public string id { get; set; }
+        public int? Id { get; set; }
         [JsonProperty(PropertyName = "project")]
-        public Project project { get; set; }
+        public Project Project { get; set; }
         [JsonProperty(PropertyName = "user")]
-        public User user { get; set; }
+        public User User { get; set; }
         [JsonProperty(PropertyName = "estimated_workhours")]
-        public string estimated_workhours{ get; set; }
+        public int? EstimatedWorkhours{ get; set; }
         [JsonProperty(PropertyName = "estimated_seconds")]
-        public string estimated_seconds { get; set; }
+        public int? EstimatedSeconds { get; set; }
         [JsonProperty(PropertyName = "is_active")]
-        public string is_active { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

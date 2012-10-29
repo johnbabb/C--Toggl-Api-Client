@@ -12,13 +12,35 @@ namespace Toggl.Tests
     {
         
         [Test]
-        public void Get_Tasks()
+        public void GetTasks()
+        {
+            var srv = new TaskService();
+
+            var obj = srv.GetTasks();
+
+            Assert.GreaterOrEqual(obj.Count(), 0);
+        }
+        /// <summary>
+        /// 
+        /// 
+        /// </summary>
+        [Test]
+        public void AddTask()
         {
             var t = new TaskService();
 
-            var tasks = t.GetTasks();
+            var act = new Task
+                          {
+                              IsActive = true,
+                              User = new User { Id = Constants.DefaultUserId },
+                              Name = "test123",
+                              EstimatedSeconds = 3600,
+                              Project = new Project { Id = Constants.DefaultProjectId }
+                          };
 
-            Assert.AreEqual(tasks.Count(),0 );
+            var exp = t.Add(act);
+            
+            Assert.AreEqual(exp, act);
         }
     }
 }

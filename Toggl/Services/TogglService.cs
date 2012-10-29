@@ -11,10 +11,10 @@ namespace Toggl.Services
 {
     public class TogglService : ITogglService
     {
-        private const string TogglBaseUrl = "https://www.toggl.com/api/v6";
-        
-        private const string TogglAuthUrl = TogglBaseUrl + "/sessions.json";
-       
+        private readonly static string TogglBaseUrl = Settings.Default.TogglBaseUrl;
+
+        private readonly static string TogglAuthUrl = TogglBaseUrl + "/sessions.json";
+
         private string ApiToken { get; set; }
 
         private CookieContainer ToggleCookies { get; set; }
@@ -25,62 +25,107 @@ namespace Toggl.Services
             : this(Settings.Default.ApiToken)
         {
         }
+
         public TogglService(string apiToken)
         {
             ApiToken = apiToken;
-            Initialize();
-
+            //Initialize();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
-            if (Session != null && !string.IsNullOrEmpty(Session.api_token))
+            if (Session != null && !string.IsNullOrEmpty(Session.ApiToken))
             {
                 return;
             }
-            var lstKv = new List<KeyValuePair<string, string>>();
-            lstKv.Add(new KeyValuePair<string, string>("api_token", ApiToken));
-            GetSession(lstKv);
+
+            GetSession();
         }
 
-        public Session GetSession(List<KeyValuePair<string, string>> args)
+        public Session GetSession()
         {
-            ToggleCookies = new CookieContainer();
-            Session = GetResponse(TogglAuthUrl, args, ToggleCookies, "POST").GetData<Session>();
+
+            var args = new List<KeyValuePair<string, string>>();
+
+            args.Add(new KeyValuePair<string, string>("api_token", ApiToken));
+
+            Session = PostResponse(TogglAuthUrl, args).GetData<Session>();
+
+            ApiToken = Session.ApiToken;
+
             return Session;
         }
-       
+
         public ApiResponse GetResponse(string url)
         {
-            return GetResponse(url, new List<KeyValuePair<string, string>>(), ToggleCookies);
-        }
-        
-        public ApiResponse GetResponse(string url, List<KeyValuePair<string, string>> args)
-        {
-            return GetResponse(url, args, ToggleCookies);
+            return GetResponse(new ApiRequest
+            {
+                Url = url,
+                Container = ToggleCookies
+            });
         }
 
-        public ApiResponse GetResponse(string url, List<KeyValuePair<string, string>> args, CookieContainer container, string method = "GET")
+        public ApiResponse GetResponse(string url, List<KeyValuePair<string, string>> args)
+        {
+            return GetResponse( new ApiRequest
+                    {
+                        Url = url, 
+                        Args = args
+                    });
+        }
+
+        public ApiResponse PostResponse(string url, string data)
+        {
+            return GetResponse(
+                new ApiRequest
+                    {
+                        Url = url, 
+                        Method = "POST",
+                        ContentType = "application/json",
+                        Data = data
+                    });
+        }
+
+        public ApiResponse PostResponse(string url, List<KeyValuePair<string, string>> args, string data="")
+        {
+            return GetResponse(
+                new ApiRequest { 
+                    Url = url, 
+                    Args = args, 
+                    Method = "POST", 
+                    ContentType = "application/json",
+                    Data = data 
+                });
+        }
+
+        public ApiResponse GetResponse(ApiRequest apiRequest)
         {
             string value = "";
 
-            args.ForEach(e => value += e.Key + "=" + e.Value + "&");
-            value = value.Trim('&');
-            if (method == "GET" && !string.IsNullOrEmpty(value))
+            if (apiRequest.Args != null)
             {
-                url += "?" + value;
+                apiRequest.Args.ForEach(e => value += e.Key + "=" + e.Value + "&");
+                value = value.Trim('&');
             }
 
-
-            var authRequest = (HttpWebRequest)HttpWebRequest.Create(url);
-
-            authRequest.Credentials = CredentialCache.DefaultCredentials;
-            authRequest.Method = method;
-            authRequest.ContentType = "application/x-www-form-urlencoded";
-            authRequest.CookieContainer = container;
-
-            if (method == "POST")
+            if (apiRequest.Method == "GET" && !string.IsNullOrEmpty(value))
             {
+                apiRequest.Url += "?" + value;
+            }
+
+            var authRequest = (HttpWebRequest)HttpWebRequest.Create(apiRequest.Url);
+            
+            authRequest.Method = apiRequest.Method;
+
+            authRequest.ContentType = apiRequest.ContentType;
+
+            authRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
+
+            authRequest.Headers.Add(GetAuthHeader());
+            
+            if (apiRequest.Method == "POST")
+            {
+                value += apiRequest.Data;
                 authRequest.ContentLength = value.Length;
                 using (StreamWriter writer = new StreamWriter(authRequest.GetRequestStream(), Encoding.ASCII))
                 {
@@ -96,5 +141,19 @@ namespace Toggl.Services
             }
             return JsonConvert.DeserializeObject<ApiResponse>(content);
         }
+
+
+
+        public string GetAuthHeader()
+        {
+            var encodedApiKey = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiToken + ":api_token"));
+            return "Authorization: Basic " + encodedApiKey;
+
+        }
+
+      
     }
+
+    
+
 }

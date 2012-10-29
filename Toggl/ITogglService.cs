@@ -12,13 +12,19 @@ namespace Toggl
     public interface ITogglService
     {
 
-        Session GetSession(List<KeyValuePair<string, string>> args);
+        Session GetSession();
 
         ApiResponse GetResponse(string url);
 
         ApiResponse GetResponse(string url, List<KeyValuePair<string, string>> args);
 
-        ApiResponse GetResponse(string url, List<KeyValuePair<string, string>> args, CookieContainer container,
-                                string method = "GET");
+        ApiResponse PostResponse(string url, string data);
+
+        ApiResponse PostResponse(string url, List<KeyValuePair<string, string>> args, string data);
+
+        ApiResponse GetResponse(ApiRequest apiRequest);
+
+        void Initialize();
+
     }
 }

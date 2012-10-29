@@ -3,30 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.DataObjects;
 
 namespace Toggl
 {
-    public class TimeEntry
+    public class TimeEntry : BaseDataObject
     {
         [JsonProperty(PropertyName = "duration")]
-        public string duration { get; set; }
+        public string Duration { get; set; }
         [JsonProperty(PropertyName = "billable")]
-        public bool billable { get; set; }
+        public bool? Billable { get; set; }
         [JsonProperty(PropertyName = "workspace")]
-        public Workspace workspace { get; set; }
+        public Workspace Workspace { get; set; }
         [JsonProperty(PropertyName = "stop")]
-        public string stop { get; set; }
+        public string Stop { get; set; }
         [JsonProperty(PropertyName = "id")]
-        public int id { get; set; }
+        public int? Id { get; set; }
         [JsonProperty(PropertyName = "project")]
-        public Project project { get; set; }
+        public Project Project { get; set; }
         [JsonProperty(PropertyName = "start")]
-        public string start { get; set; }
+        public string Start { get; set; }
         [JsonProperty(PropertyName = "tag_names")]
-        public string[] tag_names { get; set; }
+        public string[] TagNames { get; set; }
         [JsonProperty(PropertyName = "description")]
-        public string description { get; set; }
+        public string Description { get; set; }
         [JsonProperty(PropertyName = "ignore_start_and_stop")]
-        public bool ignore_start_and_stop { get; set; }
+        public bool? IgnoreStartAndStop { get; set; }
     }
 }

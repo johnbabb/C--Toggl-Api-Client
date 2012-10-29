@@ -20,14 +20,14 @@ namespace Toggl.Tests
         public void Dispose()
         { /* ... */ }
         [Test]
-        public void Get_Time_Entries()
+        public void GetTimeEntries()
         {
             var entries = timeEntrySrv.GetTimeEntries();
             Assert.GreaterOrEqual(entries.Count(), 0);    
         }
         [Test]
         [TestCase("1/1/2012", "1/1/2013")]
-        public void Get_Time_Entries_By_Date_Range(string from, string to)
+        public void GetTimeEntriesByDateRange(string from, string to)
         {
             
             var rte = new QueryObjects.TimeEntryParams();
@@ -43,11 +43,11 @@ namespace Toggl.Tests
         [Test]
         [TestCase(51194253)]
         [TestCase(51194255)]
-        public void Get_Time_Entry_By_ID(int id)
+        public void GetTimeEntryByID(int id)
         {
 
             var entry = timeEntrySrv.GetTimeEntry(id);
-            Assert.IsTrue(entry.id == id);
+            Assert.IsTrue(entry.Id == id);
         }
     }
 }

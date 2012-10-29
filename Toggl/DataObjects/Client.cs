@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.DataObjects;
 
 namespace Toggl
 {
-    public class Client
+    public class Client : BaseDataObject
     {
         [JsonProperty(PropertyName = "name")]
-        public string name { get; set; }
+        public string Name { get; set; }
         [JsonProperty(PropertyName = "workspace")]
-        public Workspace workspace { get; set; }
+        public Workspace Workspace { get; set; }
         [JsonProperty(PropertyName = "id")]
-        public string id { get; set; }
+        public int? Id { get; set; }
         [JsonProperty(PropertyName = "hourly_rate")]
-        public string hourly_rate { get; set; }
+        public string HourlyRate { get; set; }
         [JsonProperty(PropertyName = "currency")]
-        public string currency { get; set; }
+        public string Currency { get; set; }
     }
 }

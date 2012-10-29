@@ -31,5 +31,14 @@ namespace Toggl.Properties {
                 return ((string)(this["ApiToken"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://www.toggl.com/api/v6")]
+        public string TogglBaseUrl {
+            get {
+                return ((string)(this["TogglBaseUrl"]));
+            }
+        }
     }
 }

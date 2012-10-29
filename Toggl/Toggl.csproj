@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiResponse.cs" />
+    <Compile Include="ApiRoutes.cs" />
+    <Compile Include="ApiRequest.cs" />
+    <Compile Include="DataObjects\BaseDataObject.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -65,6 +68,8 @@
     <Compile Include="DataObjects\Task.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\Workspace.cs" />
+    <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Services\WrokspaceService.cs" />
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="Services\TogglService.cs" />

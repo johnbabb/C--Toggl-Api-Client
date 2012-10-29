@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Toggl.DataObjects;
 
 namespace Toggl
 {
-    public class Session
+    public class Session : BaseDataObject
     {
         [JsonProperty(PropertyName = "email")]
         public string Email { get; set; }
@@ -16,24 +17,24 @@ namespace Toggl
         public string DateFormat { get; set; }
 
         [JsonProperty(PropertyName = "new_time_entries_start_automatically")]
-        public string new_time_entries_start_automatically { get; set; }
+        public string NewTimeEntriesStartAutomatically { get; set; }
 
         [JsonProperty(PropertyName = "language")]
-        public string language { get; set; }
+        public string Language { get; set; }
         [JsonProperty(PropertyName = "api_token")]
-        public string api_token { get; set; }
+        public string ApiToken { get; set; }
 
         [JsonProperty(PropertyName = "fullname")]
-        public string fullname { get; set; }
+        public string FullName { get; set; }
 
         [JsonProperty(PropertyName = "time_entry_retention_days")]        
-        public string time_entry_retention_days { get; set; }
+        public string TimeEntryRetentionDays { get; set; }
 
         [JsonProperty(PropertyName = "jquery_date_format")]
-        public string jquery_date_format { get; set; }
+        public string JqueryDateFormat { get; set; }
 
         [JsonProperty(PropertyName = "default_workspace_id")]
-        public int DefaultWorkspaceId { get; set; }
+        public int? DefaultWorkspaceId { get; set; }
 
         [JsonProperty(PropertyName = "jquery_timeofday_format")]
         public string JQueryTimeofdayFormat { get; set; }
@@ -42,7 +43,7 @@ namespace Toggl
         public string BeginningOfWeek { get; set; }
 
         [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [JsonProperty(PropertyName = "timeofday_format")]
         public string TimeOfDayFormat { get; set; }
