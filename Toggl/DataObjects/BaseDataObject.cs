@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Toggl.Extensions;
 
 namespace Toggl.DataObjects
 {
@@ -36,7 +37,7 @@ namespace Toggl.DataObjects
                                                 }
 
                                 );
-            return "{\"" + this.GetType().Name.ToLower() + "\":" + data + "}";
+            return "{\"" + this.GetType().Name.LowerCaseUnderscore() + "\":" + data + "}";
         }
     }
 }

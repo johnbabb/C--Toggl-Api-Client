@@ -30,7 +30,12 @@ namespace Toggl.Services
         {
             return GetTimeEntries(new QueryObjects.TimeEntryParams());
         }
-
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#get_time_entries
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public List<TimeEntry> GetTimeEntries(QueryObjects.TimeEntryParams obj)
         {
             var entries = ToggleSrv.GetResponse(ApiRoutes.TimeEntry.TimeEntriesUrl, obj.GetParameters())
@@ -43,11 +48,31 @@ namespace Toggl.Services
             return entries.Select(s => s).ToList();
         }
 
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#get_time_entry
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TimeEntry GetTimeEntry(int id)
         {
             var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
             
             var timeEntry = ToggleSrv.GetResponse(url).GetData<TimeEntry>();
+
+            return timeEntry;
+        }
+        
+        /// <summary>
+        /// https://www.toggl.com/public/api#post_time_entries
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public TimeEntry Add(TimeEntry obj)
+        {
+            var url = string.Format(ApiRoutes.TimeEntry.TimeEntriesUrl);
+
+            var timeEntry = ToggleSrv.PostResponse(url, obj.ToJson()).GetData<TimeEntry>();
 
             return timeEntry;
         }

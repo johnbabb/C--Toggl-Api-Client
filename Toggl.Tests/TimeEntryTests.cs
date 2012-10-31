@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Toggl.Extensions;
 using Toggl.Services;
 
 namespace Toggl.Tests
@@ -48,6 +49,32 @@ namespace Toggl.Tests
 
             var entry = timeEntrySrv.GetTimeEntry(id);
             Assert.IsTrue(entry.Id == id);
+        }
+        [Test]
+        public void Add()
+        {
+      
+      
+            var tags = new List<string>();
+            tags.Add("one");
+
+            var act = new TimeEntry()
+                          {
+                              Billable = true,
+                              CreatedWith = "TimeEntryTestAdd",
+                              Description = "Test Desc" + DateTime.Now.Ticks,
+                              Duration = 900,
+                              Start = DateTime.Now.ToIsoDateStr(),
+                              Stop =  DateTime.Now.AddMinutes(20).ToIsoDateStr(),
+                              Project = new Project{Id = Constants.DefaultProjectId},
+                              TagNames = tags,
+                              Workspace = new Workspace(){Id=Constants.DefaultWorkspaceId}
+                
+            };
+
+            var exp = timeEntrySrv.Add(act);
+
+            Assert.GreaterOrEqual(exp.Id, 0);
         }
     }
 }
