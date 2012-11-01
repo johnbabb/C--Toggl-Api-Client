@@ -26,17 +26,25 @@ namespace Toggl.Services
             ToggleSrv = srv;
         }
 
-        public List<TimeEntry> GetTimeEntries()
+        /// <summary>
+        /// https://www.toggl.com/public/api#get_time_entries
+        /// </summary>
+        /// <returns></returns>
+        public List<TimeEntry> ListRecent()
         {
-            return GetTimeEntries(new QueryObjects.TimeEntryParams());
+            
+        }
+        public List<TimeEntry> List()
+        {
+            return List(new QueryObjects.TimeEntryParams());
         }
         /// <summary>
         /// 
-        /// https://www.toggl.com/public/api#get_time_entries
+        /// https://www.toggl.com/public/api#get_time_entries_by_range
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public List<TimeEntry> GetTimeEntries(QueryObjects.TimeEntryParams obj)
+        public List<TimeEntry> List(QueryObjects.TimeEntryParams obj)
         {
             var entries = ToggleSrv.GetResponse(ApiRoutes.TimeEntry.TimeEntriesUrl, obj.GetParameters())
                         .GetData<List<TimeEntry>>()
@@ -54,7 +62,7 @@ namespace Toggl.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TimeEntry GetTimeEntry(int id)
+        public TimeEntry Get(int id)
         {
             var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
             
@@ -75,6 +83,27 @@ namespace Toggl.Services
             var timeEntry = ToggleSrv.PostResponse(url, obj.ToJson()).GetData<TimeEntry>();
 
             return timeEntry;
+        }
+
+        /// <summary>
+        /// https://www.toggl.com/public/api#put_time_entries
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public TimeEntry Edit(TimeEntry obj)
+        {
+           throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#del_time_entries
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TimeEntry Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

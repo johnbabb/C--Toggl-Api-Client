@@ -33,14 +33,52 @@ namespace Toggl.Services
             ToggleSrv = srv;
         }
 
-        public List<Task> GetTasks()
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#get_tasks
+        /// </summary>
+        /// <returns></returns>
+        public List<Task> List()
         {
             return ToggleSrv.GetResponse(TogglTasksUrl).GetData<List<Task>>();
         }
+
+        public Task Get(int id)
+        {
+            return List().Where(w => w.Id == id).FirstOrDefault();
+        }
        
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#post_tasks
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public Task Add(Task t)
         {
             return ToggleSrv.PostResponse(TogglTasksUrl, t.ToJson()).GetData<Task>();
+        }
+
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#put_tasks
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public Task Edit(Task t)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#del_tasks
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public bool Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

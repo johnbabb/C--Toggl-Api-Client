@@ -9,34 +9,36 @@ using Toggl.Properties;
 
 namespace Toggl.Services
 {
-    public class WorkspaceService
+    public class TagService
     {
-
-        private readonly string ListWorkspaceUrl = ApiRoutes.Workspace.ListWorkspaceUrl;
-
-
         private ITogglService ToggleSrv { get; set; }
 
-        public WorkspaceService(string apiKey)
+
+        public TagService(string apiKey)
             : this(new TogglService(apiKey))
         {
 
         }
 
-        public WorkspaceService()
+        public TagService()
             : this(new TogglService())
         {
-            
         }
 
-        public WorkspaceService(ITogglService srv)
+        public TagService(ITogglService srv)
         {
             ToggleSrv = srv;
         }
 
-        public List<Workspace> GetWorkspaces()
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#get_tags
+        /// </summary>
+        /// <returns></returns>
+        public List<Client> List()
         {
-            return ToggleSrv.GetResponse(ListWorkspaceUrl).GetData<List<Workspace>>();
+
+            throw new NotImplementedException();
         }
     }
 }

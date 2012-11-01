@@ -33,15 +33,54 @@ namespace Toggl.Services
             ToggleSrv = srv;
         }
 
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#get_projects
+        /// </summary>
+        /// <returns></returns>
         public List<Project> List()
         {
             return ToggleSrv.GetResponse(ProjectsUrl).GetData<List<Project>>();
+        }
+
+        public Project Get(int id)
+        {
+            return List().Where(w => w.Id == id).FirstOrDefault();
         }
 
         public Project Add(Project obj)
         {
 
             return ToggleSrv.PostResponse(ProjectsUrl, obj.ToJson()).GetData<Project>();
+        }
+
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#put_projects
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public Project Edit(Project obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#mass_close
+        /// </summary>
+        public Project Archive()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 
+        /// https://www.toggl.com/public/api#mass_open
+        /// </summary>
+        public Project ReOpen()
+        {
+            throw new NotImplementedException();
         }
        
     }
