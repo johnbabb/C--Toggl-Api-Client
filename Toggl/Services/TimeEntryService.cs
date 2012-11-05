@@ -108,7 +108,12 @@ namespace Toggl.Services
         /// <returns></returns>
         public TimeEntry Delete(int id)
         {
-            throw new NotImplementedException();
+
+            var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
+
+            var timeEntry = ToggleSrv.Delete(url).GetData<TimeEntry>();
+
+            return timeEntry;
         }
     }
 }

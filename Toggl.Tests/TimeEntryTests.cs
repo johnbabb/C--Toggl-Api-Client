@@ -119,7 +119,17 @@ namespace Toggl.Tests
             Assert.GreaterOrEqual(exp.Id, 0);
         }
         
+        [Test]
+        public void Delete()
+        {
 
+            var act = timeEntrySrv.List().LastOrDefault();
+
+            var exp = timeEntrySrv.Delete((int)act.Id);
+
+            Assert.True(exp.Id==null);
+        }
 
     }
+
 }
