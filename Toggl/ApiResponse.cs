@@ -21,14 +21,19 @@ namespace Toggl
         public T GetData<T>()
         {
             var obj = (T)Activator.CreateInstance(typeof(T));
+            var cverts = new List<JsonConverter>();
+            var iso = new IsoDateTimeConverter();
+            cverts.Add(iso);
+            
             if (Data != null)
             {
 
                 if (Data is JArray)
                 {
-                    return JsonConvert.DeserializeObject<T>(((JArray)Data).ToString());
+                    var jray = ((JArray) Data).ToString();
+                    return JsonConvert.DeserializeObject<T>(jray, cverts.ToArray());
                 }
-                return JsonConvert.DeserializeObject<T>(((JObject)Data).ToString());
+                return JsonConvert.DeserializeObject<T>(((JObject)Data).ToString(), cverts.ToArray());
             }
             return obj;
         }

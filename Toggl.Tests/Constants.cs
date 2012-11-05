@@ -12,5 +12,6 @@ namespace Toggl.Tests
         public const int DefaultUserId = 387715;
         public const int DefaultProjectId = 2130938;
         public const int DefaultWorkspaceId = 303523;
+        public const int DefaultTimeEntryId = 51575828;
     }
 }

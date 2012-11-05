@@ -41,7 +41,7 @@ namespace Toggl.Services
         public List<Client> List()
         {
 
-            return ToggleSrv.GetResponse(ListClientsUrl).GetData<List<Client>>();
+            return ToggleSrv.Get(ListClientsUrl).GetData<List<Client>>();
         }
 
         public Client Get(int id)

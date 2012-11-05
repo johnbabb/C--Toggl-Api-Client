@@ -7,33 +7,38 @@ using Newtonsoft.Json;
 
 namespace Toggl.QueryObjects
 {
-    public class TimeEntryParams
+    public class TimeEntryParams : TimeEntry
     {
         
-        public DateTime start_date { get;  set; }
-        public DateTime end_date { get; set; }
-        public int? ProjectId { get; set; }
+        public DateTime? StartDate { get;  set; }
+        public DateTime? EndDate { get; set; }
+        public TimeEntryParams()
+        {
+            Project = new Project();
+            Workspace = new Workspace();
+            TagNames = new List<string>();
+        }
 
         public List<KeyValuePair<string,string>>GetParameters()
         {
             var lst = new List<KeyValuePair<string, string>>();
-            if(start_date > DateTime.MinValue)
+            if(StartDate.HasValue)
             lst.Add(new KeyValuePair<string, string>("start_date", GetStartParameter()));
-            if (end_date > DateTime.MinValue)
+            if (EndDate.HasValue)
             lst.Add(new KeyValuePair<string, string>("end_date", GetEndIsoDate()));
             return lst;
         }
         private string GetStartParameter()
         {
-            return GetIsoDate(start_date);
+            return GetIsoDate(StartDate);
         }
         private string GetEndIsoDate()
         {
-            return GetIsoDate(end_date);
+            return GetIsoDate(EndDate);
         }
-        private string GetIsoDate(DateTime dt)
+        private string GetIsoDate(DateTime? dt)
         {
-            return dt.ToString("yyyy-MM-ddTHH:mm:sszzz");
+            return dt.GetValueOrDefault().ToString("yyyy-MM-ddTHH:mm:sszzz");
         }
     }
 }

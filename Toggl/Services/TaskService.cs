@@ -40,7 +40,7 @@ namespace Toggl.Services
         /// <returns></returns>
         public List<Task> List()
         {
-            return ToggleSrv.GetResponse(TogglTasksUrl).GetData<List<Task>>();
+            return ToggleSrv.Get(TogglTasksUrl).GetData<List<Task>>();
         }
 
         public Task Get(int id)
@@ -56,7 +56,7 @@ namespace Toggl.Services
         /// <returns></returns>
         public Task Add(Task t)
         {
-            return ToggleSrv.PostResponse(TogglTasksUrl, t.ToJson()).GetData<Task>();
+            return ToggleSrv.Post(TogglTasksUrl, t.ToJson()).GetData<Task>();
         }
 
         /// <summary>

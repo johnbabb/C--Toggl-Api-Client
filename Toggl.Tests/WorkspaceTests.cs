@@ -15,7 +15,7 @@ namespace Toggl.Tests
         {
             var t = new WorkspaceService();
 
-            var obj = t.GetWorkspaces();
+            var obj = t.List();
 
             Assert.GreaterOrEqual(obj.Count(), 0);
         }

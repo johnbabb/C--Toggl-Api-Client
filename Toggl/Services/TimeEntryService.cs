@@ -32,8 +32,9 @@ namespace Toggl.Services
         /// <returns></returns>
         public List<TimeEntry> ListRecent()
         {
-            
+            throw new NotImplementedException();
         }
+
         public List<TimeEntry> List()
         {
             return List(new QueryObjects.TimeEntryParams());
@@ -46,12 +47,12 @@ namespace Toggl.Services
         /// <returns></returns>
         public List<TimeEntry> List(QueryObjects.TimeEntryParams obj)
         {
-            var entries = ToggleSrv.GetResponse(ApiRoutes.TimeEntry.TimeEntriesUrl, obj.GetParameters())
+            var entries = ToggleSrv.Get(ApiRoutes.TimeEntry.TimeEntriesUrl, obj.GetParameters())
                         .GetData<List<TimeEntry>>()
                         .AsQueryable();
 
-            if (obj.ProjectId.HasValue)
-                entries = entries.Where(w => w.Project.Id == obj.ProjectId.Value);
+            if (obj.Project!=null && obj.Project.Id.HasValue)
+                entries = entries.Where(w => w.Project.Id == obj.Project.Id);
 
             return entries.Select(s => s).ToList();
         }
@@ -66,7 +67,7 @@ namespace Toggl.Services
         {
             var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
             
-            var timeEntry = ToggleSrv.GetResponse(url).GetData<TimeEntry>();
+            var timeEntry = ToggleSrv.Get(url).GetData<TimeEntry>();
 
             return timeEntry;
         }
@@ -78,9 +79,9 @@ namespace Toggl.Services
         /// <returns></returns>
         public TimeEntry Add(TimeEntry obj)
         {
-            var url = string.Format(ApiRoutes.TimeEntry.TimeEntriesUrl);
+            var url = ApiRoutes.TimeEntry.TimeEntriesUrl;
 
-            var timeEntry = ToggleSrv.PostResponse(url, obj.ToJson()).GetData<TimeEntry>();
+            var timeEntry = ToggleSrv.Post(url, obj.ToJson()).GetData<TimeEntry>();
 
             return timeEntry;
         }
@@ -92,7 +93,11 @@ namespace Toggl.Services
         /// <returns></returns>
         public TimeEntry Edit(TimeEntry obj)
         {
-           throw new NotImplementedException();
+            var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, obj.Id);
+
+            var timeEntry = ToggleSrv.Put(url, obj.ToJson()).GetData<TimeEntry>();
+
+            return timeEntry;
         }
 
         /// <summary>

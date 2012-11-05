@@ -40,7 +40,7 @@ namespace Toggl.Services
         /// <returns></returns>
         public List<Project> List()
         {
-            return ToggleSrv.GetResponse(ProjectsUrl).GetData<List<Project>>();
+            return ToggleSrv.Get(ProjectsUrl).GetData<List<Project>>();
         }
 
         public Project Get(int id)
@@ -51,7 +51,7 @@ namespace Toggl.Services
         public Project Add(Project obj)
         {
 
-            return ToggleSrv.PostResponse(ProjectsUrl, obj.ToJson()).GetData<Project>();
+            return ToggleSrv.Post(ProjectsUrl, obj.ToJson()).GetData<Project>();
         }
 
         /// <summary>

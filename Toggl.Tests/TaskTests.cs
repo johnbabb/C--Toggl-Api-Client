@@ -16,7 +16,7 @@ namespace Toggl.Tests
         {
             var srv = new TaskService();
 
-            var obj = srv.GetTasks();
+            var obj = srv.List();
 
             Assert.GreaterOrEqual(obj.Count(), 0);
         }

@@ -41,7 +41,7 @@ namespace Toggl.Services
         /// <returns></returns>
         public List<Workspace> List()
         {
-            return ToggleSrv.GetResponse(ListWorkspaceUrl).GetData<List<Workspace>>();
+            return ToggleSrv.Get(ListWorkspaceUrl).GetData<List<Workspace>>();
         }
 
         

@@ -25,5 +25,6 @@ namespace Toggl
             Method = "GET";
             ContentType = "application/x-www-form-urlencoded";
         }
+
     }
 }

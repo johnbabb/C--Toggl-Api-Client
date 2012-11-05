@@ -49,34 +49,50 @@ namespace Toggl.Services
 
             args.Add(new KeyValuePair<string, string>("api_token", ApiToken));
 
-            Session = PostResponse(TogglAuthUrl, args).GetData<Session>();
+            Session = Post(TogglAuthUrl, args).GetData<Session>();
 
             ApiToken = Session.ApiToken;
 
             return Session;
         }
 
-        public ApiResponse GetResponse(string url)
+        public ApiResponse Get(string url)
         {
-            return GetResponse(new ApiRequest
+            return Get(new ApiRequest
             {
-                Url = url,
-                Container = ToggleCookies
+                Url = url
             });
         }
 
-        public ApiResponse GetResponse(string url, List<KeyValuePair<string, string>> args)
+        public ApiResponse Get(string url, List<KeyValuePair<string, string>> args)
         {
-            return GetResponse( new ApiRequest
+            return Get( new ApiRequest
                     {
                         Url = url, 
                         Args = args
                     });
         }
-
-        public ApiResponse PostResponse(string url, string data)
+        public ApiResponse Delete(string url)
         {
-            return GetResponse(
+            return Get(new ApiRequest
+            {
+                Url = url,
+                Method = "DELETE"
+            });
+        }
+
+        public ApiResponse Delete(string url, List<KeyValuePair<string, string>> args)
+        {
+            return Get(new ApiRequest
+            {
+                Url = url,
+                Method = "DELETE",
+                Args = args
+            });
+        }
+        public ApiResponse Post(string url, string data)
+        {
+            return Get(
                 new ApiRequest
                     {
                         Url = url, 
@@ -86,9 +102,9 @@ namespace Toggl.Services
                     });
         }
 
-        public ApiResponse PostResponse(string url, List<KeyValuePair<string, string>> args, string data="")
+        public ApiResponse Post(string url, List<KeyValuePair<string, string>> args, string data="")
         {
-            return GetResponse(
+            return Get(
                 new ApiRequest { 
                     Url = url, 
                     Args = args, 
@@ -98,7 +114,32 @@ namespace Toggl.Services
                 });
         }
 
-        public ApiResponse GetResponse(ApiRequest apiRequest)
+        public ApiResponse Put(string url, string data)
+        {
+            return Get(
+                new ApiRequest
+                {
+                    Url = url,
+                    Method = "PUT",
+                    ContentType = "application/json",
+                    Data = data
+                });
+        }
+
+        public ApiResponse Put(string url, List<KeyValuePair<string, string>> args, string data = "")
+        {
+            return Get(
+                new ApiRequest
+                {
+                    Url = url,
+                    Args = args,
+                    Method = "PUT",
+                    ContentType = "application/json",
+                    Data = data
+                });
+        }
+
+        public ApiResponse Get(ApiRequest apiRequest)
         {
             string value = "";
 
@@ -123,7 +164,7 @@ namespace Toggl.Services
 
             authRequest.Headers.Add(GetAuthHeader());
             
-            if (apiRequest.Method == "POST")
+            if (apiRequest.Method == "POST" || apiRequest.Method == "PUT" )
             {
                 value += apiRequest.Data;
                 authRequest.ContentLength = value.Length;

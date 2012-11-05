@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Toggl.DataObjects;
 
 namespace Toggl
@@ -20,6 +21,8 @@ namespace Toggl
         public Workspace Workspace { get; set; }
 
         [JsonProperty(PropertyName = "stop")]
+        //[JsonConverter(typeof(IsoDateTimeConverter))]
+        //public DateTime? Stop { get; set; }
         public string Stop { get; set; }
 
         [JsonProperty(PropertyName = "id")]
@@ -29,6 +32,8 @@ namespace Toggl
         public Project Project { get; set; }
 
         [JsonProperty(PropertyName = "start")]
+        //[JsonConverter(typeof(IsoDateTimeConverter))]
+        //public DateTime? Start { get; set; }
         public string Start { get; set; }
 
         [JsonProperty(PropertyName = "tag_names")]

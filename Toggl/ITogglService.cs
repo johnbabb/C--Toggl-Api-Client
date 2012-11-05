@@ -14,15 +14,23 @@ namespace Toggl
 
         Session GetSession();
 
-        ApiResponse GetResponse(string url);
+        ApiResponse Get(string url);
 
-        ApiResponse GetResponse(string url, List<KeyValuePair<string, string>> args);
+        ApiResponse Get(string url, List<KeyValuePair<string, string>> args);
 
-        ApiResponse PostResponse(string url, string data);
+        ApiResponse Delete(string url);
 
-        ApiResponse PostResponse(string url, List<KeyValuePair<string, string>> args, string data);
+        ApiResponse Delete(string url, List<KeyValuePair<string, string>> args);
 
-        ApiResponse GetResponse(ApiRequest apiRequest);
+        ApiResponse Post(string url, string data);
+
+        ApiResponse Post(string url, List<KeyValuePair<string, string>> args, string data);
+
+        ApiResponse Put(string url, string data);
+
+        ApiResponse Put(string url, List<KeyValuePair<string, string>> args, string data);
+
+        ApiResponse Get(ApiRequest apiRequest);
 
         void Initialize();
 

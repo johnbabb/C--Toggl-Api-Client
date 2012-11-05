@@ -52,6 +52,7 @@
     <Compile Include="ApiResponse.cs" />
     <Compile Include="ApiRoutes.cs" />
     <Compile Include="ApiRequest.cs" />
+    <Compile Include="Converters\TogglDateTimeConverter.cs" />
     <Compile Include="DataObjects\BaseDataObject.cs" />
     <Compile Include="Extensions\Strings.cs" />
     <Compile Include="Extensions\Dates.cs" />
@@ -71,8 +72,10 @@
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\Workspace.cs" />
     <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Services\TagService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ProjectService.cs" />
-    <Compile Include="Services\WrokspaceService.cs" />
+    <Compile Include="Services\WorkspaceService.cs" />
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="Services\TogglService.cs" />
     <Compile Include="Services\TimeEntryService.cs" />
