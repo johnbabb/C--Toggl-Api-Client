@@ -40,6 +40,9 @@ namespace Toggl
         {
             public readonly static string ProjectsUrl=TogglBaseUrl + "/projects.json";
         }
-
+        public class User
+        {
+            public static readonly string CurrentUserURl = TogglBaseUrl + "/me.json";
+        }
     }
 }

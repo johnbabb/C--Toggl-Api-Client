@@ -40,7 +40,11 @@ namespace Toggl.Services
         /// <returns></returns>
         public User GetCurrent()
         {
-            throw new NotImplementedException();
+            var url = ApiRoutes.User.CurrentUserURl;
+
+            var obj = ToggleSrv.Get(url).GetData<User>();
+
+            return obj;
         }
 
         /// <summary>
