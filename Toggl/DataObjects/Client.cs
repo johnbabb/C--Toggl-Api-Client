@@ -16,7 +16,7 @@ namespace Toggl
         [JsonProperty(PropertyName = "id")]
         public int? Id { get; set; }
         [JsonProperty(PropertyName = "hourly_rate")]
-        public string HourlyRate { get; set; }
+        public double? HourlyRate { get; set; }
         [JsonProperty(PropertyName = "currency")]
         public string Currency { get; set; }
     }

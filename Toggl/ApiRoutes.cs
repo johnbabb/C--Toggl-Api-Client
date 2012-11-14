@@ -12,7 +12,10 @@ namespace Toggl
         
         public class Client
         {
-            public readonly static string ListClientsUrl = TogglBaseUrl + "/clients.json";
+            public readonly static string ClientsUrl = TogglBaseUrl + "/clients.json";
+            public readonly static string ClientUrl = TogglBaseUrl + "/clients/{0}.json";
+            public readonly static string ListClientsUrl = TogglBaseUrl + "/clients.json";           
+            
         }
 
         public class Workspace

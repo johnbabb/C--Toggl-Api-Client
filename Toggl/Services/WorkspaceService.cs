@@ -44,6 +44,11 @@ namespace Toggl.Services
             return ToggleSrv.Get(ListWorkspaceUrl).GetData<List<Workspace>>();
         }
 
-        
+        public List<User> Users()
+        {
+            throw new NotImplementedException();
+            //return ToggleSrv.Get(ApiRoutes.Workspace.ListWorkspaceUsersUrl).GetData<List<User>>();
+
+        }
     }
 }

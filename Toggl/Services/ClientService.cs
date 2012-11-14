@@ -58,7 +58,9 @@ namespace Toggl.Services
         /// <returns></returns>
         public Client Add(Client obj)
         {
-            throw new NotImplementedException();
+            var url = ApiRoutes.Client.ClientsUrl;
+            return ToggleSrv.Post(url, obj.ToJson()).GetData<Client>();
+
         }
         
         /// <summary>
@@ -70,7 +72,9 @@ namespace Toggl.Services
         public Client Edit(Client obj)
         {
 
-            throw new NotImplementedException();
+            var url = string.Format(ApiRoutes.Client.ClientUrl, obj.Id);
+            return ToggleSrv.Put(url, obj.ToJson()).GetData<Client>();
+
         }
 
         /// <summary>
@@ -81,7 +85,9 @@ namespace Toggl.Services
         /// <returns></returns>
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var url = string.Format(ApiRoutes.Client.ClientUrl, id);
+            var res = ToggleSrv.Delete(url);
+            return (!string.IsNullOrEmpty(res.related_data_updated_at.ToString()));
         }
 
 
