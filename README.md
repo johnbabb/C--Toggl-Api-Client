@@ -1,23 +1,28 @@
-## C--Toggl-Api-Client
-	C--Toggl-Api-Client is a C# wrapper for the toggl.com api
- 
-### Code Samples
-	The heavy lifting happens in the services dir.
-	In the services you can create an instance of a service with an api key or a default api key located in the app.config.
-	the api key 2d1d95cef10e17831ec505e9e6f9f7ea is a test account so please use it as you see fit.
+= C--Toggl-Api-Client
 
-#### Get List Of Clients
+C--Toggl-Api-Client is a C# wrapper for the toggl.com api
+ 
+== Code Samples
+
+The heavy lifting happens in the services dir.
+In the services you can create an instance of a service with an api key or a default api key located in the app.config.
+the api key 2d1d95cef10e17831ec505e9e6f9f7ea is a test account so please use it as you see fit.
+
+== Get List Of Clients
+
 	var srv = new ClientService();
 	var obj = srv.List();
 
-#### Get Current User
+== Get Current User
+
 	var apiKey="2d1d95cef10e17831ec505e9e6f9f7ea";
 	var usrSrv = new Toggl.Services.UserService(apiKey);
 	var c = usrSrv.GetCurrent();
 	Console.WriteLine(c.FullName);
 	Console.WriteLine(c.Email);
 
-#### Get Hours Worked For Time Period
+== Get Hours Worked For Time Period
+
 	var apiKey="2d1d95cef10e17831ec505e9e6f9f7ea";
 	var timeSrv= new Toggl.Services.TimeEntryService(apiKey);
 	var prams = new TimeEntryParams();
@@ -36,3 +41,6 @@
 
 #### For More code samples check out the the Toggl.Tests Project
  
+ == Copyright
+
+Copyright (c) 2012 John Babb. See LICENSE for details.
