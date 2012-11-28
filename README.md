@@ -4,7 +4,7 @@ C--Toggl-Api-Client is a C# wrapper for the toggl.com api
  
 ## Code Samples
 
-The heavy lifting happens in the services dir.
+The heavy lifting happens in the dir Toggl/Services.
 In the services you can create an instance of a service with an api key or a default api key located in the app.config.
 the api key 2d1d95cef10e17831ec505e9e6f9f7ea is a test account so please use it as you see fit.
 
@@ -39,7 +39,7 @@ the api key 2d1d95cef10e17831ec505e9e6f9f7ea is a test account so please use it 
 	hours.Select(s=>s);
 
 
-## For More code samples check out the the Toggl.Tests Project
+## For more code samples check out the the Toggl.Tests Project
 
 ## Copyright
 
