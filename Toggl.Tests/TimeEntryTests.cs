@@ -129,7 +129,59 @@ namespace Toggl.Tests
 
             Assert.True(exp.Id==null);
         }
+        
+        [Test]
+        public void HasProject()
+        {
+
+            var act = new TimeEntry()
+            {
+                Id = Constants.DefaultTimeEntryId,
+                Billable = true,
+                CreatedWith = "TimeEntryTestAdd",
+                Description = "Test Desc" + DateTime.Now.Ticks,
+                Duration = 1000,
+                Start = DateTime.Now.ToIsoDateStr(),
+                Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
+                Project = new Project { Id = Constants.DefaultProjectId }
+
+            };
+
+            var tmp = timeEntrySrv.Add(act);
+            Assert.IsNotNull(tmp);
+            var exp = timeEntrySrv.Get(tmp.Id.Value);
+            Assert.IsNotNull(exp);
+            Assert.IsNotNull(exp.Project);
+        }
+
+        [Test]
+        public void HasWorkspace()
+        {
+
+            var act = new TimeEntry()
+            {
+                Id = Constants.DefaultTimeEntryId,
+                Billable = true,
+                CreatedWith = "TimeEntryTestAdd",
+                Description = "Test Desc" + DateTime.Now.Ticks,
+                Duration = 1000,
+                Start = DateTime.Now.ToIsoDateStr(),
+                Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
+                Workspace = new Workspace(){Id=Constants.DefaultWorkspaceId}
+
+            };
+
+            var tmp = timeEntrySrv.Add(act);
+            Assert.IsNotNull(tmp);
+            var exp = timeEntrySrv.Get(tmp.Id.Value);
+            Assert.IsNotNull(exp);
+            Assert.IsNotNull(exp.Workspace);
+        }
 
     }
 
-}
+    }
+
+
+
+
