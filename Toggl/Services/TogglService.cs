@@ -5,17 +5,15 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
-using Toggl.ApiResponses;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
+
 using Toggl.Properties;
 
 namespace Toggl.Services
 {
     public class TogglService : ITogglService
     {
-        private readonly static string TogglBaseUrl = Settings.Default.TogglBaseUrl;
-
-        private static readonly string TogglAuthUrl = ApiRoutes.Session.Me;
-
         private string ApiToken { get; set; }
 
         private CookieContainer ToggleCookies { get; set; }
@@ -47,100 +45,76 @@ namespace Toggl.Services
         {
 
             var args = new List<KeyValuePair<string, string>>();
-            var rsp = Get(TogglAuthUrl, args);
-            Session = rsp.GetData<Session>();
+
+            Session = Get(ApiRoutes.Session.Me, args).GetData<Session>();
 
             ApiToken = Session.ApiToken;
 
             return Session;
         }
 
-        public ObjectResponse Get(string url)
+        public ApiResponse Get(string url)
         {
-
-            var rsp = Get(new ApiRequest
-                {
-                    Url = url
-                });
-            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
-        }
-
-        public ObjectResponse Get(string url, List<KeyValuePair<string, string>> args)
-        {
-            var rsp = Get(new ApiRequest
-                    {
-                        Url = url, 
-                        Args = args
-                    });
-            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
-        }
-        public CollectionResponse List(string url)
-        {
-            var rsp = Get(new ApiRequest
+            return Get(new ApiRequest
             {
                 Url = url
             });
-            return JsonConvert.DeserializeObject<CollectionResponse>(rsp);
         }
 
-        public CollectionResponse List(string url, List<KeyValuePair<string, string>> args)
+        public ApiResponse Get(string url, List<KeyValuePair<string, string>> args)
         {
-            var rsp = Get(new ApiRequest
+            return Get(new ApiRequest
             {
                 Url = url,
                 Args = args
             });
-            return JsonConvert.DeserializeObject<CollectionResponse>(rsp);
         }
-        public ObjectResponse Delete(string url)
+        public ApiResponse Delete(string url)
         {
-            var rsp = Get(new ApiRequest
+            return Get(new ApiRequest
             {
                 Url = url,
                 Method = "DELETE"
             });
-            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        public ObjectResponse Delete(string url, List<KeyValuePair<string, string>> args)
+        public ApiResponse Delete(string url, List<KeyValuePair<string, string>> args)
         {
-            var rsp = Get(new ApiRequest
+            return Get(new ApiRequest
             {
                 Url = url,
                 Method = "DELETE",
                 Args = args
             });
-            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
-        public ObjectResponse Post(string url, string data)
+        public ApiResponse Post(string url, string data)
         {
-            var rsp = Get(
+            return Get(
                 new ApiRequest
-                    {
-                        Url = url, 
-                        Method = "POST",
-                        ContentType = "application/json",
-                        Data = data
-                    });
-            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
-        }
-
-        public ObjectResponse Post(string url, List<KeyValuePair<string, string>> args, string data = "")
-        {
-            var rsp = Get(
-                new ApiRequest { 
-                    Url = url, 
-                    Args = args, 
-                    Method = "POST", 
+                {
+                    Url = url,
+                    Method = "POST",
                     ContentType = "application/json",
-                    Data = data 
+                    Data = data
                 });
-            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        public ObjectResponse Put(string url, string data)
+        public ApiResponse Post(string url, List<KeyValuePair<string, string>> args, string data = "")
         {
-            var rsp = Get(
+            return Get(
+                new ApiRequest
+                {
+                    Url = url,
+                    Args = args,
+                    Method = "POST",
+                    ContentType = "application/json",
+                    Data = data
+                });
+        }
+
+        public ApiResponse Put(string url, string data)
+        {
+            return Get(
                 new ApiRequest
                 {
                     Url = url,
@@ -148,12 +122,11 @@ namespace Toggl.Services
                     ContentType = "application/json",
                     Data = data
                 });
-            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        public ObjectResponse Put(string url, List<KeyValuePair<string, string>> args, string data = "")
+        public ApiResponse Put(string url, List<KeyValuePair<string, string>> args, string data = "")
         {
-            var rsp = Get(
+            return Get(
                 new ApiRequest
                 {
                     Url = url,
@@ -162,10 +135,9 @@ namespace Toggl.Services
                     ContentType = "application/json",
                     Data = data
                 });
-            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        private string Get(ApiRequest apiRequest)
+        private ApiResponse Get(ApiRequest apiRequest)
         {
             string value = "";
 
@@ -181,7 +153,7 @@ namespace Toggl.Services
             }
 
             var authRequest = (HttpWebRequest)HttpWebRequest.Create(apiRequest.Url);
-            
+
             authRequest.Method = apiRequest.Method;
 
             authRequest.ContentType = apiRequest.ContentType;
@@ -189,8 +161,8 @@ namespace Toggl.Services
             authRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
 
             authRequest.Headers.Add(GetAuthHeader());
-            
-            if (apiRequest.Method == "POST" || apiRequest.Method == "PUT" )
+
+            if (apiRequest.Method == "POST" || apiRequest.Method == "PUT")
             {
                 value += apiRequest.Data;
                 authRequest.ContentLength = value.Length;
@@ -207,22 +179,34 @@ namespace Toggl.Services
                 content = reader.ReadToEnd();
             }
 
-            return content;
+            try
+            {
+                return JsonConvert.DeserializeObject<ApiResponse>(content);
+            }
+            catch (Exception)
+            {
+                var jry = JArray.Parse(content);
+                var rsp = new ApiResponse()
+                    {
+                        Data = jry,
+                        related_data_updated_at = DateTime.Now
+                    };
 
+                return rsp;
+            }
+            
         }
 
 
 
-        public string GetAuthHeader()
+        private string GetAuthHeader()
         {
             var encodedApiKey = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiToken + ":api_token"));
             return "Authorization: Basic " + encodedApiKey;
 
         }
 
-      
-    }
 
-    
+    }
 
 }

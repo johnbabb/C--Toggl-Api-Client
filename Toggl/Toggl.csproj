@@ -49,10 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiResponses\CollectionResponse.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ApiResponses\ObjectResponse.cs" />
     <Compile Include="ApiResponse.cs">
       <SubType>Code</SubType>
     </Compile>

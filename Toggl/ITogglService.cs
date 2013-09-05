@@ -30,8 +30,6 @@ namespace Toggl
 
         ApiResponse Put(string url, List<KeyValuePair<string, string>> args, string data);
 
-        ApiResponse Get(ApiRequest apiRequest);
-
         void Initialize();
 
     }

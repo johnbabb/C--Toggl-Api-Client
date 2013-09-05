@@ -11,7 +11,7 @@ namespace Toggl.Services
 {
     public class ClientService
     {
-        private readonly string ListClientsUrl = ApiRoutes.Client.ListClientsUrl;
+        private readonly string _listClientsUrl = ApiRoutes.Client.ClientsUrl;
         
 
         private ITogglService ToggleSrv { get; set; }
@@ -34,14 +34,13 @@ namespace Toggl.Services
         }
 
         /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#get_clients
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/clients.md#get-clients-visible-to-user
         /// </summary>
         /// <returns></returns>
         public List<Client> List()
         {
 
-            return ToggleSrv.Get(ListClientsUrl).GetData<List<Client>>();
+            return ToggleSrv.Get(_listClientsUrl).GetData<List<Client>>();
         }
 
         public Client Get(int id)
@@ -51,8 +50,7 @@ namespace Toggl.Services
         }
 
         /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#post_clients
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/clients.md#create-a-client
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
