@@ -6,7 +6,7 @@
       <Value Profile="(Default)">2d1d95cef10e17831ec505e9e6f9f7ea</Value>
     </Setting>
     <Setting Name="TogglBaseUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://www.toggl.com/api/v6</Value>
+      <Value Profile="(Default)">https://www.toggl.com/api/v8</Value>
     </Setting>
   </Settings>
 </SettingsFile>

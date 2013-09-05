@@ -23,7 +23,7 @@ namespace Toggl
         public ApiRequest()
         {
             Method = "GET";
-            ContentType = "application/x-www-form-urlencoded";
+            ContentType = "application/json";
         }
 
     }

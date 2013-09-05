@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.ApiResponses;
 using Toggl.Properties;
 
 namespace Toggl.Services
@@ -13,7 +14,7 @@ namespace Toggl.Services
     {
         private readonly static string TogglBaseUrl = Settings.Default.TogglBaseUrl;
 
-        private readonly static string TogglAuthUrl = TogglBaseUrl + "/sessions.json";
+        private static readonly string TogglAuthUrl = ApiRoutes.Session.Me;
 
         private string ApiToken { get; set; }
 
@@ -46,53 +47,74 @@ namespace Toggl.Services
         {
 
             var args = new List<KeyValuePair<string, string>>();
-
-            args.Add(new KeyValuePair<string, string>("api_token", ApiToken));
-
-            Session = Post(TogglAuthUrl, args).GetData<Session>();
+            var rsp = Get(TogglAuthUrl, args);
+            Session = rsp.GetData<Session>();
 
             ApiToken = Session.ApiToken;
 
             return Session;
         }
 
-        public ApiResponse Get(string url)
+        public ObjectResponse Get(string url)
         {
-            return Get(new ApiRequest
-            {
-                Url = url
-            });
+
+            var rsp = Get(new ApiRequest
+                {
+                    Url = url
+                });
+            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        public ApiResponse Get(string url, List<KeyValuePair<string, string>> args)
+        public ObjectResponse Get(string url, List<KeyValuePair<string, string>> args)
         {
-            return Get( new ApiRequest
+            var rsp = Get(new ApiRequest
                     {
                         Url = url, 
                         Args = args
                     });
+            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
-        public ApiResponse Delete(string url)
+        public CollectionResponse List(string url)
         {
-            return Get(new ApiRequest
+            var rsp = Get(new ApiRequest
+            {
+                Url = url
+            });
+            return JsonConvert.DeserializeObject<CollectionResponse>(rsp);
+        }
+
+        public CollectionResponse List(string url, List<KeyValuePair<string, string>> args)
+        {
+            var rsp = Get(new ApiRequest
+            {
+                Url = url,
+                Args = args
+            });
+            return JsonConvert.DeserializeObject<CollectionResponse>(rsp);
+        }
+        public ObjectResponse Delete(string url)
+        {
+            var rsp = Get(new ApiRequest
             {
                 Url = url,
                 Method = "DELETE"
             });
+            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        public ApiResponse Delete(string url, List<KeyValuePair<string, string>> args)
+        public ObjectResponse Delete(string url, List<KeyValuePair<string, string>> args)
         {
-            return Get(new ApiRequest
+            var rsp = Get(new ApiRequest
             {
                 Url = url,
                 Method = "DELETE",
                 Args = args
             });
+            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
-        public ApiResponse Post(string url, string data)
+        public ObjectResponse Post(string url, string data)
         {
-            return Get(
+            var rsp = Get(
                 new ApiRequest
                     {
                         Url = url, 
@@ -100,11 +122,12 @@ namespace Toggl.Services
                         ContentType = "application/json",
                         Data = data
                     });
+            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        public ApiResponse Post(string url, List<KeyValuePair<string, string>> args, string data="")
+        public ObjectResponse Post(string url, List<KeyValuePair<string, string>> args, string data = "")
         {
-            return Get(
+            var rsp = Get(
                 new ApiRequest { 
                     Url = url, 
                     Args = args, 
@@ -112,11 +135,12 @@ namespace Toggl.Services
                     ContentType = "application/json",
                     Data = data 
                 });
+            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        public ApiResponse Put(string url, string data)
+        public ObjectResponse Put(string url, string data)
         {
-            return Get(
+            var rsp = Get(
                 new ApiRequest
                 {
                     Url = url,
@@ -124,11 +148,12 @@ namespace Toggl.Services
                     ContentType = "application/json",
                     Data = data
                 });
+            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        public ApiResponse Put(string url, List<KeyValuePair<string, string>> args, string data = "")
+        public ObjectResponse Put(string url, List<KeyValuePair<string, string>> args, string data = "")
         {
-            return Get(
+            var rsp = Get(
                 new ApiRequest
                 {
                     Url = url,
@@ -137,13 +162,14 @@ namespace Toggl.Services
                     ContentType = "application/json",
                     Data = data
                 });
+            return JsonConvert.DeserializeObject<ObjectResponse>(rsp);
         }
 
-        public ApiResponse Get(ApiRequest apiRequest)
+        private string Get(ApiRequest apiRequest)
         {
             string value = "";
 
-            if (apiRequest.Args != null)
+            if (apiRequest.Args != null && apiRequest.Args.Count > 0)
             {
                 apiRequest.Args.ForEach(e => value += e.Key + "=" + e.Value + "&");
                 value = value.Trim('&');
@@ -180,7 +206,9 @@ namespace Toggl.Services
             {
                 content = reader.ReadToEnd();
             }
-            return JsonConvert.DeserializeObject<ApiResponse>(content);
+
+            return content;
+
         }
 
 

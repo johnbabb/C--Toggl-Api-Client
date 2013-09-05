@@ -9,12 +9,16 @@ namespace Toggl
     public class ApiRoutes
     {
         readonly static string TogglBaseUrl = Settings.Default.TogglBaseUrl;
+
+        public class Session
+        {
+            public readonly static string Me = TogglBaseUrl + "/me";
+        }
         
         public class Client
         {
-            public readonly static string ClientsUrl = TogglBaseUrl + "/clients.json";
-            public readonly static string ClientUrl = TogglBaseUrl + "/clients/{0}.json";
-            public readonly static string ListClientsUrl = TogglBaseUrl + "/clients.json";           
+            public readonly static string ClientsUrl = TogglBaseUrl + "/clients";
+            public readonly static string ClientUrl = TogglBaseUrl + "/clients/{0}";          
             
         }
 
