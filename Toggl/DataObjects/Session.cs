@@ -116,12 +116,8 @@ namespace Toggl
         [JsonProperty(PropertyName = "manual_mode")]
         public bool? IsManualMode { get; set; }
 
-      //      "new_blog_post": {
-      //  "title": "6 Tools To Monitor Your Social Media Performance",
-      //  "url": "http://blog.toggl.com/2013/09/tools-to-monitor-your-social-media-performance/?utm_source=rss&utm_medium=rss&utm_campaign=tools-to-monitor-your-social-media-performance",
-      //  "category": "Uncategorized",
-      //  "pub_date": "2013-09-02T05:51:23Z"
-      //},
+        [JsonProperty(PropertyName = "new_blog_post")]
+        public NewBlogPost NewBlogPost  { get; set; }
 
         [JsonProperty(PropertyName = "should_upgrade")]
         public bool? IsShouldUpgrade { get; set; }

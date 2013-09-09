@@ -18,38 +18,52 @@ namespace Toggl
         public class Client
         {
             public readonly static string ClientsUrl = TogglBaseUrl + "/clients";
-            public readonly static string ClientUrl = TogglBaseUrl + "/clients/{0}";          
+            public readonly static string ClientUrl = TogglBaseUrl + "/clients/{0}";
+            public readonly static string ClientProjectsUrl = TogglBaseUrl + "/clients/{0}/projects";    
             
         }
 
         public class Workspace
         {
-            public readonly static string ListWorkspaceUrl = TogglBaseUrl + "/workspaces.json";
+            public readonly static string ListWorkspaceUrl = TogglBaseUrl + "/workspaces";
 
-            public readonly static string AddWorkspaceUserUrl = TogglBaseUrl + "/workspaces/{0}/project_users.json";
+            public readonly static string AddWorkspaceUserUrl = TogglBaseUrl + "/workspaces/{0}/project_users";
 
-            public readonly static string ListWorkspaceUsersUrl = TogglBaseUrl + "/workspaces/{0}/users.json";
+            public readonly static string ListWorkspaceUsersUrl = TogglBaseUrl + "/workspaces/{0}/users";
+
+            public readonly static string ListWorkspaceProjectsUrl = TogglBaseUrl + "/workspaces/{0}/projects";
+
+            public readonly static string ListWorkspaceClientsUrl = TogglBaseUrl + "/workspaces/{0}/clients";
             
         }
 
         public class Task
         {
-            public readonly static string TogglTasksUrl = TogglBaseUrl + "/tasks.json";
+            public readonly static string TogglTasksUrl = TogglBaseUrl + "/tasks";
         }
 
         public class TimeEntry
         {
-            public readonly static string TimeEntriesUrl = TogglBaseUrl + "/time_entries.json";
+            public readonly static string TimeEntriesUrl = TogglBaseUrl + "/time_entries";
+            
+            public readonly static string TimeEntryStartUrl = TogglBaseUrl + "/time_entries/start";
 
-            public readonly static string TimeEntryUrl = TogglBaseUrl + "/time_entries/{0}.json";
+            public readonly static string TimeEntryStopUrl = TogglBaseUrl + "/time_entries/{0}/stop";
+
+            public readonly static string TimeEntryUrl = TogglBaseUrl + "/time_entries/{0}";
         }
         public class Project
         {
-            public readonly static string ProjectsUrl=TogglBaseUrl + "/projects.json";
+            public readonly static string ProjectsUrl = TogglBaseUrl + "/projects";
+
+            public readonly static string DetailUrl = TogglBaseUrl + "/projects/{0}";
+
+            public readonly static string UsersUrl = TogglBaseUrl + "/projects/{0}/project_users";
+             
         }
         public class User
         {
-            public static readonly string CurrentUserURl = TogglBaseUrl + "/me.json";
+            public static readonly string CurrentUserURl = TogglBaseUrl + "/me";
         }
     }
 }

@@ -61,15 +61,15 @@ namespace Toggl.Tests
 
             var act = new TimeEntry()
                           {
-                              Billable = true,
+                              IsBillable = true,
                               CreatedWith = "TimeEntryTestAdd",
                               Description = "Test Desc" + DateTime.Now.Ticks,
                               Duration = 900,
                               Start = DateTime.Now.ToIsoDateStr(),
                               Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                              Project = new Project{Id = Constants.DefaultProjectId},
+                              ProjectId =Constants.DefaultProjectId,
                               TagNames = tags,
-                              Workspace = new Workspace(){Id=Constants.DefaultWorkspaceId}
+                              WorkspaceId = Constants.DefaultWorkspaceId
                 
             };
 
@@ -100,15 +100,15 @@ namespace Toggl.Tests
                 act = new TimeEntry()
                 {
                     Id = Constants.DefaultTimeEntryId,
-                    Billable = true,
+                    IsBillable = true,
                     CreatedWith = "TimeEntryTestAdd",
                     //Description = "Test Desc" + DateTime.Now.Ticks,
                     Duration = 1000,
                     Start = DateTime.Now.ToIsoDateStr(),
                     //Stop =  DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                    Project = new Project { Id = Constants.DefaultProjectId },
+                    ProjectId = Constants.DefaultProjectId ,
                     TagNames = tags,
-                    Workspace = new Workspace() { Id = Constants.DefaultWorkspaceId }
+                    WorkspaceId = Constants.DefaultWorkspaceId
 
                 };
             }
@@ -122,12 +122,16 @@ namespace Toggl.Tests
         [Test]
         public void Delete()
         {
-
-            var act = timeEntrySrv.List().LastOrDefault();
+            var actLst = timeEntrySrv.List();
+            var act = actLst.LastOrDefault();
+            var expCnt = actLst.Count()-1;
+            
 
             var exp = timeEntrySrv.Delete((int)act.Id);
 
-            Assert.True(exp.Id==null);
+            var actCnt = timeEntrySrv.List().Count();
+
+            Assert.AreEqual(actCnt, expCnt);
         }
         
         [Test]
@@ -136,14 +140,13 @@ namespace Toggl.Tests
 
             var act = new TimeEntry()
             {
-                Id = Constants.DefaultTimeEntryId,
-                Billable = true,
+                IsBillable = true,
                 CreatedWith = "TimeEntryTestAdd",
                 Description = "Test Desc" + DateTime.Now.Ticks,
                 Duration = 1000,
                 Start = DateTime.Now.ToIsoDateStr(),
                 Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                Project = new Project { Id = Constants.DefaultProjectId }
+                ProjectId = Constants.DefaultProjectId
 
             };
 
@@ -151,7 +154,7 @@ namespace Toggl.Tests
             Assert.IsNotNull(tmp);
             var exp = timeEntrySrv.Get(tmp.Id.Value);
             Assert.IsNotNull(exp);
-            Assert.IsNotNull(exp.Project);
+            Assert.IsNotNull(exp.ProjectId.Value);
         }
 
         [Test]
@@ -160,14 +163,14 @@ namespace Toggl.Tests
 
             var act = new TimeEntry()
             {
-                Id = Constants.DefaultTimeEntryId,
-                Billable = true,
+                IsBillable = true,
                 CreatedWith = "TimeEntryTestAdd",
                 Description = "Test Desc" + DateTime.Now.Ticks,
                 Duration = 1000,
                 Start = DateTime.Now.ToIsoDateStr(),
                 Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                Workspace = new Workspace(){Id=Constants.DefaultWorkspaceId}
+                
+                WorkspaceId = Constants.DefaultWorkspaceId
 
             };
 
@@ -175,7 +178,7 @@ namespace Toggl.Tests
             Assert.IsNotNull(tmp);
             var exp = timeEntrySrv.Get(tmp.Id.Value);
             Assert.IsNotNull(exp);
-            Assert.IsNotNull(exp.Workspace);
+            Assert.IsNotNull(exp.WorkspaceId.Value);
         }
 
     }

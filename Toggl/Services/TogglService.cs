@@ -179,9 +179,28 @@ namespace Toggl.Services
                 content = reader.ReadToEnd();
             }
 
+            if ((string.IsNullOrEmpty(content)
+                || content.ToLower() =="null")
+                && authResponse.StatusCode == HttpStatusCode.OK
+                && authResponse.Method == "DELETE")
+            {
+                var rsp = new ApiResponse();
+                rsp.Data = new JObject();
+                rsp.related_data_updated_at = DateTime.Now;
+                rsp.StatusCode = authResponse.StatusCode;
+                rsp.Method = authResponse.Method;
+                
+                return rsp;
+            }
+
             try
             {
-                return JsonConvert.DeserializeObject<ApiResponse>(content);
+               
+                var rsp =  JsonConvert.DeserializeObject<ApiResponse>(content);   
+                rsp.StatusCode = authResponse.StatusCode;
+                rsp.Method = authResponse.Method;
+                
+                return rsp;
             }
             catch (Exception)
             {
@@ -189,7 +208,9 @@ namespace Toggl.Services
                 var rsp = new ApiResponse()
                     {
                         Data = jry,
-                        related_data_updated_at = DateTime.Now
+                        related_data_updated_at = DateTime.Now,
+                        StatusCode = authResponse.StatusCode,
+                        Method = authResponse.Method
                     };
 
                 return rsp;

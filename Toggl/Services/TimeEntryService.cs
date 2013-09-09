@@ -50,9 +50,9 @@ namespace Toggl.Services
             var entries = ToggleSrv.Get(ApiRoutes.TimeEntry.TimeEntriesUrl, obj.GetParameters())
                         .GetData<List<TimeEntry>>()
                         .AsQueryable();
-
-            if (obj.Project!=null && obj.Project.Id.HasValue)
-                entries = entries.Where(w => w.Project.Id == obj.Project.Id);
+            
+            if (obj.ProjectId.HasValue)
+                entries = entries.Where(w => w.ProjectId == obj.ProjectId);
 
             return entries.Select(s => s).ToList();
         }

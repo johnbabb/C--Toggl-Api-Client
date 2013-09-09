@@ -53,35 +53,6 @@ namespace Toggl.Services
 
             return ToggleSrv.Post(ProjectsUrl, obj.ToJson()).GetData<Project>();
         }
-
-        /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#put_projects
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public Project Edit(Project obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#mass_close
-        /// </summary>
-        public Project Archive()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#mass_open
-        /// </summary>
-        public Project ReOpen()
-        {
-            throw new NotImplementedException();
-        }
        
     }
 }

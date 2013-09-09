@@ -14,8 +14,6 @@ namespace Toggl.QueryObjects
         public DateTime? EndDate { get; set; }
         public TimeEntryParams()
         {
-            Project = new Project();
-            Workspace = new Workspace();
             TagNames = new List<string>();
         }
 

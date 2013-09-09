@@ -40,13 +40,14 @@ namespace Toggl.Services
         public List<Client> List()
         {
 
-            return ToggleSrv.Get(_listClientsUrl).GetData<List<Client>>();
+            return ToggleSrv.Get(ApiRoutes.Client.ClientsUrl).GetData<List<Client>>();
         }
 
         public Client Get(int id)
         {
-
-            return List().Where(w => w.Id == id).FirstOrDefault();
+            var url = string.Format(ApiRoutes.Client.ClientUrl, id);
+            return ToggleSrv.Get(url).GetData<Client>();
+            
         }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace Toggl.Services
         {
             var url = string.Format(ApiRoutes.Client.ClientUrl, id);
             var res = ToggleSrv.Delete(url);
-            return (!string.IsNullOrEmpty(res.related_data_updated_at.ToString()));
+            return (res.StatusCode==HttpStatusCode.OK);
         }
 
 

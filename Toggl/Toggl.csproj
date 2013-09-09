@@ -56,6 +56,7 @@
     <Compile Include="ApiRequest.cs" />
     <Compile Include="Converters\TogglDateTimeConverter.cs" />
     <Compile Include="DataObjects\BaseDataObject.cs" />
+    <Compile Include="DataObjects\NewBlogPost.cs" />
     <Compile Include="Extensions\Strings.cs" />
     <Compile Include="Extensions\Dates.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

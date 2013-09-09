@@ -32,10 +32,10 @@ namespace Toggl.Tests
             var act = new Task
                           {
                               IsActive = true,
-                              User = new User { Id = Constants.DefaultUserId },
+                              UserId =  Constants.DefaultUserId,
                               Name = "test123",
                               EstimatedSeconds = 3600,
-                              Project = new Project { Id = Constants.DefaultProjectId }
+                              ProjectId  = Constants.DefaultProjectId 
                           };
 
             var exp = t.Add(act);

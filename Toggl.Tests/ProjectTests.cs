@@ -11,18 +11,10 @@ namespace Toggl.Tests
     public class ProjectTests
     {
         
-        [Test]
-        public void List()
-        {
-            var srv = new ProjectService();
-
-            var obj = srv.List();
-
-            Assert.GreaterOrEqual(obj.Count(), 0);
-        }
+        
 
         [Test]
-        public void AddTest()
+        public void Add()
         {
             var srv = new ProjectService();
             
@@ -30,16 +22,29 @@ namespace Toggl.Tests
 
             var obj = new Project
             {
-                Billable = true,
-                Workspace = new Workspace { Id = 303523 },
+                IsBillable = true,
+                WorkspaceId = 303523 ,
                 Name = "New Project" + DateTime.UtcNow,
-                AutomaticallyCalculateEstimatedWorkhours = false
+                IsAutoEstimates = false
             };
 
             var act = srv.Add(obj);
 
             Assert.NotNull(act,"response back from api does not have at project object");
             Assert.GreaterOrEqual(act.Id, 0, "response back from object does not have a project id greater than zero");
+        }
+
+        [Test]
+        public void Get()
+        {
+            var t = new WorkspaceService();
+            
+            
+            var srv = new ProjectService();
+
+            var obj = srv.List();
+
+            Assert.GreaterOrEqual(obj.Count(), 0);
         }
         
     }
