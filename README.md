@@ -13,7 +13,7 @@ the api key 2d1d95cef10e17831ec505e9e6f9f7ea is a test account so please use it 
         var srv = new ClientService();
         var obj = srv.List();
 
-OR
+###OR
 
         var t = new Toggl.Toggl();
         var obj = t.Client.List();
@@ -26,7 +26,7 @@ OR
         Console.WriteLine(c.FullName);
         Console.WriteLine(c.Email);
 
-OR
+###OR
 
         var apiKey="2d1d95cef10e17831ec505e9e6f9f7ea";
         var t = new Toggl.Toggl(apiKey);
@@ -51,7 +51,7 @@ OR
 
         hours.Select(s=>s);
 
-OR
+###OR
 
         var timeSrv= new Toggl.Toggl().TimeEntry;
         var prams = new TimeEntryParams();
