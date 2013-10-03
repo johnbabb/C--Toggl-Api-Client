@@ -12,7 +12,9 @@ the api key 2d1d95cef10e17831ec505e9e6f9f7ea is a test account so please use it 
 
         var srv = new ClientService();
         var obj = srv.List();
+
 OR
+
         var t = new Toggl.Toggl();
         var obj = t.Client.List();
 
@@ -23,7 +25,9 @@ OR
         var c = usrSrv.GetCurrent();
         Console.WriteLine(c.FullName);
         Console.WriteLine(c.Email);
+
 OR
+
         var apiKey="2d1d95cef10e17831ec505e9e6f9f7ea";
         var t = new Toggl.Toggl(apiKey);
         var c = t.User.GetCurrent();
