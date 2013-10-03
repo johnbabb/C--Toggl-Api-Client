@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Toggl.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -75,6 +76,13 @@
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\Workspace.cs" />
     <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Interfaces\IClientService.cs" />
+    <Compile Include="Interfaces\IProjectService.cs" />
+    <Compile Include="Interfaces\ITagService.cs" />
+    <Compile Include="Interfaces\ITaskService.cs" />
+    <Compile Include="Interfaces\ITimeEntryService.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Interfaces\IWorkspaceService.cs" />
     <Compile Include="Services\TagService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ProjectService.cs" />
@@ -82,7 +90,7 @@
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="Services\TogglService.cs" />
     <Compile Include="Services\TimeEntryService.cs" />
-    <Compile Include="ITogglService.cs" />
+    <Compile Include="Interfaces\ITogglService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

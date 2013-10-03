@@ -5,16 +5,17 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.Interfaces;
 using Toggl.Properties;
 
 namespace Toggl.Services
 {
-    public class ClientService
+    public class ClientService : IClientService
     {
         private readonly string _listClientsUrl = ApiRoutes.Client.ClientsUrl;
-        
 
-        private ITogglService ToggleSrv { get; set; }
+
+        public ITogglService ToggleSrv { get; set; }
 
 
         public ClientService(string apiKey)

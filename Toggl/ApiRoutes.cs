@@ -34,6 +34,11 @@ namespace Toggl
             public readonly static string ListWorkspaceProjectsUrl = TogglBaseUrl + "/workspaces/{0}/projects";
 
             public readonly static string ListWorkspaceClientsUrl = TogglBaseUrl + "/workspaces/{0}/clients";
+
+            public readonly static string ListWorkspaceTasksUrl = TogglBaseUrl + "/workspaces/{0}/tasks";
+
+            public readonly static string ListWorkspaceTagsUrl = TogglBaseUrl + "/workspaces/{0}/tags";
+            
             
         }
 
@@ -63,7 +68,8 @@ namespace Toggl
         }
         public class User
         {
-            public static readonly string CurrentUserURl = TogglBaseUrl + "/me";
+            public static readonly string CurrentUserUrl = TogglBaseUrl + "/me";
+            public static readonly string CurrentExtendedUserUrl = TogglBaseUrl + "/me?with_related_data=true";
         }
     }
 }

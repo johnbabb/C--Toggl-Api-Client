@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Toggl.Interfaces;
 
 
 namespace Toggl.Services
 {
-    public class TimeEntryService
+    public class TimeEntryService : ITimeEntryService
     {
 
         private ITogglService ToggleSrv { get; set; }

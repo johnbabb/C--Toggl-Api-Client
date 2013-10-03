@@ -5,14 +5,17 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.Interfaces;
 using Toggl.Properties;
 
 namespace Toggl.Services
 {
-    public class WorkspaceService
+    /// <summary>
+    /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/workspaces.md#workspaces
+    /// </summary>
+    public class WorkspaceService : IWorkspaceService
     {
 
-        private readonly string ListWorkspaceUrl = ApiRoutes.Workspace.ListWorkspaceUrl;
 
 
         private ITogglService ToggleSrv { get; set; }
@@ -34,29 +37,44 @@ namespace Toggl.Services
             ToggleSrv = srv;
         }
 
-        /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#get_workspaces
-        /// </summary>
-        /// <returns></returns>
         public List<Workspace> List()
         {
-            return ToggleSrv.Get(ListWorkspaceUrl).GetData<List<Workspace>>();
+            return ToggleSrv.Get(ApiRoutes.Workspace.ListWorkspaceUrl).GetData<List<Workspace>>();
+        }
+        
+        public List<User> Users(int workspaceId)
+        {
+            var url = string.Format(ApiRoutes.Workspace.ListWorkspaceUsersUrl, workspaceId);
+            return ToggleSrv.Get(url).GetData<List<User>>();
         }
 
-        public List<User> Users()
+       
+        public List<Client> Clients(int workspaceId)
         {
-            return ToggleSrv.Get(ApiRoutes.Workspace.ListWorkspaceUsersUrl).GetData<List<User>>();
+            var url = string.Format(ApiRoutes.Workspace.ListWorkspaceClientsUrl, workspaceId);
+            return ToggleSrv.Get(url).GetData<List<Client>>();
         }
 
-        public List<Project> Projects()
+        public List<Project> Projects(int workspaceId)
         {
-            return ToggleSrv.Get(ApiRoutes.Workspace.ListWorkspaceProjectsUrl).GetData<List<Project>>();
+            var url = string.Format(ApiRoutes.Workspace.ListWorkspaceProjectsUrl, workspaceId);
+            return ToggleSrv.Get(url).GetData<List<Project>>();
         }
 
-        public List<Client> Clients()
+
+        public List<Task> Tasks(int workspaceId)
         {
-            return ToggleSrv.Get(ApiRoutes.Workspace.ListWorkspaceClientsUrl).GetData<List<Client>>();
+            var url = string.Format(ApiRoutes.Workspace.ListWorkspaceTasksUrl, workspaceId);
+            return ToggleSrv.Get(url).GetData<List<Task>>();
         }
+
+        public List<Tag> Tags(int workspaceId)
+        {
+            var url = string.Format(ApiRoutes.Workspace.ListWorkspaceTagsUrl, workspaceId);
+            return ToggleSrv.Get(url).GetData<List<Tag>>();
+        }
+        
+
+
     }
 }

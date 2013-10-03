@@ -82,41 +82,44 @@ namespace Toggl.Tests
         public void Edit()
         {
 
-            var act = timeEntrySrv.List().FirstOrDefault();
-            if (act != null && act.Id > 0)
+            
+            var tags = new List<string>();
+            tags.Add("one");
+            tags.Add("two");
+
+            var exp = new TimeEntry()
             {
-                act.Duration += 1000;
-                act.Description += "more by edit";
-                var tags = new List<string>();
-                tags.Add(act.Duration.ToString());
-                act.TagNames = tags;
+                Id = Constants.DefaultTimeEntryId,
+                IsBillable = true,
+                CreatedWith = "TimeEntryTestAdd",
+                Description = "Test Desc" + DateTime.Now.Ticks,
+                Duration = 1000,
+                Start = DateTime.Now.ToIsoDateStr(),
+                //Stop =  DateTime.Now.AddMinutes(20).ToIsoDateStr(),
+                ProjectId = Constants.DefaultProjectId,
+                TagNames = tags,
+                WorkspaceId = Constants.DefaultWorkspaceId
 
+            };
+            exp = timeEntrySrv.Add(exp);
 
-            } else {
-                var tags = new List<string>();
-                tags.Add("one");
-                tags.Add("two");
+            Assert.NotNull(exp);
+            Assert.Greater(exp.Id, 0);
 
-                act = new TimeEntry()
-                {
-                    Id = Constants.DefaultTimeEntryId,
-                    IsBillable = true,
-                    CreatedWith = "TimeEntryTestAdd",
-                    //Description = "Test Desc" + DateTime.Now.Ticks,
-                    Duration = 1000,
-                    Start = DateTime.Now.ToIsoDateStr(),
-                    //Stop =  DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                    ProjectId = Constants.DefaultProjectId ,
-                    TagNames = tags,
-                    WorkspaceId = Constants.DefaultWorkspaceId
+            exp = timeEntrySrv.Get(exp.Id.Value);
 
-                };
-            }
+            exp.Duration += 1000;
+            exp.Description += "more by edit";
+            tags.Add(exp.Duration.ToString());
+            exp.TagNames = tags;
+            
            
 
-            var exp = timeEntrySrv.Edit(act);
+            var act = timeEntrySrv.Edit(exp);
 
-            Assert.GreaterOrEqual(exp.Id, 0);
+            Assert.NotNull(act);
+            Assert.Greater(act.Id, 0);
+            Assert.AreEqual(act.Id, exp.Id);
         }
         
         [Test]

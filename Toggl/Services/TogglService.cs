@@ -7,7 +7,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
-
+using Toggl.Interfaces;
 using Toggl.Properties;
 
 namespace Toggl.Services

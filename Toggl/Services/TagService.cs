@@ -5,11 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.Interfaces;
 using Toggl.Properties;
 
 namespace Toggl.Services
 {
-    public class TagService
+    public class TagService : ITagService
     {
         private ITogglService ToggleSrv { get; set; }
 

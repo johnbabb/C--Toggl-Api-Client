@@ -5,11 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.Interfaces;
 using Toggl.Properties;
 
 namespace Toggl.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         
         
@@ -40,7 +41,7 @@ namespace Toggl.Services
         /// <returns></returns>
         public User GetCurrent()
         {
-            var url = ApiRoutes.User.CurrentUserURl;
+            var url = ApiRoutes.User.CurrentUserUrl;
 
             var obj = ToggleSrv.Get(url).GetData<User>();
 
@@ -54,26 +55,13 @@ namespace Toggl.Services
         /// <returns></returns>
         public User GetCurrentExtended()
         {
-            throw new NotImplementedException();
+            var url = ApiRoutes.User.CurrentExtendedUserUrl;
+
+            var obj = ToggleSrv.Get(url).GetData<User>();
+
+            return obj;
         }
 
-        public List<User> GetFromWorkspace()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 
-        ///  https://www.toggl.com/public/api#post_project_users
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public User AddToProject(User obj)
-        {
-            throw new NotImplementedException();
-          
-           
-        }
        
     }
 }

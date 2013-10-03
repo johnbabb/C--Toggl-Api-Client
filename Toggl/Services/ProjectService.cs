@@ -5,11 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.Interfaces;
 using Toggl.Properties;
 
 namespace Toggl.Services
 {
-    public class ProjectService
+    public class ProjectService : IProjectService
     {
         private readonly string ProjectsUrl = ApiRoutes.Project.ProjectsUrl;
         
@@ -40,7 +41,20 @@ namespace Toggl.Services
         /// <returns></returns>
         public List<Project> List()
         {
-            return ToggleSrv.Get(ProjectsUrl).GetData<List<Project>>();
+            var lstProj = new List<Project>();
+            var lstWrkSpc = ToggleSrv.Get(ApiRoutes.Workspace.ListWorkspaceUrl).GetData<List<Workspace>>();
+            lstWrkSpc.ForEach(e =>
+                {
+                    var projs = ForWorkspace(e.Id.Value);
+                    lstProj.AddRange(projs);
+                });
+            return lstProj;
+        }
+        
+        public List<Project> ForWorkspace (int id)
+        {
+            var url = string.Format(ApiRoutes.Workspace.ListWorkspaceProjectsUrl, id);
+            return ToggleSrv.Get(url).GetData<List<Project>>();
         }
 
         public Project Get(int id)

@@ -37,9 +37,7 @@ namespace Toggl.Tests
         [Test]
         public void Get()
         {
-            var t = new WorkspaceService();
-            
-            
+                       
             var srv = new ProjectService();
 
             var obj = srv.List();
