@@ -12,7 +12,7 @@ using Toggl.Properties;
 
 namespace Toggl.Services
 {
-    public class TogglService : ITogglService
+    public class ApiService : IApiService
     {
         private string ApiToken { get; set; }
 
@@ -20,12 +20,12 @@ namespace Toggl.Services
 
         public Session Session { get; set; }
 
-        public TogglService()
+        public ApiService()
             : this(Settings.Default.ApiToken)
         {
         }
 
-        public TogglService(string apiToken)
+        public ApiService(string apiToken)
         {
             ApiToken = apiToken;
             //Initialize();

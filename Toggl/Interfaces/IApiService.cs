@@ -9,7 +9,7 @@ using Toggl.Properties;
 
 namespace Toggl.Interfaces
 {
-    public interface ITogglService
+    public interface IApiService
     {
 
         Session GetSession();
