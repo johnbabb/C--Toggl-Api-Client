@@ -9,20 +9,20 @@ namespace Toggl.Services
     public class TimeEntryService : ITimeEntryService
     {
 
-        private ITogglService ToggleSrv { get; set; }
+        private IApiService ToggleSrv { get; set; }
 
         public TimeEntryService(string apiKey)
-            : this(new TogglService(apiKey))
+            : this(new ApiService(apiKey))
         {
 
         }
         
-        public TimeEntryService():this(new TogglService())
+        public TimeEntryService():this(new ApiService())
         {
 
         }
         
-        public TimeEntryService(ITogglService srv)
+        public TimeEntryService(IApiService srv)
         {
             ToggleSrv = srv;
         }

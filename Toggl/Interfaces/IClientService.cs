@@ -4,7 +4,7 @@ namespace Toggl.Interfaces
 {
     public interface IClientService
     {
-        ITogglService ToggleSrv { get; set; }
+        IApiService ToggleSrv { get; set; }
 
         /// <summary>
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/clients.md#get-clients-visible-to-user

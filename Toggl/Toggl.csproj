@@ -50,11 +50,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiResponse.cs">
+    <Compile Include="Responses\ApiResponse.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ApiRoutes.cs" />
-    <Compile Include="ApiRequest.cs" />
+    <Compile Include="Routes\ApiRoutes.cs" />
+    <Compile Include="Requests\ApiRequest.cs" />
     <Compile Include="Converters\TogglDateTimeConverter.cs" />
     <Compile Include="DataObjects\BaseDataObject.cs" />
     <Compile Include="DataObjects\NewBlogPost.cs" />
@@ -88,9 +88,10 @@
     <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Services\WorkspaceService.cs" />
     <Compile Include="Services\TaskService.cs" />
-    <Compile Include="Services\TogglService.cs" />
+    <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\TimeEntryService.cs" />
-    <Compile Include="Interfaces\ITogglService.cs" />
+    <Compile Include="Interfaces\IApiService.cs" />
+    <Compile Include="Toggl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

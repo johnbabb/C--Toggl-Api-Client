@@ -15,21 +15,21 @@ namespace Toggl.Services
         
         
 
-        private ITogglService ToggleSrv { get; set; }
+        private IApiService ToggleSrv { get; set; }
 
 
         public UserService(string apiKey)
-            : this(new TogglService(apiKey))
+            : this(new ApiService(apiKey))
         {
 
         }
 
         public UserService()
-            : this(new TogglService())
+            : this(new ApiService())
         {
         }
 
-        public UserService(ITogglService srv)
+        public UserService(IApiService srv)
         {
             ToggleSrv = srv;
         }

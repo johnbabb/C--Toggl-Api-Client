@@ -15,21 +15,21 @@ namespace Toggl.Services
         private readonly string ProjectsUrl = ApiRoutes.Project.ProjectsUrl;
         
 
-        private ITogglService ToggleSrv { get; set; }
+        private IApiService ToggleSrv { get; set; }
 
 
         public ProjectService(string apiKey)
-            : this(new TogglService(apiKey))
+            : this(new ApiService(apiKey))
         {
 
         }
 
         public ProjectService()
-            : this(new TogglService())
+            : this(new ApiService())
         {
         }
 
-        public ProjectService(ITogglService srv)
+        public ProjectService(IApiService srv)
         {
             ToggleSrv = srv;
         }

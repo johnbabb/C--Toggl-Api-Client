@@ -15,21 +15,21 @@ namespace Toggl.Services
         private readonly string _listClientsUrl = ApiRoutes.Client.ClientsUrl;
 
 
-        public ITogglService ToggleSrv { get; set; }
+        public IApiService ToggleSrv { get; set; }
 
 
         public ClientService(string apiKey)
-            : this(new TogglService(apiKey))
+            : this(new ApiService(apiKey))
         {
 
         }
 
         public ClientService()
-            : this(new TogglService())
+            : this(new ApiService())
         {
         }
 
-        public ClientService(ITogglService srv)
+        public ClientService(IApiService srv)
         {
             ToggleSrv = srv;
         }

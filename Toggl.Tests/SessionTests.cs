@@ -15,7 +15,7 @@ namespace Toggl.Tests
         [TestCase(Constants.ApiToken)]
         public void GetSessionByApiToken(string apiToken)
         {
-            var t = new TogglService(apiToken);
+            var t = new ApiService(apiToken);
             var s = t.GetSession();
             Assert.AreEqual(s.ApiToken, Constants.ApiToken);
         }

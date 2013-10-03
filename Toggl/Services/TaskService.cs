@@ -15,21 +15,21 @@ namespace Toggl.Services
         private readonly string TogglTasksUrl = ApiRoutes.Task.TogglTasksUrl;
         
 
-        private ITogglService ToggleSrv { get; set; }
+        private IApiService ToggleSrv { get; set; }
 
 
         public TaskService(string apiKey)
-            : this(new TogglService(apiKey))
+            : this(new ApiService(apiKey))
         {
 
         }
 
         public TaskService()
-            : this(new TogglService())
+            : this(new ApiService())
         {
         }
 
-        public TaskService(ITogglService srv)
+        public TaskService(IApiService srv)
         {
             ToggleSrv = srv;
         }
