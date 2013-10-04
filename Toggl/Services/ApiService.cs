@@ -143,7 +143,7 @@ namespace Toggl.Services
 
             if (apiRequest.Args != null && apiRequest.Args.Count > 0)
             {
-                apiRequest.Args.ForEach(e => value += e.Key + "=" + e.Value + "&");
+                apiRequest.Args.ForEach(e => value += e.Key + "=" + System.Uri.EscapeDataString(e.Value) + "&");
                 value = value.Trim('&');
             }
 
@@ -189,17 +189,17 @@ namespace Toggl.Services
                 rsp.related_data_updated_at = DateTime.Now;
                 rsp.StatusCode = authResponse.StatusCode;
                 rsp.Method = authResponse.Method;
-                
+
                 return rsp;
             }
 
             try
             {
-               
-                var rsp =  JsonConvert.DeserializeObject<ApiResponse>(content);   
+
+                var rsp =  JsonConvert.DeserializeObject<ApiResponse>(content);
                 rsp.StatusCode = authResponse.StatusCode;
                 rsp.Method = authResponse.Method;
-                
+
                 return rsp;
             }
             catch (Exception)
@@ -215,7 +215,7 @@ namespace Toggl.Services
 
                 return rsp;
             }
-            
+
         }
 
 

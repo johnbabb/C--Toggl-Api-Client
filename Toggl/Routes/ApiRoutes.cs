@@ -68,8 +68,17 @@ namespace Toggl
         }
         public class User
         {
-            public static readonly string CurrentUserUrl = TogglBaseUrl + "/me";
-            public static readonly string CurrentExtendedUserUrl = TogglBaseUrl + "/me?with_related_data=true";
+            public static readonly string CurrentUrl = TogglBaseUrl + "/me";
+            
+            public static readonly string CurrentExtendedUrl = TogglBaseUrl + "/me?with_related_data=true";
+
+            public static readonly string CurrentSinceUrl = TogglBaseUrl + "/me?since={0}&with_related_data=true";
+            
+            public static readonly string ResetApiTokenUrl = TogglBaseUrl + "/reset_token";
+
+            public static readonly string EditUrl = TogglBaseUrl + "/me";
+
+            public static readonly string AddUrl = TogglBaseUrl + "/signups";
         }
     }
 }
