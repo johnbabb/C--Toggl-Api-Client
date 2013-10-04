@@ -24,7 +24,7 @@ namespace Toggl.DataObjects
 
             return lst;
         }
-        public string ToJson()
+        public string ToJson(string objName="")
         {
             var cverts = new List<JsonConverter>();
             cverts.Add(new IsoDateTimeConverter());
@@ -37,7 +37,10 @@ namespace Toggl.DataObjects
                                                 }
 
                                 );
-            return "{\"" + this.GetType().Name.LowerCaseUnderscore() + "\":" + data + "}";
+            var propNm = (string.IsNullOrEmpty(objName)) ? this.GetType().Name.LowerCaseUnderscore() : objName;
+
+            return "{\"" + propNm + "\":" + data + "}";
         }
+        
     }
 }

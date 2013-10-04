@@ -50,6 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="DataObjects\UserAdd.cs" />
+    <Compile Include="DataObjects\UserExtended.cs" />
+    <Compile Include="DataObjects\UserEdit.cs" />
     <Compile Include="Responses\ApiResponse.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using Toggl.Extensions;
 using Toggl.Interfaces;
 using Toggl.Properties;
 
@@ -13,8 +14,6 @@ namespace Toggl.Services
     public class UserService : IUserService
     {
         
-        
-
         private IApiService ToggleSrv { get; set; }
 
 
@@ -34,34 +33,63 @@ namespace Toggl.Services
             ToggleSrv = srv;
         }
 
-        /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#get_me
-        /// </summary>
-        /// <returns></returns>
+        
         public User GetCurrent()
         {
-            var url = ApiRoutes.User.CurrentUserUrl;
+            var url = ApiRoutes.User.CurrentUrl;
 
             var obj = ToggleSrv.Get(url).GetData<User>();
 
             return obj;
         }
 
-        /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#get_me_data
-        /// </summary>
-        /// <returns></returns>
-        public User GetCurrentExtended()
+        public UserExtended GetCurrentExtended()
         {
-            var url = ApiRoutes.User.CurrentExtendedUserUrl;
+            var url = ApiRoutes.User.CurrentExtendedUrl;
 
-            var obj = ToggleSrv.Get(url).GetData<User>();
+            var obj = ToggleSrv.Get(url).GetData<UserExtended>();
 
             return obj;
         }
 
-       
+        public UserExtended GetCurrentChanged(DateTime since)
+        {
+            var url = string.Format(ApiRoutes.User.CurrentSinceUrl, since.ToUnixTime());
+
+            var obj = ToggleSrv.Get(url).GetData<UserExtended>();
+
+            return obj;
+        }
+
+        public User Edit(User u)
+        {
+            var url = string.Format(ApiRoutes.User.EditUrl);
+            var data = u.ToJson();
+            
+            u = ToggleSrv.Put(url, data).GetData<User>();
+            
+            return u;
+        }
+
+        public string ResetApiToken()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<User> GetForWorkspace(int id)
+        {
+            var url = string.Format(ApiRoutes.Workspace.ListWorkspaceUsersUrl, id);
+            return ToggleSrv.Get(url).GetData<List<User>>();
+        }
+
+        public User Add(User u)
+        {
+            var url = string.Format(ApiRoutes.User.AddUrl);
+            var data = u.ToJson();
+
+            u = ToggleSrv.Post(url, data).GetData<User>();
+
+            return u;
+        }
     }
 }

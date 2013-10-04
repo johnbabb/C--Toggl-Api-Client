@@ -11,6 +11,11 @@ namespace Toggl.Extensions
         {
             return date.ToString("yyyy-MM-ddTHH:mm:sszzz");
         }
+
+        public static long ToUnixTime(this DateTime date)
+        {
+            return ((date.ToUniversalTime().Ticks - 621355968000000000)/10000000);
+        }
     }
 }
 
