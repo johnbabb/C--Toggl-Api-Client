@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting;
 using System.Text;
 using NUnit.Framework;
 using Toggl.DataObjects;
@@ -33,59 +34,52 @@ namespace Toggl.Tests
         public void GetTimeEntriesByDateRange(DateTime from, DateTime to)
         {
 
-            var rte = new TimeEntryParams();
-            rte.StartDate = from;
-            rte.EndDate = to;
+            var rte = new TimeEntryParams {StartDate = @from, EndDate = to};
 
             var entries = timeEntrySrv.List(rte);
 
             Assert.GreaterOrEqual(entries.Count(), 0);
-
         }
         
         [Test]
         [TestCase(51575828)]
         public void GetTimeEntryByID(int id)
         {
-
             var entry = timeEntrySrv.Get(id);
             Assert.IsTrue(entry.Id == id);
         }
         [Test]
         public void Add()
-        {
-      
-      
-            var tags = new List<string>();
-            tags.Add("one");
+        {           
+            var tags = new List<string> {"one"};
 
             var act = new TimeEntry()
-                          {
-                              IsBillable = true,
-                              CreatedWith = "TimeEntryTestAdd",
-                              Description = "Test Desc" + DateTime.Now.Ticks,
-                              Duration = 900,
-                              Start = DateTime.Now.ToIsoDateStr(),
-                              Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                              ProjectId =Constants.DefaultProjectId,
-                              TagNames = tags,
-                              WorkspaceId = Constants.DefaultWorkspaceId
-                
+            {
+                IsBillable = true,
+                CreatedWith = "TimeEntryTestAdd",
+                Description = "Test Desc" + DateTime.Now.Ticks,
+                Duration = 900,
+                Start = DateTime.Now.ToIsoDateStr(),
+                Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
+                ProjectId = Constants.DefaultProjectId,
+                TagNames = tags,
+                WorkspaceId = Constants.DefaultWorkspaceId                
             };
 
             var exp = timeEntrySrv.Add(act);
 
             Assert.GreaterOrEqual(exp.Id, 0);
+            Assert.AreEqual(exp.Description, act.Description);
+            Assert.AreEqual(exp.Duration, act.Duration);
+            Assert.AreEqual(exp.Start, act.Start);
+            Assert.AreEqual(exp.Stop, act.Stop);
+            Assert.AreEqual(exp.ProjectId, act.ProjectId);
         }
 
         [Test]
         public void Edit()
         {
-
-            
-            var tags = new List<string>();
-            tags.Add("one");
-            tags.Add("two");
+            var tags = new List<string> {"one", "two"};
 
             var exp = new TimeEntry()
             {
@@ -113,13 +107,14 @@ namespace Toggl.Tests
             tags.Add(exp.Duration.ToString());
             exp.TagNames = tags;
             
-           
-
             var act = timeEntrySrv.Edit(exp);
 
             Assert.NotNull(act);
             Assert.Greater(act.Id, 0);
-            Assert.AreEqual(act.Id, exp.Id);
+            Assert.AreEqual(exp.Id, act.Id);
+            Assert.AreEqual(exp.Duration, act.Duration);
+            Assert.AreEqual(exp.Description, act.Description);
+            Assert.AreEqual(exp.TagNames.Count, act.TagNames.Count);
         }
         
         [Test]
