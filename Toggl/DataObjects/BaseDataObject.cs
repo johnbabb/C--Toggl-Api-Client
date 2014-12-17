@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Toggl.Extensions;
@@ -17,7 +15,6 @@ namespace Toggl.DataObjects
             this.GetType().GetProperties().ToList()
                 .ForEach(p =>
                          {
-                             var name = p.Name;
                              var val = p.GetValue(this, null);
                              var jsonProperty = p.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Single() as JsonPropertyAttribute;
                              if (jsonProperty != null && val != null)
