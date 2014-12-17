@@ -9,6 +9,14 @@ namespace Toggl
     public class ApiRoutes
     {
         readonly static string TogglBaseUrl = Settings.Default.TogglBaseUrl;
+        readonly static string TogglReportUrl = Settings.Default.TogglReportUrl;
+
+        public class Reports
+        {
+            public static readonly string Detailed = TogglReportUrl + "/details";
+            public static readonly string Weekly = TogglReportUrl + "/weekly";
+            public static readonly string Summary = TogglReportUrl + "/summary";
+        }
 
         public class Session
         {

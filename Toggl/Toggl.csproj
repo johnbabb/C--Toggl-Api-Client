@@ -51,9 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="DataObjects\DetailedReport.cs" />
+    <Compile Include="DataObjects\Report.cs" />
     <Compile Include="DataObjects\UserAdd.cs" />
     <Compile Include="DataObjects\UserExtended.cs" />
     <Compile Include="DataObjects\UserEdit.cs" />
+    <Compile Include="Interfaces\IReportService.cs" />
+    <Compile Include="QueryObjects\DetailedReportParams.cs" />
+    <Compile Include="QueryObjects\ReportParams.cs" />
     <Compile Include="Responses\ApiResponse.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -87,6 +92,7 @@
     <Compile Include="Interfaces\ITimeEntryService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IWorkspaceService.cs" />
+    <Compile Include="Services\ReportService.cs" />
     <Compile Include="Services\TagService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ProjectService.cs" />

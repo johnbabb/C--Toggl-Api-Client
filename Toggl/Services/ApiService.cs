@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
+using Toggl.DataObjects;
 using Toggl.Interfaces;
 using Toggl.Properties;
 
@@ -15,8 +14,6 @@ namespace Toggl.Services
     public class ApiService : IApiService
     {
         private string ApiToken { get; set; }
-
-        private CookieContainer ToggleCookies { get; set; }
 
         public Session Session { get; set; }
 
@@ -69,6 +66,15 @@ namespace Toggl.Services
                 Args = args
             });
         }
+
+        public TResponse Get<TResponse>(string url, List<KeyValuePair<string, string>> args)
+        {
+            return Get<TResponse>(new ApiRequest()
+                                  {
+                                      Url = url, Args = args
+                                  });
+        }
+
         public ApiResponse Delete(string url)
         {
             return Get(new ApiRequest
@@ -137,6 +143,42 @@ namespace Toggl.Services
                 });
         }
 
+        private TResponse Get<TResponse>(ApiRequest apiRequest) 
+        {
+            string value = "";
+
+            if (apiRequest.Args != null && apiRequest.Args.Count > 0)
+            {
+                apiRequest.Args.ForEach(e => value += e.Key + "=" + System.Uri.EscapeDataString(e.Value) + "&");
+                value = value.Trim('&');
+            }
+
+            if (apiRequest.Method == "GET" && !string.IsNullOrEmpty(value))
+            {
+                apiRequest.Url += "?" + value;
+            }
+
+            var authRequest = (HttpWebRequest)HttpWebRequest.Create(apiRequest.Url);
+
+            authRequest.Method = apiRequest.Method;
+
+            authRequest.ContentType = apiRequest.ContentType;
+
+            authRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
+
+            authRequest.Headers.Add(GetAuthHeader());
+
+            var authResponse = (HttpWebResponse)authRequest.GetResponse();
+            string content = "";
+            using (var reader = new StreamReader(authResponse.GetResponseStream(), Encoding.UTF8))
+            {
+                content = reader.ReadToEnd();
+            }
+
+            var rsp = JsonConvert.DeserializeObject<TResponse>(content);              
+            return rsp;
+        }
+
         private ApiResponse Get(ApiRequest apiRequest)
         {
             string value = "";
@@ -180,7 +222,7 @@ namespace Toggl.Services
             }
 
             if ((string.IsNullOrEmpty(content)
-                || content.ToLower() =="null")
+                || content.ToLower() == "null")
                 && authResponse.StatusCode == HttpStatusCode.OK
                 && authResponse.Method == "DELETE")
             {
@@ -196,7 +238,7 @@ namespace Toggl.Services
             try
             {
 
-                var rsp =  JsonConvert.DeserializeObject<ApiResponse>(content);
+                var rsp = JsonConvert.DeserializeObject<ApiResponse>(content);
                 rsp.StatusCode = authResponse.StatusCode;
                 rsp.Method = authResponse.Method;
 
@@ -218,16 +260,11 @@ namespace Toggl.Services
 
         }
 
-
-
         private string GetAuthHeader()
         {
             var encodedApiKey = Convert.ToBase64String(Encoding.ASCII.GetBytes(ApiToken + ":api_token"));
             return "Authorization: Basic " + encodedApiKey;
-
         }
-
-
     }
 
 }

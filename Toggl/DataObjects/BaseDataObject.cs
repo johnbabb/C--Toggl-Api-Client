@@ -14,13 +14,18 @@ namespace Toggl.DataObjects
         {
             var lst = new List<KeyValuePair<string, string>>();
 
-            
             this.GetType().GetProperties().ToList()
                 .ForEach(p =>
+                         {
+                             var name = p.Name;
+                             var val = p.GetValue(this, null);
+                             var jsonProperty = p.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Single() as JsonPropertyAttribute;
+                             if (jsonProperty != null && val != null)
                              {
-                                 var pair = new KeyValuePair<string, string>(p.Name, p.GetValue(p, null).ToString());
-                                 lst.Add(pair);
-                             });
+                                 var pair = new KeyValuePair<string, string>(jsonProperty.PropertyName, val.ToString());
+                                 lst.Add(pair); 
+                             }                                              
+                            });
 
             return lst;
         }
