@@ -1,6 +1,6 @@
-# C--Toggl-Api-Client
+# TogglAPI.Net
 
-C--Toggl-Api-Client is a C# wrapper for the toggl.com api
+TogglAPI.Net is a C# wrapper for the toggl.com api
 
 ## Code Samples
 
