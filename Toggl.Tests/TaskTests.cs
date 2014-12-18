@@ -11,6 +11,8 @@ namespace Toggl.Tests
     public class TaskTests : BaseTogglApiTest
     {
 	    public static int DefaultProjectId;
+
+		[SetUp]
 	    public override void Init()
 	    {
 		    base.Init();
