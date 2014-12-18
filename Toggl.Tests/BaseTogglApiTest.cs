@@ -7,6 +7,8 @@ using NUnit.Framework;
 
 namespace Toggl.Tests
 {
+	using global::Toggl.QueryObjects;
+
 	[TestFixture]
 	public class BaseTogglApiTest
 	{
@@ -40,7 +42,8 @@ namespace Toggl.Tests
 				var tags = WorkspaceService.Tags(workspace.Id.Value); // TODO
 				var users = WorkspaceService.Users(workspace.Id.Value); // TODO
 				var clients = WorkspaceService.Clients(workspace.Id.Value);
-				var timeEntries = TimeEntryService.List();
+				var rte = new TimeEntryParams { StartDate = DateTime.Now.AddYears(-1)};
+				var timeEntries = TimeEntryService.List(rte);
 
 				Assert.IsTrue(TimeEntryService.DeleteIfAny(timeEntries.Select(te => te.Id.Value).ToArray()));
 				Assert.IsTrue(ProjectService.DeleteIfAny(projects.Select(p => p.Id.Value).ToArray()));				
@@ -50,7 +53,7 @@ namespace Toggl.Tests
 				Assert.IsFalse(WorkspaceService.Projects(workspace.Id.Value).Any());
 				Assert.IsFalse(WorkspaceService.Tasks(workspace.Id.Value).Any());
 				Assert.IsFalse(WorkspaceService.Clients(workspace.Id.Value).Any());
-				Assert.IsFalse(TimeEntryService.List().Any());
+				Assert.IsFalse(TimeEntryService.List(rte).Any());
 			}
 
 			DefaultWorkspaceId = workspaces.First().Id.Value;
