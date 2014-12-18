@@ -4,14 +4,7 @@ namespace Toggl.Interfaces
 {
     public interface ITaskService
     {
-        /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#get_tasks
-        /// </summary>
-        /// <returns></returns>
-        List<Task> List();
-
-        Task Get(int id);
+		Task Get(int id);
 
         /// <summary>
         /// 

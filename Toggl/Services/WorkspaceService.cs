@@ -15,10 +15,7 @@ namespace Toggl.Services
     /// </summary>
     public class WorkspaceService : IWorkspaceService
     {
-
-
-
-        private IApiService ToggleSrv { get; set; }
+		private IApiService ToggleSrv { get; set; }
 
         public WorkspaceService(string apiKey)
             : this(new ApiService(apiKey))

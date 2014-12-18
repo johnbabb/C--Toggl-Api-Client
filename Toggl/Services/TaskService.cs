@@ -34,19 +34,10 @@ namespace Toggl.Services
             ToggleSrv = srv;
         }
 
-        /// <summary>
-        /// 
-        /// https://www.toggl.com/public/api#get_tasks
-        /// </summary>
-        /// <returns></returns>
-        public List<Task> List()
-        {
-            return ToggleSrv.Get(TogglTasksUrl).GetData<List<Task>>();
-        }
-
         public Task Get(int id)
         {
-            return List().Where(w => w.Id == id).FirstOrDefault();
+	        var url = string.Format(ApiRoutes.Task.TogglTasksGet, id);
+			return ToggleSrv.Get(url).GetData<Task>();
         }
        
         /// <summary>
@@ -68,7 +59,8 @@ namespace Toggl.Services
         /// <returns></returns>
         public Task Edit(Task t)
         {
-            throw new NotImplementedException();
+			var url = string.Format(ApiRoutes.Task.TogglTasksGet, t.Id);
+			return ToggleSrv.Put(url, t.ToJson()).GetData<Task>();
         }
 
         /// <summary>
@@ -79,8 +71,33 @@ namespace Toggl.Services
         /// <returns></returns>
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+			var url = string.Format(ApiRoutes.Task.TogglTasksGet, id);
+
+			var rsp = ToggleSrv.Delete(url);
+
+			return rsp.StatusCode == HttpStatusCode.OK;            
         }
+		
+		public bool DeleteIfAny(int[] ids)
+		{
+			if (!ids.Any() || ids == null)
+				return true;
+			return Delete(ids);
+		}
+
+	    public bool Delete(int[] ids)
+	    {
+			if (!ids.Any() || ids == null)
+				throw new ArgumentNullException("ids");
+
+		    var url = string.Format(
+			    ApiRoutes.Task.TogglTasksGet,
+			    string.Join(",", ids.Select(id => id.ToString()).ToArray()));
+
+		    var rsp = ToggleSrv.Delete(url);
+
+		    return rsp.StatusCode == HttpStatusCode.OK;
+	    }
 
         public List<Task> ForProject(int id)
         {

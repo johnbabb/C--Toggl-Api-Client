@@ -11,15 +11,14 @@ namespace Toggl.Tests
     [TestFixture]
     public class UserTests
     {
-       
-
-        [Test]
+		[Test]
         public void GetCurrentTest()
         {
             var t = new UserService();
-            var obj = t.GetCurrent();
+            var currentUser = t.GetCurrent();
             
-            Assert.AreEqual(Constants.DefaultUserId, obj.Id);
+			Assert.IsNotNull(currentUser);
+            Assert.AreEqual(Constants.DefaultUserId, currentUser.Id);
         }
         
         [Test]

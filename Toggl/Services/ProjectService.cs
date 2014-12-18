@@ -68,11 +68,40 @@ namespace Toggl.Services
             return List().Where(w => w.Id == id).FirstOrDefault();
         }
 
-        public Project Add(Project obj)
+        public Project Add(Project project)
         {
 
-            return ToggleSrv.Post(ProjectsUrl, obj.ToJson()).GetData<Project>();
+            return ToggleSrv.Post(ProjectsUrl, project.ToJson()).GetData<Project>();
         }
+
+	    public bool Delete(int id)
+	    {
+		    var url = string.Format(ApiRoutes.Project.DetailUrl, id);
+		    var rsp = ToggleSrv.Delete(url);
+
+		    return rsp.StatusCode == HttpStatusCode.OK;
+	    }
+
+	    public bool DeleteIfAny(int[] ids)
+	    {
+		    if (!ids.Any() || ids == null)
+				return true;
+		    return Delete(ids);
+	    }
+
+		public bool Delete(int[] ids)
+		{
+			if (!ids.Any() || ids == null)
+				throw new ArgumentNullException("ids");
+
+			var url = string.Format(
+				ApiRoutes.Project.ProjectsBulkDeleteUrl,
+				string.Join(",", ids.Select(id => id.ToString()).ToArray()));
+
+			var rsp = ToggleSrv.Delete(url);
+
+			return rsp.StatusCode == HttpStatusCode.OK;
+		}    
        
     }
 }

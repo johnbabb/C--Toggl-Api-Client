@@ -38,10 +38,13 @@ namespace Toggl.Services
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/clients.md#get-clients-visible-to-user
         /// </summary>
         /// <returns></returns>
-        public List<Client> List()
+        public List<Client> List(bool includeDeleted = false)
         {
-
-            return ToggleSrv.Get(ApiRoutes.Client.ClientsUrl).GetData<List<Client>>();
+	        var result = ToggleSrv.Get(ApiRoutes.Client.ClientsUrl).GetData<List<Client>>();
+			
+			return includeDeleted 
+				? result
+				: result.Where(client => client.DeletedAt == null).ToList();
         }
 
         public Client Get(int id)
@@ -90,7 +93,25 @@ namespace Toggl.Services
             return (res.StatusCode==HttpStatusCode.OK);
         }
 
+		public bool DeleteIfAny(int[] ids)
+		{
+			if (!ids.Any() || ids == null)
+				return true;
+			return Delete(ids);
+		}
 
-       
+	    public bool Delete(int[] ids)
+	    {
+			if (!ids.Any() || ids == null)
+				throw new ArgumentNullException("ids");
+
+		    var result = new Dictionary<int, bool>(ids.Length);
+		    foreach (var id in ids)
+		    {
+			    result.Add(id, Delete(id));
+		    }
+
+		    return !result.ContainsValue(false);
+	    }       
     }
 }

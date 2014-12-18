@@ -237,8 +237,10 @@ namespace Toggl.Services
 
             try
             {
-
-                var rsp = JsonConvert.DeserializeObject<ApiResponse>(content);
+	            ApiResponse rsp = content.ToLower() == "null" 
+					? new ApiResponse { Data = null } 
+					: JsonConvert.DeserializeObject<ApiResponse>(content);
+	            
                 rsp.StatusCode = authResponse.StatusCode;
                 rsp.Method = authResponse.Method;
 

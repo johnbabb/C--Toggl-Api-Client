@@ -131,6 +131,12 @@ namespace Toggl.Tests
         [Test]
         public void GetTimeEntriesByTaskId()
         {
+	        var task = new Task()
+						{
+							Name = "Task #1",
+
+						};
+
             var timeEntryService = new TimeEntryService();
             for (int i = 0; i < 6; i++)
             {

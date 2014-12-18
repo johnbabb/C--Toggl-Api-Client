@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="ApiToken" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">2d1d95cef10e17831ec505e9e6f9f7ea</Value>
+      <Value Profile="(Default)">53e8569674f124ac8226e786168bbd76</Value>
     </Setting>
   </Settings>
 </SettingsFile>

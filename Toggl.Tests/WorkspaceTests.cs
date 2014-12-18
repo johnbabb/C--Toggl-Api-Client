@@ -8,21 +8,26 @@ using Toggl.Services;
 namespace Toggl.Tests
 {
     [TestFixture]
-    public class WorkspaceTests
+    public class WorkspaceTests : BaseTogglApiTest
     {
-        [Test]
+		[Test]
         public void GetWorkSpaces()
-        {
-            var t = new WorkspaceService();
-            t.List();
-            var obj = t.List();
-
-            Assert.GreaterOrEqual(obj.Count(), 0);
+	    {
+		    var workspaces = WorkspaceService.List();
+            Assert.AreEqual(workspaces.Count(), 1);
         }
 
         [Test]
         public void GetWorkSpaceProjects()
         {
+			var workspace = WorkspaceService.List().SingleOrDefault();
+			Assert.IsFalse(WorkspaceService.Projects(workspace.Id.Value).Any());
+
+	        ProjectService.Add(new Project()
+								{
+									
+								});
+			
             var t = new WorkspaceService();
             var obj = t.List().FirstOrDefault();
             var lst = t.Projects(obj.Id.Value);

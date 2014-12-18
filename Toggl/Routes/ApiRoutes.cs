@@ -53,6 +53,7 @@ namespace Toggl
         public class Task
         {
             public readonly static string TogglTasksUrl = TogglBaseUrl + "/tasks";
+            public readonly static string TogglTasksGet = TogglBaseUrl + "/tasks/{0}";            
         }
 
         public class TimeEntry
@@ -67,6 +68,8 @@ namespace Toggl
         }
         public class Project
         {
+			public readonly static string ProjectsBulkDeleteUrl = TogglBaseUrl + "/projects/{0}";
+
             public readonly static string ProjectsUrl = TogglBaseUrl + "/projects";
 
             public readonly static string DetailUrl = TogglBaseUrl + "/projects/{0}";
@@ -74,6 +77,7 @@ namespace Toggl
             public readonly static string UsersUrl = TogglBaseUrl + "/projects/{0}/project_users";
 
             public readonly static string ProjectTasksUrl = TogglBaseUrl + "/projects/{0}/tasks";
+            
              
         }
         public class User
