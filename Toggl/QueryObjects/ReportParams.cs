@@ -37,7 +37,7 @@ namespace Toggl.QueryObjects
         public List<int> TagIds { get; set; }
 
         [JsonProperty(PropertyName = "task_ids")]
-        public List<int> TaskIds { get; set; }
+        public string TaskIds { get; set; }
 
         [JsonProperty(PropertyName = "time_entry_ids")]
         public List<int> TimeEntryIds { get; set; }

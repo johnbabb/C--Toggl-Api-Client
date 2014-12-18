@@ -30,6 +30,7 @@ namespace Toggl.Tests
 			Assert.AreEqual(1, currentUser.Workspaces.Count());
         }
 
+		/*
         [Test]
         public void GetCurrentChangedTest()
         {
@@ -56,6 +57,7 @@ namespace Toggl.Tests
 
             
         }
+		 * */
 
         [Test]
         [TestCase(0)]

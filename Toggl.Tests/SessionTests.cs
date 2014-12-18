@@ -10,7 +10,6 @@ namespace Toggl.Tests
     [TestFixture]
     public class SessionTests
     {
-       
         [Test]
         [TestCase(Constants.ApiToken)]
         public void GetSessionByApiToken(string apiToken)

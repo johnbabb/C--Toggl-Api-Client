@@ -12,13 +12,14 @@ namespace Toggl.Tests
 	[TestFixture]
 	public class BaseTogglApiTest
 	{
-		public static WorkspaceService WorkspaceService;
-		public static ClientService ClientService;
-		public static TaskService TaskService;
-		public static ProjectService ProjectService;
-		public static TagService TagService;
-		public static UserService UserService;
-		public static TimeEntryService TimeEntryService;
+		public WorkspaceService WorkspaceService;
+		public ClientService ClientService;
+		public TaskService TaskService;
+		public ProjectService ProjectService;
+		public TagService TagService;
+		public UserService UserService;
+		public TimeEntryService TimeEntryService;
+		public ReportService ReportService;
 
 		public int DefaultWorkspaceId;
 
@@ -34,6 +35,7 @@ namespace Toggl.Tests
 			ProjectService = new ProjectService();
 			UserService = new UserService();
 			TimeEntryService = new TimeEntryService();
+			ReportService = new ReportService();
 
 			foreach (var workspace in workspaces)
 			{

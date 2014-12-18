@@ -8,69 +8,34 @@ using Toggl.Services;
 namespace Toggl.Tests
 {
     [TestFixture]
-    public class ReportTests
+	public class ReportTests : TogglApiTestWithDefaultProject
     {
-        public static ReportService reportService;
-        public static DetailedReportParams standardParams;
-        [SetUp]
-        public void Init()
-        {
-            reportService = new ReportService();
-            standardParams = new DetailedReportParams()
-                               {
-                                   UserAgent = "test",
-                                   WorkspaceId = Constants.DefaultWorkspaceId,
-                                   Since = DateTime.Now.AddYears(-1).ToIsoDateStr()
-                               };
-            var res = reportService.Detailed(standardParams);
-            var timeEntryService = new TimeEntryService();
-            foreach (var item in res.Data)
-            {
-                timeEntryService.Delete(item.Id.Value);
-            }
-
-            var result = reportService.Detailed(standardParams);
-            Assert.AreEqual(result.Data.Count, 0);
-            Assert.AreEqual(result.TotalCount, 0);
-            
-        }
-
         [Test]
         public void GetDetailedReport()
         {
-            var timeEntryService = new TimeEntryService();
             for (int i = 0; i < 6; i++)
             {
-                var timeEntry = new TimeEntry()
-                                {
-                                    IsBillable = true,
-                                    CreatedWith = "TimeEntryTestAdd",
-                                    Description = "Test Desc" + DateTime.Now.Ticks,
-                                    Duration = 900,
-                                    Start = DateTime.Now.AddDays(-i).ToIsoDateStr(),
-                                    Stop = DateTime.Now.AddDays(-i).AddMinutes(20).ToIsoDateStr(),
-                                    ProjectId = Constants.DefaultProjectId,
-                                    WorkspaceId = Constants.DefaultWorkspaceId     
-                                };
-                var expTimeEntry = timeEntryService.Add(timeEntry);
+				var expTimeEntry = TimeEntryService.Add(new TimeEntry()
+                {
+                    IsBillable = true,
+                    CreatedWith = "TimeEntryTestAdd",
+                    Duration = 900,
+                    Start = DateTime.Now.AddDays(-i).ToIsoDateStr(),
+                    Stop = DateTime.Now.AddDays(-i).AddMinutes(20).ToIsoDateStr(),
+                    ProjectId = DefaultProjectId,
+                    WorkspaceId = DefaultWorkspaceId     
+                });
                 Assert.IsNotNull(expTimeEntry);
             }
 
-            var te = new TimeEntry()
-                     {
-                         IsBillable = true,
-                         CreatedWith = "TimeEntryTestAdd",
-                         Description = "Test Desc" + DateTime.Now.Ticks,
-                         Duration = 900,
-                         Start = DateTime.Now.AddDays(-7).ToIsoDateStr(),
-                         Stop = DateTime.Now.AddDays(-7).AddMinutes(20).ToIsoDateStr(),
-                         ProjectId = Constants.DefaultProjectId,
-                         WorkspaceId = Constants.DefaultWorkspaceId
-                     };
-            var expTe = timeEntryService.Add(te);
-            Assert.IsNotNull(expTe);
+			var standardParams = new DetailedReportParams()
+			{
+				UserAgent = "TogglAPI.Net",
+				WorkspaceId = DefaultWorkspaceId,
+				Since = DateTime.Now.AddYears(-1).ToIsoDateStr()
+			};
 
-            var result = reportService.Detailed(standardParams);
+            var result = ReportService.Detailed(standardParams);
             Assert.AreEqual(result.Data.Count, 6);
             Assert.AreEqual(result.TotalCount, 6);
         }
@@ -89,14 +54,20 @@ namespace Toggl.Tests
                     Duration = 900,
                     Start = DateTime.Now.AddDays(-i).ToIsoDateStr(),
                     Stop = DateTime.Now.AddDays(-i).AddMinutes(20).ToIsoDateStr(),
-                    ProjectId = Constants.DefaultProjectId,
-                    WorkspaceId = Constants.DefaultWorkspaceId
+                    ProjectId = DefaultProjectId,
+                    WorkspaceId = DefaultWorkspaceId
                 };
                 var expTimeEntry = timeEntryService.Add(timeEntry);
                 Assert.IsNotNull(expTimeEntry);
             }
 
-            var result = reportService.Detailed(standardParams);
+			var standardParams = new DetailedReportParams()
+			{
+				UserAgent = "TogglAPI.Net",
+				WorkspaceId = DefaultWorkspaceId				
+			};
+
+            var result = ReportService.Detailed(standardParams);
             Assert.AreEqual(result.Data.Count, 6);
             Assert.AreEqual(result.TotalCount, 6);
 
@@ -108,20 +79,20 @@ namespace Toggl.Tests
                 Duration = 900,
                 Start = DateTime.Now.AddDays(-7).ToIsoDateStr(),
                 Stop = DateTime.Now.AddDays(-7).AddMinutes(20).ToIsoDateStr(),
-                ProjectId = Constants.DefaultProjectId,
-                WorkspaceId = Constants.DefaultWorkspaceId
+                ProjectId = DefaultProjectId,
+                WorkspaceId = DefaultWorkspaceId
             };
             var expTe = timeEntryService.Add(te);
             Assert.IsNotNull(expTe);
 
-            result = reportService.Detailed(standardParams);
+            result = ReportService.Detailed(standardParams);
             Assert.AreEqual(result.Data.Count, 6);
             Assert.AreEqual(result.TotalCount, 6);
 
-            result = reportService.Detailed(new DetailedReportParams()
+            result = ReportService.Detailed(new DetailedReportParams()
                                             {
                                                 UserAgent = "test_api",
-                                                WorkspaceId = Constants.DefaultWorkspaceId,
+                                                WorkspaceId = DefaultWorkspaceId,
                                                 Since = DateTime.Now.AddDays(-7).ToIsoDateStr()
                                             });
             Assert.AreEqual(result.Data.Count, 7);
@@ -131,14 +102,28 @@ namespace Toggl.Tests
         [Test]
         public void GetTimeEntriesByTaskId()
         {
-	        var task = new Task()
-						{
-							Name = "Task #1",
+			var task1 = TaskService.Add(new Task
+			{
+				IsActive = true,
+				Name = "task1",
+				EstimatedSeconds = 3600,
+				WorkspaceId = DefaultWorkspaceId,
+				ProjectId = DefaultProjectId
+			});
+			Assert.IsNotNull(task1);
 
-						};
+			var task2 = TaskService.Add(new Task
+			{
+				IsActive = true,
+				Name = "task2",
+				EstimatedSeconds = 3600,
+				WorkspaceId = DefaultWorkspaceId,
+				ProjectId = DefaultProjectId
+			});
+			Assert.IsNotNull(task2);
 
             var timeEntryService = new TimeEntryService();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 3; i++)
             {
                 var timeEntry = new TimeEntry()
                 {
@@ -148,17 +133,48 @@ namespace Toggl.Tests
                     Duration = 900,
                     Start = DateTime.Now.AddDays(-i).ToIsoDateStr(),
                     Stop = DateTime.Now.AddDays(-i).AddMinutes(20).ToIsoDateStr(),
-                    WorkspaceId = Constants.DefaultWorkspaceId,
-                    TaskId = i % 2
+                    WorkspaceId = DefaultWorkspaceId,
+                    TaskId = task1.Id
                 };
                 var expTimeEntry = timeEntryService.Add(timeEntry);
                 Assert.IsNotNull(expTimeEntry);
             }
 
-            standardParams.TaskIds = new List<int>() {0};
-            var result = reportService.Detailed(standardParams);
+			for (int i = 0; i < 3; i++)
+			{
+				var timeEntry = new TimeEntry()
+				{
+					IsBillable = true,
+					CreatedWith = "TimeEntryTestAdd",
+					Description = "Test Desc" + DateTime.Now.Ticks,
+					Duration = 900,
+					Start = DateTime.Now.AddDays(-i).ToIsoDateStr(),
+					Stop = DateTime.Now.AddDays(-i).AddMinutes(20).ToIsoDateStr(),
+					WorkspaceId = DefaultWorkspaceId,
+					TaskId = task2.Id
+				};
+				var expTimeEntry = timeEntryService.Add(timeEntry);
+				Assert.IsNotNull(expTimeEntry);
+			}
+
+			var standardParams = new DetailedReportParams()
+			{
+				UserAgent = "TogglAPI.Net",
+				WorkspaceId = DefaultWorkspaceId,
+				Since = DateTime.Now.AddYears(-1).ToIsoDateStr(),
+				TaskIds = string.Format("{0},{1}", task1.Id.Value, task2.Id.Value)
+			};
+
+            var result = ReportService.Detailed(standardParams);
             Assert.AreEqual(result.Data.Count, 6);
             Assert.AreEqual(result.TotalCount, 6);
+
+	        standardParams.TaskIds = task1.Id.Value.ToString();
+
+			result = ReportService.Detailed(standardParams);
+			Assert.AreEqual(result.Data.Count, 3);
+			Assert.AreEqual(result.TotalCount, 3);
+
         }
     }
 }

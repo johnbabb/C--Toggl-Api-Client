@@ -53,6 +53,7 @@
     <Compile Include="BaseTogglApiTest.cs" />
     <Compile Include="ClientTests.cs" />
     <Compile Include="ReportTests.cs" />
+    <Compile Include="TogglApiTestWithDefaultProject.cs" />
     <Compile Include="UserTests.cs" />
     <Compile Include="ProjectTests.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

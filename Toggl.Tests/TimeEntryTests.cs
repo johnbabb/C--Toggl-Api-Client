@@ -12,27 +12,9 @@ using Toggl.Services;
 namespace Toggl.Tests
 {
     [TestFixture]
-    public class TimeEntryTests : BaseTogglApiTest
+	public class TimeEntryTests : TogglApiTestWithDefaultProject
     {
-		public static int DefaultProjectId;
-
-		[SetUp]
-		public override void Init()
-		{
-			base.Init();
-
-			var project = ProjectService.Add(new Project
-			{
-				IsBillable = true,
-				WorkspaceId = DefaultWorkspaceId,
-				Name = "New Project" + DateTime.UtcNow,
-				IsAutoEstimates = false
-			});
-
-			DefaultProjectId = project.Id.Value;
-		}
-
-        [Test]
+		[Test]
         public void GetTimeEntries()
         {
             var entries = TimeEntryService.List();

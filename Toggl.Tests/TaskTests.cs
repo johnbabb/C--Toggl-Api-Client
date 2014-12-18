@@ -8,31 +8,9 @@ using Toggl.Services;
 namespace Toggl.Tests
 {
     [TestFixture]
-    public class TaskTests : BaseTogglApiTest
+	public class TaskTests : TogglApiTestWithDefaultProject
     {
-	    public static int DefaultProjectId;
-
-		[SetUp]
-	    public override void Init()
-	    {
-		    base.Init();
-			
-			var project = ProjectService.Add(new Project
-			{
-				IsBillable = true,
-				WorkspaceId = DefaultWorkspaceId,
-				Name = "New Project" + DateTime.UtcNow,
-				IsAutoEstimates = false
-			});
-
-		    DefaultProjectId = project.Id.Value;
-	    }
-
-	    /// <summary>
-        /// 
-        /// 
-        /// </summary>
-        [Test]
+	    [Test]
         public void Add()
         {
 			var task = TaskService.Add(new Task
@@ -136,8 +114,6 @@ namespace Toggl.Tests
 
 			Assert.IsTrue(TaskService.Delete(ids.ToArray()));
 			Assert.AreEqual(0, WorkspaceService.Tasks(DefaultWorkspaceId).Count);
-		}
-    
-		
+		}		
 	}
 }
