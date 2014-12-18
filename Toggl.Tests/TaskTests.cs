@@ -7,7 +7,9 @@ using Toggl.Services;
 
 namespace Toggl.Tests
 {
-    [TestFixture]
+	using global::Toggl.Extensions;
+
+	[TestFixture]
 	public class TaskTests : TogglApiTestWithDefaultProject
     {
 	    [Test]
@@ -114,6 +116,74 @@ namespace Toggl.Tests
 
 			Assert.IsTrue(TaskService.Delete(ids.ToArray()));
 			Assert.AreEqual(0, WorkspaceService.Tasks(DefaultWorkspaceId).Count);
-		}		
-	}
+		}
+
+	    [Test]
+	    public void MergeTwoTasks()
+	    {
+			var task1 = TaskService.Add(new Task
+			{
+				IsActive = true,
+				Name = "task1",
+				EstimatedSeconds = 3600,
+				WorkspaceId = DefaultWorkspaceId,
+				ProjectId = DefaultProjectId
+			});
+			Assert.IsNotNull(task1);
+
+			var task2 = TaskService.Add(new Task
+			{
+				IsActive = true,
+				Name = "task2",
+				EstimatedSeconds = 3600,
+				WorkspaceId = DefaultWorkspaceId,
+				ProjectId = DefaultProjectId
+			});
+			Assert.IsNotNull(task2);
+
+			var timeEntryService = new TimeEntryService();
+			for (int i = 0; i < 3; i++)
+			{
+				var timeEntry = new TimeEntry()
+				{
+					IsBillable = true,
+					CreatedWith = "TimeEntryTestAdd",
+					Description = "Test Desc" + DateTime.Now.Ticks,
+					Duration = 900,
+					Start = DateTime.Now.AddDays(-i).ToIsoDateStr(),
+					Stop = DateTime.Now.AddDays(-i).AddMinutes(20).ToIsoDateStr(),
+					WorkspaceId = DefaultWorkspaceId,
+					TaskId = task1.Id
+				};
+				var expTimeEntry = timeEntryService.Add(timeEntry);
+				Assert.IsNotNull(expTimeEntry);
+			}
+
+			for (int i = 0; i < 3; i++)
+			{
+				var timeEntry = new TimeEntry()
+				{
+					IsBillable = true,
+					CreatedWith = "TimeEntryTestAdd",
+					Description = "Test Desc" + DateTime.Now.Ticks,
+					Duration = 900,
+					Start = DateTime.Now.AddDays(-i).ToIsoDateStr(),
+					Stop = DateTime.Now.AddDays(-i).AddMinutes(20).ToIsoDateStr(),
+					WorkspaceId = DefaultWorkspaceId,
+					TaskId = task2.Id
+				};
+				var expTimeEntry = timeEntryService.Add(timeEntry);
+				Assert.IsNotNull(expTimeEntry);
+			}
+
+			Assert.AreEqual(3, TimeEntryService.List().Count(te => te.TaskId == task1.Id.Value));
+			Assert.AreEqual(3, TimeEntryService.List().Count(te => te.TaskId == task2.Id.Value));
+
+		    TaskService.Merge(task1.Id.Value, task2.Id.Value, DefaultWorkspaceId);
+
+			Assert.AreEqual(6, TimeEntryService.List().Count(te => te.TaskId == task1.Id.Value));
+			Assert.AreEqual(0, TimeEntryService.List().Count(te => te.TaskId == task2.Id.Value));
+			Assert.IsFalse(WorkspaceService.Tasks(DefaultWorkspaceId).Select(t => t.Id).Contains(task2.Id));
+	    }
+    }
 }

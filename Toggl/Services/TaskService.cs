@@ -10,7 +10,10 @@ using Toggl.Properties;
 
 namespace Toggl.Services
 {
-    public class TaskService : ITaskService
+	using global::Toggl.Extensions;
+	using global::Toggl.QueryObjects;
+
+	public class TaskService : ITaskService
     {
         private readonly string TogglTasksUrl = ApiRoutes.Task.TogglTasksUrl;
         
@@ -104,5 +107,35 @@ namespace Toggl.Services
             var url = string.Format(ApiRoutes.Project.ProjectTasksUrl, id);
             return ToggleSrv.Get(url).GetData<List<Task>>();
         }
+
+		public void Merge(int masterTaskId, int slaveTaskId, int workspaceId, string userAgent = "TogglAPI.Net")
+	    {
+		    var reportService = new ReportService(this.ToggleSrv);
+		    var timeEntryService = new TimeEntryService(this.ToggleSrv);
+
+			var reportParams = new DetailedReportParams()
+								{
+									UserAgent = userAgent,
+									WorkspaceId = workspaceId,
+									TaskIds = slaveTaskId.ToString(),
+									Since = DateTime.Now.AddYears(-1).ToIsoDateStr()
+								};
+
+		    var result = reportService.Detailed(reportParams);
+
+		    if (result.TotalCount > result.PerPage)
+			    throw new NotImplementedException();
+
+		    foreach (var timeEntry in result.Data)
+		    {
+			    timeEntry.TaskId = masterTaskId;
+			    var editedTimeEntry = timeEntryService.Edit(timeEntry);
+				if (editedTimeEntry == null)
+					throw new ArgumentNullException(string.Format("Can't edit timeEntry #{0}", timeEntry.Id));
+		    }
+
+		    if (!Delete(slaveTaskId))
+				throw new InvalidOperationException(string.Format("Can't delte task #{0}", slaveTaskId));
+	    }
     }
 }
