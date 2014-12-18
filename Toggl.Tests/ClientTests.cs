@@ -52,7 +52,7 @@ namespace Toggl.Tests
                 Name = "New Client" + DateTime.Now.Ticks,
                 HourlyRate = new Random(13).NextDouble(),
                 Currency = "USD",
-                WorkspaceId =  workSpace.Id
+                WorkspaceId = workSpace.Id
             };
             var act = srv.Add(obj);
 

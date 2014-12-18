@@ -151,3 +151,4 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 packages/Newtonsoft.Json.4.0.8/*
+Mindbox.Tests/*

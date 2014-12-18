@@ -35,5 +35,10 @@ namespace Toggl
         /// </summary>
         [JsonProperty(PropertyName = "at")]
         public DateTime? UpdatedOn { get; set; }
+
+		public override string ToString()
+		{
+			return string.Format("Id: {0}, Name: {1}", this.Id, this.Name);
+		}
     }
 }
