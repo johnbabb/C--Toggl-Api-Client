@@ -72,6 +72,8 @@ namespace Toggl
             public readonly static string DetailUrl = TogglBaseUrl + "/projects/{0}";
 
             public readonly static string UsersUrl = TogglBaseUrl + "/projects/{0}/project_users";
+
+            public readonly static string ProjectTasksUrl = TogglBaseUrl + "/projects/{0}/tasks";
              
         }
         public class User

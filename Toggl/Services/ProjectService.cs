@@ -57,6 +57,12 @@ namespace Toggl.Services
             return ToggleSrv.Get(url).GetData<List<Project>>();
         }
 
+        public List<Project> ForClient(int id)
+        {
+            var url = string.Format(ApiRoutes.Client.ClientProjectsUrl, id);
+            return ToggleSrv.Get(url).GetData<List<Project>>();
+        }
+
         public Project Get(int id)
         {
             return List().Where(w => w.Id == id).FirstOrDefault();

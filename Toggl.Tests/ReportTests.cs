@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Toggl.Extensions;
 using Toggl.QueryObjects;
@@ -10,38 +10,34 @@ namespace Toggl.Tests
     [TestFixture]
     public class ReportTests
     {
+        public static ReportService reportService;
+        public static DetailedReportParams standardParams;
         [SetUp]
         public void Init()
         {
-            var reportService = new ReportService();
-            var reportParams = new DetailedReportParams()
+            reportService = new ReportService();
+            standardParams = new DetailedReportParams()
                                {
                                    UserAgent = "test",
                                    WorkspaceId = Constants.DefaultWorkspaceId,
                                    Since = DateTime.Now.AddYears(-1).ToIsoDateStr()
                                };
-            var res = reportService.Detailed(reportParams);
+            var res = reportService.Detailed(standardParams);
             var timeEntryService = new TimeEntryService();
             foreach (var item in res.Data)
             {
                 timeEntryService.Delete(item.Id.Value);
             }
+
+            var result = reportService.Detailed(standardParams);
+            Assert.AreEqual(result.Data.Count, 0);
+            Assert.AreEqual(result.TotalCount, 0);
             
         }
 
         [Test]
         public void GetDetailedReport()
         {
-            var reportService = new ReportService();
-            var reportParams = new DetailedReportParams()
-                               {
-                                   UserAgent = "test_api",
-                                   WorkspaceId = Constants.DefaultWorkspaceId                                   
-                               };
-            var result = reportService.Detailed(reportParams);
-            Assert.AreEqual(result.Data.Count, 0);
-            Assert.AreEqual(result.TotalCount, 0);
-
             var timeEntryService = new TimeEntryService();
             for (int i = 0; i < 6; i++)
             {
@@ -74,7 +70,7 @@ namespace Toggl.Tests
             var expTe = timeEntryService.Add(te);
             Assert.IsNotNull(expTe);
 
-            result = reportService.Detailed(reportParams);
+            var result = reportService.Detailed(standardParams);
             Assert.AreEqual(result.Data.Count, 6);
             Assert.AreEqual(result.TotalCount, 6);
         }
@@ -82,16 +78,6 @@ namespace Toggl.Tests
         [Test]
         public void GetDetailedReportSince()
         {
-            var reportService = new ReportService();
-            var reportParams = new DetailedReportParams()
-            {
-                UserAgent = "test_api",
-                WorkspaceId = Constants.DefaultWorkspaceId
-            };
-            var result = reportService.Detailed(reportParams);
-            Assert.AreEqual(result.Data.Count, 0);
-            Assert.AreEqual(result.TotalCount, 0);
-
             var timeEntryService = new TimeEntryService();
             for (int i = 0; i < 6; i++)
             {
@@ -110,7 +96,7 @@ namespace Toggl.Tests
                 Assert.IsNotNull(expTimeEntry);
             }
 
-            result = reportService.Detailed(reportParams);
+            var result = reportService.Detailed(standardParams);
             Assert.AreEqual(result.Data.Count, 6);
             Assert.AreEqual(result.TotalCount, 6);
 
@@ -128,7 +114,7 @@ namespace Toggl.Tests
             var expTe = timeEntryService.Add(te);
             Assert.IsNotNull(expTe);
 
-            result = reportService.Detailed(reportParams);
+            result = reportService.Detailed(standardParams);
             Assert.AreEqual(result.Data.Count, 6);
             Assert.AreEqual(result.TotalCount, 6);
 
@@ -140,6 +126,33 @@ namespace Toggl.Tests
                                             });
             Assert.AreEqual(result.Data.Count, 7);
             Assert.AreEqual(result.TotalCount, 7);
+        }
+
+        [Test]
+        public void GetTimeEntriesByTaskId()
+        {
+            var timeEntryService = new TimeEntryService();
+            for (int i = 0; i < 6; i++)
+            {
+                var timeEntry = new TimeEntry()
+                {
+                    IsBillable = true,
+                    CreatedWith = "TimeEntryTestAdd",
+                    Description = "Test Desc" + DateTime.Now.Ticks,
+                    Duration = 900,
+                    Start = DateTime.Now.AddDays(-i).ToIsoDateStr(),
+                    Stop = DateTime.Now.AddDays(-i).AddMinutes(20).ToIsoDateStr(),
+                    WorkspaceId = Constants.DefaultWorkspaceId,
+                    TaskId = i % 2
+                };
+                var expTimeEntry = timeEntryService.Add(timeEntry);
+                Assert.IsNotNull(expTimeEntry);
+            }
+
+            standardParams.TaskIds = new List<int>() {0};
+            var result = reportService.Detailed(standardParams);
+            Assert.AreEqual(result.Data.Count, 6);
+            Assert.AreEqual(result.TotalCount, 6);
         }
     }
 }

@@ -81,5 +81,11 @@ namespace Toggl.Services
         {
             throw new NotImplementedException();
         }
+
+        public List<Task> ForProject(int id)
+        {
+            var url = string.Format(ApiRoutes.Project.ProjectTasksUrl, id);
+            return ToggleSrv.Get(url).GetData<List<Task>>();
+        }
     }
 }
