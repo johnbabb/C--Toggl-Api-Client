@@ -48,6 +48,6 @@ namespace Toggl.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        TimeEntry Delete(int id);
+        bool Delete(int id);
     }
 }

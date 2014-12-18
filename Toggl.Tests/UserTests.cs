@@ -9,31 +9,25 @@ using Toggl.Services;
 namespace Toggl.Tests
 {
     [TestFixture]
-    public class UserTests
+    public class UserTests : BaseTogglApiTest
     {
 		[Test]
         public void GetCurrentTest()
         {
-            var t = new UserService();
-            var currentUser = t.GetCurrent();
-            
-			Assert.IsNotNull(currentUser);
-            Assert.AreEqual(Constants.DefaultUserId, currentUser.Id);
+            var currentUser = UserService.GetCurrent();
+            Assert.IsNotNull(currentUser);            
         }
         
         [Test]
         public void GetCurrentExtendedTest()
         {
-            var t = new UserService();
-            var obj = t.GetCurrentExtended();
+            var currentUser = UserService.GetCurrentExtended();
 
-            Assert.AreEqual(Constants.DefaultUserId, obj.Id);
-
-            Assert.Greater(obj.Clients.Count(), 0);
-            Assert.Greater(obj.Projects.Count(), 0);
-            Assert.Greater(obj.Tags.Count(), 0);
-            Assert.Greater(obj.TimeEntries.Count(), 0);
-            Assert.Greater(obj.Workspaces.Count(), 0);
+			Assert.AreEqual(0, currentUser.Clients.Count(client => client.DeletedAt == null));
+			Assert.IsNull(currentUser.Projects);
+			Assert.IsNull(currentUser.Tags);
+			Assert.IsNull(currentUser.TimeEntries);
+			Assert.AreEqual(1, currentUser.Workspaces.Count());
         }
 
         [Test]
@@ -62,6 +56,7 @@ namespace Toggl.Tests
 
             
         }
+
         [Test]
         [TestCase(0)]
         [TestCase(1)]

@@ -12,21 +12,12 @@ using Toggl.Services;
 namespace Toggl.Tests
 {
     [TestFixture]
-    public class TimeEntryTests
+    public class TimeEntryTests : BaseTogglApiTest
     {
-        TimeEntryService timeEntrySrv = new TimeEntryService();
-
-        [SetUp]
-        public void Init()
-        { /* ... */ }
-
-        [TearDown]
-        public void Dispose()
-        { /* ... */ }
         [Test]
         public void GetTimeEntries()
         {
-            var entries = timeEntrySrv.List();
+            var entries = TimeEntryService.List();
             Assert.GreaterOrEqual(entries.Count(), 0);    
         }
         [Test]
@@ -36,7 +27,7 @@ namespace Toggl.Tests
 
             var rte = new TimeEntryParams {StartDate = @from, EndDate = to};
 
-            var entries = timeEntrySrv.List(rte);
+            var entries = TimeEntryService.List(rte);
 
             Assert.GreaterOrEqual(entries.Count(), 0);
         }
@@ -45,7 +36,7 @@ namespace Toggl.Tests
         [TestCase(51575828)]
         public void GetTimeEntryByID(int id)
         {
-            var entry = timeEntrySrv.Get(id);
+            var entry = TimeEntryService.Get(id);
             Assert.IsTrue(entry.Id == id);
         }
         [Test]
@@ -66,7 +57,7 @@ namespace Toggl.Tests
                 WorkspaceId = Constants.DefaultWorkspaceId                
             };
 
-            var exp = timeEntrySrv.Add(act);
+            var exp = TimeEntryService.Add(act);
 
             Assert.GreaterOrEqual(exp.Id, 0);
             Assert.AreEqual(exp.Description, act.Description);
@@ -95,19 +86,19 @@ namespace Toggl.Tests
                 WorkspaceId = Constants.DefaultWorkspaceId
 
             };
-            exp = timeEntrySrv.Add(exp);
+            exp = TimeEntryService.Add(exp);
 
             Assert.NotNull(exp);
             Assert.Greater(exp.Id, 0);
 
-            exp = timeEntrySrv.Get(exp.Id.Value);
+            exp = TimeEntryService.Get(exp.Id.Value);
 
             exp.Duration += 1000;
             exp.Description += "more by edit";
             tags.Add(exp.Duration.ToString());
             exp.TagNames = tags;
             
-            var act = timeEntrySrv.Edit(exp);
+            var act = TimeEntryService.Edit(exp);
 
             Assert.NotNull(act);
             Assert.Greater(act.Id, 0);
@@ -120,14 +111,14 @@ namespace Toggl.Tests
         [Test]
         public void Delete()
         {
-            var actLst = timeEntrySrv.List();
+            var actLst = TimeEntryService.List();
             var act = actLst.LastOrDefault();
             var expCnt = actLst.Count()-1;
             
 
-            var exp = timeEntrySrv.Delete((int)act.Id);
+            var exp = TimeEntryService.Delete((int)act.Id);
 
-            var actCnt = timeEntrySrv.List().Count();
+            var actCnt = TimeEntryService.List().Count();
 
             Assert.AreEqual(actCnt, expCnt);
         }
@@ -148,9 +139,9 @@ namespace Toggl.Tests
 
             };
 
-            var tmp = timeEntrySrv.Add(act);
+            var tmp = TimeEntryService.Add(act);
             Assert.IsNotNull(tmp);
-            var exp = timeEntrySrv.Get(tmp.Id.Value);
+            var exp = TimeEntryService.Get(tmp.Id.Value);
             Assert.IsNotNull(exp);
             Assert.IsNotNull(exp.ProjectId.Value);
         }
@@ -172,9 +163,9 @@ namespace Toggl.Tests
 
             };
 
-            var tmp = timeEntrySrv.Add(act);
+            var tmp = TimeEntryService.Add(act);
             Assert.IsNotNull(tmp);
-            var exp = timeEntrySrv.Get(tmp.Id.Value);
+            var exp = TimeEntryService.Get(tmp.Id.Value);
             Assert.IsNotNull(exp);
             Assert.IsNotNull(exp.WorkspaceId.Value);
         }

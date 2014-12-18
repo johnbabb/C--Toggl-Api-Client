@@ -6,7 +6,9 @@ using Toggl.Interfaces;
 
 namespace Toggl.Services
 {
-    public class TimeEntryService : ITimeEntryService
+	using System.Net;
+
+	public class TimeEntryService : ITimeEntryService
     {
 
         private IApiService ToggleSrv { get; set; }
@@ -107,14 +109,34 @@ namespace Toggl.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TimeEntry Delete(int id)
+        public bool Delete(int id)
         {
+			var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
 
-            var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
+            var rsp = ToggleSrv.Delete(url);
 
-            var timeEntry = ToggleSrv.Delete(url).GetData<TimeEntry>();
-
-            return timeEntry;
+            return rsp.StatusCode == HttpStatusCode.OK;
         }
+
+		public bool DeleteIfAny(int[] ids)
+		{
+			if (!ids.Any() || ids == null)
+				return true;
+			return Delete(ids);
+		}
+
+		public bool Delete(int[] ids)
+		{
+			if (!ids.Any() || ids == null)
+				throw new ArgumentNullException("ids");
+
+			var result = new Dictionary<int, bool>(ids.Length);
+			foreach (var id in ids)
+			{
+				result.Add(id, Delete(id));
+			}
+
+			return !result.ContainsValue(false);
+		}       
     }
 }
