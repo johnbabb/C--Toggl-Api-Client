@@ -137,5 +137,38 @@ namespace Toggl.Services
 		    if (!Delete(slaveTaskId))
 				throw new InvalidOperationException(string.Format("Can't delte task #{0}", slaveTaskId));
 	    }
+
+		public void Merge(int masterTaskId, int[] slaveTasksIds, int workspaceId, string userAgent = "TogglAPI.Net")
+		{
+			var reportService = new ReportService(this.ToggleSrv);
+			var timeEntryService = new TimeEntryService(this.ToggleSrv);
+
+			var reportParams = new DetailedReportParams()
+			{
+				UserAgent = userAgent,
+				WorkspaceId = workspaceId,
+				TaskIds = string.Join(",", slaveTasksIds.Select(id => id.ToString())),
+				Since = DateTime.Now.AddYears(-1).ToIsoDateStr()
+			};
+
+			var result = reportService.Detailed(reportParams);
+
+			if (result.TotalCount > result.PerPage)
+				throw new NotImplementedException();
+
+			foreach (var timeEntry in result.Data)
+			{
+				timeEntry.TaskId = masterTaskId;
+				var editedTimeEntry = timeEntryService.Edit(timeEntry);
+				if (editedTimeEntry == null)
+					throw new ArgumentNullException(string.Format("Can't edit timeEntry #{0}", timeEntry.Id));
+			}
+
+			foreach (var slaveTaskId in slaveTasksIds)
+			{
+				if (!Delete(slaveTaskId))
+					throw new InvalidOperationException(string.Format("Can't delte task #{0}", slaveTaskId));	
+			}			
+		}
     }
 }

@@ -99,6 +99,22 @@ namespace Toggl.Tests
 			Assert.AreEqual(loadedClient.Name, editedClient.Name);
 			Assert.AreEqual(addedClient.WorkspaceId, editedClient.WorkspaceId);	
 		}
-       
+
+	    [Test]
+	    public void GetByName()
+	    {
+			var addedClient = ClientService.Add(new Client()
+			{
+				Name = "Client #1",
+				WorkspaceId = DefaultWorkspaceId
+			});
+
+			var loadedClient = ClientService.GetByName("Client #1");
+
+			Assert.IsNotNull(loadedClient);
+			Assert.AreEqual(addedClient.Id, loadedClient.Id);
+			Assert.AreEqual(addedClient.Name, loadedClient.Name);
+			Assert.AreEqual(addedClient.WorkspaceId, loadedClient.WorkspaceId);		
+	    }
     }
 }
