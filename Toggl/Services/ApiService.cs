@@ -197,18 +197,18 @@ namespace Toggl.Services
             var authRequest = (HttpWebRequest)HttpWebRequest.Create(apiRequest.Url);
 
             authRequest.Method = apiRequest.Method;
-
-            authRequest.ContentType = apiRequest.ContentType;
-
-            authRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
-
+			authRequest.ContentType = apiRequest.ContentType;
+			authRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
+			
             authRequest.Headers.Add(GetAuthHeader());
 
             if (apiRequest.Method == "POST" || apiRequest.Method == "PUT")
             {
+	            var utd8WithoutBom = new UTF8Encoding(false);
+
                 value += apiRequest.Data;
-                authRequest.ContentLength = value.Length;
-                using (StreamWriter writer = new StreamWriter(authRequest.GetRequestStream(), Encoding.ASCII))
+				authRequest.ContentLength = utd8WithoutBom.GetByteCount(value);
+				using (var writer = new StreamWriter(authRequest.GetRequestStream(), utd8WithoutBom))
                 {
                     writer.Write(value);
                 }

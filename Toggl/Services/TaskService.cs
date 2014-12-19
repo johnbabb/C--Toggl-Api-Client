@@ -7,19 +7,16 @@ using System.Text;
 using Newtonsoft.Json;
 using Toggl.Interfaces;
 using Toggl.Properties;
+using global::Toggl.Extensions;
+using global::Toggl.QueryObjects;
 
 namespace Toggl.Services
 {
-	using global::Toggl.Extensions;
-	using global::Toggl.QueryObjects;
-
 	public class TaskService : ITaskService
     {
         private readonly string TogglTasksUrl = ApiRoutes.Task.TogglTasksUrl;
-        
 
         private IApiService ToggleSrv { get; set; }
-
 
         public TaskService(string apiKey)
             : this(new ApiService(apiKey))
@@ -102,11 +99,44 @@ namespace Toggl.Services
 		    return rsp.StatusCode == HttpStatusCode.OK;
 	    }
 
+		public Task ForProjectByName(Project project, string taskName)
+		{
+			if (!project.Id.HasValue)
+				throw new InvalidOperationException("Project Id not set");
+
+			return ForProjectByName(project.Id.Value, taskName);
+		}
+
+		public Task ForProjectByName(int projectId, string taskName)
+		{
+			var projectTasks = ForProject(projectId);
+			return projectTasks.Single(task => task.Name == taskName);
+		}
+
         public List<Task> ForProject(int id)
         {
             var url = string.Format(ApiRoutes.Project.ProjectTasksUrl, id);
             return ToggleSrv.Get(url).GetData<List<Task>>();
         }
+
+		public List<Task> ForProject(Project project)
+		{
+			if (!project.Id.HasValue)
+				throw new InvalidOperationException("Project Id not set");
+
+			return ForProject(project.Id.Value);
+		}
+
+		public void Merge(Task masterTask, Task slaveTask, int workspaceId, string userAgent = "TogglAPI.Net")
+		{
+			if (!masterTask.Id.HasValue)
+				throw new InvalidOperationException("Master task Id not set");
+
+			if (!slaveTask.Id.HasValue)
+				throw new InvalidOperationException("Slave task Id not set");
+
+			Merge(masterTask.Id.Value, slaveTask.Id.Value, workspaceId, userAgent);
+		}
 
 		public void Merge(int masterTaskId, int slaveTaskId, int workspaceId, string userAgent = "TogglAPI.Net")
 	    {
