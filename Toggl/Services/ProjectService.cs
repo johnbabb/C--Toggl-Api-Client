@@ -57,6 +57,14 @@ namespace Toggl.Services
             return ToggleSrv.Get(url).GetData<List<Project>>();
         }
 
+	    public List<Project> ForClient(Client client)
+	    {
+		    if (!client.Id.HasValue)
+				throw new InvalidOperationException("Client Id not set");
+		    
+			return ForClient(client.Id.Value);
+	    }
+
         public List<Project> ForClient(int id)
         {
             var url = string.Format(ApiRoutes.Client.ClientProjectsUrl, id);

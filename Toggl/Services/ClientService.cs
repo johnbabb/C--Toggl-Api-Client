@@ -71,7 +71,7 @@ namespace Toggl.Services
 
 		    return cachedClients
 				.Values
-				.SingleOrDefault(client => client.Name == name && client.DeletedAt == null);
+				.Single(client => client.Name == name && client.DeletedAt == null);
 	    }
 
         /// <summary>
