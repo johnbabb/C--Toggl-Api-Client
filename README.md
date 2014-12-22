@@ -3,7 +3,7 @@
 TogglAPI.Net is a C# wrapper for the toggl.com api
 
 ## Warning!
-For correct usage you need to change default client-key. You can find it on bottom of the page (https://www.toggl.com/app/profile). You need a **pro** version to use tasks, otherwise test will fail.
+For correct usage you need to change default client-key. You can find it on bottom of the page (https://www.toggl.com/app/profile). You need a **pro** version to use tasks, otherwise some tests will fail.
 
 ## Code Samples
 
@@ -74,4 +74,4 @@ the api key 2d1d95cef10e17831ec505e9e6f9f7ea is a test account so please use it 
 
 ## Copyright
 
-Copyright (c) 2012 John Babb. See LICENSE for details.
+Copyright (c) 2014 Pirozhenko Ilya. See LICENSE for details.
