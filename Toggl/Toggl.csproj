@@ -53,6 +53,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DataObjects\DetailedReport.cs" />
     <Compile Include="DataObjects\Report.cs" />
+    <Compile Include="DataObjects\ReportTimeEntry.cs" />
     <Compile Include="DataObjects\UserAdd.cs" />
     <Compile Include="DataObjects\UserExtended.cs" />
     <Compile Include="DataObjects\UserEdit.cs" />

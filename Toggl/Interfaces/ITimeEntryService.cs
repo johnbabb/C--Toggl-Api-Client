@@ -26,7 +26,7 @@ namespace Toggl.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        TimeEntry Get(int id);
+        TimeEntry Get(long id);
 
         /// <summary>
         /// https://www.toggl.com/public/api#post_time_entries
@@ -48,6 +48,6 @@ namespace Toggl.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        bool Delete(int id);
+        bool Delete(long id);
     }
 }

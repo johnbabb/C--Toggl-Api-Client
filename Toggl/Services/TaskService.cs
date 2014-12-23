@@ -113,6 +113,12 @@ namespace Toggl.Services
 			return projectTasks.Single(task => task.Name == taskName);
 		}
 
+		public Task TryGetForProjectByName(int projectId, string taskName)
+		{
+			var projectTasks = ForProject(projectId);
+			return projectTasks.SingleOrDefault(task => task.Name == taskName);
+		}
+
         public List<Task> ForProject(int id)
         {
             var url = string.Format(ApiRoutes.Project.ProjectTasksUrl, id);
@@ -153,15 +159,21 @@ namespace Toggl.Services
 
 		    var result = reportService.Detailed(reportParams);
 
-		    if (result.TotalCount > result.PerPage)
-			    throw new NotImplementedException();
+			if (result.TotalCount > result.PerPage)
+				result = reportService.FullDetailedReport(reportParams);
 
-		    foreach (var timeEntry in result.Data)
+		    foreach (var reportTimeEntry in result.Data)
 		    {
-			    timeEntry.TaskId = masterTaskId;
-			    var editedTimeEntry = timeEntryService.Edit(timeEntry);
-				if (editedTimeEntry == null)
-					throw new ArgumentNullException(string.Format("Can't edit timeEntry #{0}", timeEntry.Id));
+			    var timeEntry = timeEntryService.Get(reportTimeEntry.Id.Value);
+				timeEntry.TaskId = masterTaskId;
+			    try
+			    {
+				    var editedTimeEntry = timeEntryService.Edit(timeEntry);
+			    }
+			    catch (Exception ex)
+			    {
+				    var res = ex.Data;
+			    }			    
 		    }
 
 		    if (!Delete(slaveTaskId))
@@ -184,14 +196,15 @@ namespace Toggl.Services
 			var result = reportService.Detailed(reportParams);
 
 			if (result.TotalCount > result.PerPage)
-				throw new NotImplementedException();
+				result = reportService.FullDetailedReport(reportParams);
 
-			foreach (var timeEntry in result.Data)
+			foreach (var reportTimeEntry in result.Data)
 			{
+				var timeEntry = timeEntryService.Get(reportTimeEntry.Id.Value);
 				timeEntry.TaskId = masterTaskId;
 				var editedTimeEntry = timeEntryService.Edit(timeEntry);
 				if (editedTimeEntry == null)
-					throw new ArgumentNullException(string.Format("Can't edit timeEntry #{0}", timeEntry.Id));
+					throw new ArgumentNullException(string.Format("Can't edit timeEntry #{0}", reportTimeEntry.Id));
 			}
 
 			foreach (var slaveTaskId in slaveTasksIds)

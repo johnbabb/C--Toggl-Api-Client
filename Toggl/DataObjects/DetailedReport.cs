@@ -5,13 +5,13 @@ namespace Toggl.DataObjects
 {
     public class DetailedReport : Report
     {
-        [JsonProperty(PropertyName = "data")]
-        public List<TimeEntry> Data { get; set; }
-        
+		[JsonProperty(PropertyName = "data")]
+		public List<ReportTimeEntry> Data { get; set; }
+		
         [JsonProperty(PropertyName = "total_count")]
-        public int? TotalCount { get; set; }
+        public long? TotalCount { get; set; }
 
         [JsonProperty(PropertyName = "per_page")]
-        public int? PerPage { get; set; }
+        public long? PerPage { get; set; }
     }
 }

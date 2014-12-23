@@ -66,7 +66,7 @@ namespace Toggl.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TimeEntry Get(int id)
+        public TimeEntry Get(long id)
         {
             var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
             
@@ -109,7 +109,7 @@ namespace Toggl.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public bool Delete(int id)
+        public bool Delete(long id)
         {
 			var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
 
@@ -118,19 +118,19 @@ namespace Toggl.Services
             return rsp.StatusCode == HttpStatusCode.OK;
         }
 
-		public bool DeleteIfAny(int[] ids)
+		public bool DeleteIfAny(long[] ids)
 		{
 			if (!ids.Any() || ids == null)
 				return true;
 			return Delete(ids);
 		}
 
-		public bool Delete(int[] ids)
+		public bool Delete(long[] ids)
 		{
 			if (!ids.Any() || ids == null)
 				throw new ArgumentNullException("ids");
 
-			var result = new Dictionary<int, bool>(ids.Length);
+			var result = new Dictionary<long, bool>(ids.Length);
 			foreach (var id in ids)
 			{
 				result.Add(id, Delete(id));
