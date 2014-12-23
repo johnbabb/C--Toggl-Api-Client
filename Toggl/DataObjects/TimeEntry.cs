@@ -23,13 +23,7 @@ namespace Toggl
         [JsonProperty(PropertyName = "pid")]
 		public long? ProjectId { get; set; }
 
-		[JsonProperty(PropertyName = "project")]
-		public string ProjectName { get; set; }
-
-		[JsonProperty(PropertyName = "client")]
-		public string ClientName { get; set; }
-		
-        [JsonProperty(PropertyName = "tid")]
+		[JsonProperty(PropertyName = "tid")]
 		public long? TaskId { get; set; }
 
 		[JsonProperty(PropertyName = "task")]
