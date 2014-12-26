@@ -6,7 +6,6 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using Toggl.Interfaces;
-using Toggl.Properties;
 
 namespace Toggl.Services
 {
@@ -24,12 +23,7 @@ namespace Toggl.Services
 
         }
 
-        public ProjectService()
-            : this(new ApiService())
-        {
-        }
-
-        public ProjectService(IApiService srv)
+		public ProjectService(IApiService srv)
         {
             ToggleSrv = srv;
         }

@@ -69,7 +69,7 @@ namespace Toggl.Tests
         [TestCase(6)]
         public void EditTest(int dow)
         {
-            var srv = new UserService();
+			var srv = new UserService(Constants.ApiToken);
             var exp = srv.GetCurrent();
             exp.BeginningOfWeek = dow;
 
@@ -82,7 +82,7 @@ namespace Toggl.Tests
         public void AddTest()
         {
             return;
-            var srv = new UserService();
+			var srv = new UserService(Constants.ApiToken);
             var exp = new User();
             exp.Email = "john.babb" + DateTime.Now.Ticks + "@ikoios.com";
             

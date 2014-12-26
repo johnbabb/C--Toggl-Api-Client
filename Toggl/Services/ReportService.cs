@@ -49,11 +49,6 @@ namespace Toggl.Services
 
         }
         
-        public ReportService():this(new ApiService())
-        {
-
-        }
-
         public ReportService(IApiService srv)
         {
             ToggleSrv = srv;

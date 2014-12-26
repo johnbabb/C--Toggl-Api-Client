@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
-using Toggl.Properties;
 
 namespace Toggl.Interfaces
 {

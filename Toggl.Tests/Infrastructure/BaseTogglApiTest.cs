@@ -9,7 +9,6 @@ namespace Toggl.Tests
 {
 	using global::Toggl.QueryObjects;
 
-	[TestFixture]
 	public class BaseTogglApiTest
 	{
 		public WorkspaceService WorkspaceService;
@@ -26,16 +25,16 @@ namespace Toggl.Tests
 		[SetUp]
 		public virtual void Init()
 		{
-			WorkspaceService = new WorkspaceService();
+			WorkspaceService = new WorkspaceService(Constants.ApiToken);
 			var workspaces = WorkspaceService.List();
-			
-			ClientService = new ClientService();
-			TaskService = new TaskService();
-			TagService = new TagService();
-			ProjectService = new ProjectService();
-			UserService = new UserService();
-			TimeEntryService = new TimeEntryService();
-			ReportService = new ReportService();
+
+			ClientService = new ClientService(Constants.ApiToken);
+			TaskService = new TaskService(Constants.ApiToken);
+			TagService = new TagService(Constants.ApiToken);
+			ProjectService = new ProjectService(Constants.ApiToken);
+			UserService = new UserService(Constants.ApiToken);
+			TimeEntryService = new TimeEntryService(Constants.ApiToken);
+			ReportService = new ReportService(Constants.ApiToken);
 
 			foreach (var workspace in workspaces)
 			{

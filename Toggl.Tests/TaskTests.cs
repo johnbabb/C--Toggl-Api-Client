@@ -142,7 +142,7 @@ namespace Toggl.Tests
 			});
 			Assert.IsNotNull(task2);
 
-			var timeEntryService = new TimeEntryService();
+			var timeEntryService = new TimeEntryService(Constants.ApiToken);
 			for (int i = 0; i < 3; i++)
 			{
 				var timeEntry = new TimeEntry()
@@ -220,7 +220,7 @@ namespace Toggl.Tests
 			});
 			Assert.IsNotNull(task3);
 
-			var timeEntryService = new TimeEntryService();
+			var timeEntryService = new TimeEntryService(Constants.ApiToken);
 			for (int i = 0; i < 3; i++)
 			{
 				var timeEntry = new TimeEntry()

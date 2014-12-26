@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Toggl.DataObjects;
 using Toggl.Interfaces;
-using Toggl.Properties;
 
 namespace Toggl.Services
 {
@@ -17,15 +16,9 @@ namespace Toggl.Services
 
         public Session Session { get; set; }
 
-        public ApiService()
-            : this(Settings.Default.ApiToken)
-        {
-        }
-
         public ApiService(string apiToken)
         {
             ApiToken = apiToken;
-            //Initialize();
         }
 
         public void Initialize()

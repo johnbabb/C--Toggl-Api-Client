@@ -19,11 +19,6 @@ namespace Toggl.Services
 
         }
         
-        public TimeEntryService():this(new ApiService())
-        {
-
-        }
-        
         public TimeEntryService(IApiService srv)
         {
             ToggleSrv = srv;

@@ -69,11 +69,8 @@
     <Compile Include="DataObjects\BaseDataObject.cs" />
     <Compile Include="DataObjects\NewBlogPost.cs" />
     <Compile Include="Extensions\Strings.cs" />
-    <Compile Include="Extensions\Dates.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
+    <Compile Include="Extensions\Dates.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="QueryObjects\TimeEntryParams.cs" />
     <Compile Include="DataObjects\Client.cs" />
@@ -108,10 +105,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

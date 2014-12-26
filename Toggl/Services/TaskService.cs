@@ -6,7 +6,6 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using Toggl.Interfaces;
-using Toggl.Properties;
 using global::Toggl.Extensions;
 using global::Toggl.QueryObjects;
 
@@ -22,11 +21,6 @@ namespace Toggl.Services
             : this(new ApiService(apiKey))
         {
 
-        }
-
-        public TaskService()
-            : this(new ApiService())
-        {
         }
 
         public TaskService(IApiService srv)

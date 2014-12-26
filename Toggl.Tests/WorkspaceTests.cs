@@ -27,8 +27,8 @@ namespace Toggl.Tests
 								{
 									
 								});
-			
-            var t = new WorkspaceService();
+
+			var t = new WorkspaceService(Constants.ApiToken);
             var obj = t.List().FirstOrDefault();
             var lst = t.Projects(obj.Id.Value);
             Assert.Greater(lst.Count(),0);
@@ -37,7 +37,7 @@ namespace Toggl.Tests
         [Test]
         public void GetWorkSpaceUsers()
         {
-            var t = new WorkspaceService();
+			var t = new WorkspaceService(Constants.ApiToken);
             var obj = t.List().FirstOrDefault();
             var lst = t.Users(obj.Id.Value);
             Assert.Greater(lst.Count(), 0);
@@ -46,7 +46,7 @@ namespace Toggl.Tests
         [Test]
         public void GetWorkSpaceTags()
         {
-            var t = new WorkspaceService();
+			var t = new WorkspaceService(Constants.ApiToken);
             var obj = t.List().FirstOrDefault();
             var lst = t.Tags(obj.Id.Value);
             Assert.Greater(lst.Count(), 0);
@@ -55,7 +55,7 @@ namespace Toggl.Tests
         [Test]
         public void GetWorkSpaceTasks()
         {
-            var t = new WorkspaceService();
+			var t = new WorkspaceService(Constants.ApiToken);
             var obj = t.List().FirstOrDefault();
             var lst = t.Tasks(obj.Id.Value);
             Assert.Greater(lst.Count(), 0);
@@ -64,7 +64,7 @@ namespace Toggl.Tests
         [Test]
         public void GetWorkSpaceClients()
         {
-            var t = new WorkspaceService();
+			var t = new WorkspaceService(Constants.ApiToken);
             var obj = t.List().FirstOrDefault();
             var lst = t.Clients(obj.Id.Value);
             Assert.Greater(lst.Count(), 0);

@@ -7,7 +7,6 @@ using NUnit.Framework;
 
 namespace Toggl.Tests
 {
-	[TestFixture]
 	public class TogglApiTestWithDefaultProject : BaseTogglApiTest
 	{
 		public int DefaultProjectId;

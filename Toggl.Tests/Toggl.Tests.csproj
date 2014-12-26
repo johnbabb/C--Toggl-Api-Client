@@ -50,18 +50,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseTogglApiTest.cs" />
+    <Compile Include="Infrastructure\BaseTogglApiTest.cs" />
     <Compile Include="ClientTests.cs" />
     <Compile Include="ReportTests.cs" />
     <Compile Include="TogglApiTestWithDefaultProject.cs" />
     <Compile Include="UserTests.cs" />
     <Compile Include="ProjectTests.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Constants.cs" />
+    <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="TaskTests.cs" />
     <Compile Include="SessionTests.cs" />
     <Compile Include="Program.cs" />
@@ -77,10 +72,6 @@
     <None Include="NUnit\nunit.util.dll" />
     <None Include="NUnit\nunit.core.interfaces.dll" />
     <None Include="NUnit\nunit.core.dll" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Toggl\Toggl.csproj">
