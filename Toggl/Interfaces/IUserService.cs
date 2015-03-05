@@ -46,8 +46,8 @@ namespace Toggl.Interfaces
         string ResetApiToken();
 
         /// <summary>
-        /// 
-        /// Get list of users for a workspace
+        ///  Get list of users for a workspace
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/workspaces.md#get-workspace-users
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

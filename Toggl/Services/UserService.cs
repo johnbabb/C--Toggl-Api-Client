@@ -67,7 +67,11 @@ namespace Toggl.Services
 
         public string ResetApiToken()
         {
-            throw new NotImplementedException();
+            var url = ApiRoutes.User.ResetApiTokenUrl;
+
+            var apiToken = ToggleSrv.Post(url, null).GetData<string>();
+
+            return apiToken;
         }
 
         public List<User> GetForWorkspace(int id)
