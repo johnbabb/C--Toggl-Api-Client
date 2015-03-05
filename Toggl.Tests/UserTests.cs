@@ -11,23 +11,23 @@ namespace Toggl.Tests
     [TestFixture]
     public class UserTests : BaseTogglApiTest
     {
-		[Test]
+        [Test]
         public void GetCurrentTest()
         {
             var currentUser = UserService.GetCurrent();
-            Assert.IsNotNull(currentUser);            
+            Assert.IsNotNull(currentUser);
         }
-        
+
         [Test]
         public void GetCurrentExtendedTest()
         {
             var currentUser = UserService.GetCurrentExtended();
 
-			Assert.AreEqual(0, currentUser.Clients.Count(client => client.DeletedAt == null));
-			Assert.IsNull(currentUser.Projects);
-			Assert.IsNull(currentUser.Tags);
-			Assert.IsNull(currentUser.TimeEntries);
-			Assert.AreEqual(1, currentUser.Workspaces.Count());
+            Assert.AreEqual(0, currentUser.Clients.Count(client => client.DeletedAt == null));
+            Assert.IsNull(currentUser.Projects);
+            Assert.IsNull(currentUser.Tags);
+            Assert.IsNull(currentUser.TimeEntries);
+            Assert.AreEqual(1, currentUser.Workspaces.Count());
         }
 
 		/*
@@ -91,5 +91,17 @@ namespace Toggl.Tests
 
             Assert.AreEqual(act.BeginningOfWeek, exp.BeginningOfWeek);
         }
+
+        [Test]
+        public void ResetApiToken()
+        {
+            var oldToken = Constants.ApiToken;
+            var srv = new UserService(oldToken);
+
+            var act = srv.ResetApiToken();
+            Constants.ApiToken = act;           // Update the ApiToken, so that other tests can use the new active apiToken
+            Assert.AreNotEqual(oldToken, act);
+        }
+
     }
 }
