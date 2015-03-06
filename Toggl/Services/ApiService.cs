@@ -236,20 +236,18 @@ namespace Toggl.Services
 	            
                 rsp.StatusCode = authResponse.StatusCode;
                 rsp.Method = authResponse.Method;
-
                 return rsp;
             }
             catch (Exception)
             {
-                var jry = JArray.Parse(content);
+                var token = JToken.Parse(content);
                 var rsp = new ApiResponse()
                     {
-                        Data = jry,
+                        Data = token,
                         related_data_updated_at = DateTime.Now,
                         StatusCode = authResponse.StatusCode,
                         Method = authResponse.Method
                     };
-
                 return rsp;
             }
 

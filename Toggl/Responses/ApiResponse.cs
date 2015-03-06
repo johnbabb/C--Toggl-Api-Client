@@ -22,26 +22,31 @@ namespace Toggl
 
         public T GetData<T>()
         {
-            
-            var obj = (T)Activator.CreateInstance(typeof(T));
             var cverts = new List<JsonConverter>();
             var iso = new IsoDateTimeConverter();
             cverts.Add(iso);
 
+            T obj;
             if (Method == "DELETE" && StatusCode.Equals(HttpStatusCode.OK))
             {
-                return obj;
+                obj = (T)Activator.CreateInstance(typeof(T));
             }
-            
-            if (Data != null)
+            else if (Data != null)
             {
-
-                if (Data is JArray)
+                if (Data is JToken)
                 {
-                    var jray = ((JArray) Data).ToString();
-                    return JsonConvert.DeserializeObject<T>(jray, cverts.ToArray());
+                    var token = JToken.FromObject(Data);
+                    obj = token.ToObject<T>();
                 }
-                return JsonConvert.DeserializeObject<T>(((JObject)Data).ToString(), cverts.ToArray());
+                else
+                {
+                    var json = JsonConvert.SerializeObject(Data, cverts.ToArray());
+                    obj = JsonConvert.DeserializeObject<T>(json, cverts.ToArray());
+                }
+            }
+            else
+            {
+                obj = (T)Activator.CreateInstance(typeof(T));
             }
             return obj;
         }
