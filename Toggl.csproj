@@ -10,9 +10,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Toggl</RootNamespace>
     <AssemblyName>Toggl</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -25,7 +24,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Toggl.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -35,7 +33,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -94,8 +91,6 @@
     <Compile Include="DataObjects\Task.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\Workspace.cs" />
-    <Compile Include="Services\ApiServiceAsync.cs" />
-    <Compile Include="Services\ClientServiceAsync.cs" />
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="Interfaces\IClientService.cs" />
     <Compile Include="Interfaces\IProjectService.cs" />
@@ -104,23 +99,15 @@
     <Compile Include="Interfaces\ITimeEntryService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IWorkspaceService.cs" />
-    <Compile Include="Services\ProjectServiceAsync.cs" />
-    <Compile Include="Services\ReportServiceAsync.cs" />
     <Compile Include="Services\ReportService.cs" />
-    <Compile Include="Services\TagServiceAsync.cs" />
     <Compile Include="Services\TagService.cs" />
-    <Compile Include="Services\TaskServiceAsync.cs" />
-    <Compile Include="Services\TimeEntryServiceAsync.cs" />
-    <Compile Include="Services\UserServiceAsync.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ProjectService.cs" />
-    <Compile Include="Services\WorkspaceServiceAsync.cs" />
     <Compile Include="Services\WorkspaceService.cs" />
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="Services\ApiService.cs" />
     <Compile Include="Services\TimeEntryService.cs" />
     <Compile Include="Interfaces\IApiService.cs" />
-    <Compile Include="TogglAsync.cs" />
     <Compile Include="Toggl.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +117,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Validators\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
