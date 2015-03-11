@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{12E821E7-6E4D-4714-80DD-9157FDDF8179}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Toggl</RootNamespace>
+    <AssemblyName>Toggl</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Toggl.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Toggl\Constants.cs" />
+    <Compile Include="..\Toggl\DataObjects\DetailedReport.cs" />
+    <Compile Include="..\Toggl\DataObjects\Report.cs" />
+    <Compile Include="..\Toggl\DataObjects\ReportTimeEntry.cs" />
+    <Compile Include="..\Toggl\DataObjects\UserAdd.cs" />
+    <Compile Include="..\Toggl\DataObjects\UserExtended.cs" />
+    <Compile Include="..\Toggl\DataObjects\UserEdit.cs" />
+    <Compile Include="..\Toggl\Interfaces\IApiServiceAsync.cs" />
+    <Compile Include="..\Toggl\Interfaces\IClientServiceAsync.cs" />
+    <Compile Include="..\Toggl\Interfaces\IProjectServiceAsync.cs" />
+    <Compile Include="..\Toggl\Interfaces\IReportServiceAsync.cs" />
+    <Compile Include="..\Toggl\Interfaces\IReportService.cs" />
+    <Compile Include="..\Toggl\Interfaces\ITagServiceAsync.cs" />
+    <Compile Include="..\Toggl\Interfaces\ITaskServiceAsync.cs" />
+    <Compile Include="..\Toggl\Interfaces\ITimeEntryServiceAsync.cs" />
+    <Compile Include="..\Toggl\Interfaces\IUserServiceAsync.cs" />
+    <Compile Include="..\Toggl\Interfaces\IWorkspaceServiceAsync.cs" />
+    <Compile Include="..\Toggl\QueryObjects\DetailedReportParams.cs" />
+    <Compile Include="..\Toggl\QueryObjects\ReportParams.cs" />
+    <Compile Include="..\Toggl\Responses\ApiResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Toggl\Routes\ApiRoutes.cs" />
+    <Compile Include="..\Toggl\Requests\ApiRequest.cs" />
+    <Compile Include="..\Toggl\Converters\TogglDateTimeConverter.cs" />
+    <Compile Include="..\Toggl\DataObjects\BaseDataObject.cs" />
+    <Compile Include="..\Toggl\DataObjects\NewBlogPost.cs" />
+    <Compile Include="..\Toggl\Extensions\Strings.cs" />
+    <Compile Include="..\Toggl\Extensions\Dates.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="..\Toggl\QueryObjects\TimeEntryParams.cs" />
+    <Compile Include="..\Toggl\DataObjects\Client.cs" />
+    <Compile Include="..\Toggl\DataObjects\Tag.cs" />
+    <Compile Include="..\Toggl\DataObjects\Session.cs" />
+    <Compile Include="..\Toggl\DataObjects\TimeEntry.cs" />
+    <Compile Include="..\Toggl\DataObjects\Project.cs" />
+    <Compile Include="..\Toggl\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Toggl\DataObjects\Task.cs" />
+    <Compile Include="..\Toggl\DataObjects\User.cs" />
+    <Compile Include="..\Toggl\DataObjects\Workspace.cs" />
+    <Compile Include="..\Toggl\Services\ApiServiceAsync.cs" />
+    <Compile Include="..\Toggl\Services\ClientService.cs" />
+    <Compile Include="..\Toggl\Interfaces\IClientService.cs" />
+    <Compile Include="..\Toggl\Interfaces\IProjectService.cs" />
+    <Compile Include="..\Toggl\Interfaces\ITagService.cs" />
+    <Compile Include="..\Toggl\Interfaces\ITaskService.cs" />
+    <Compile Include="..\Toggl\Interfaces\ITimeEntryService.cs" />
+    <Compile Include="..\Toggl\Interfaces\IUserService.cs" />
+    <Compile Include="..\Toggl\Interfaces\IWorkspaceService.cs" />
+    <Compile Include="..\Toggl\Services\ReportService.cs" />
+    <Compile Include="..\Toggl\Services\TagService.cs" />
+    <Compile Include="..\Toggl\Services\UserService.cs" />
+    <Compile Include="..\Toggl\Services\ProjectService.cs" />
+    <Compile Include="..\Toggl\Services\WorkspaceService.cs" />
+    <Compile Include="..\Toggl\Services\TaskService.cs" />
+    <Compile Include="..\Toggl\Services\ApiService.cs" />
+    <Compile Include="..\Toggl\Services\TimeEntryService.cs" />
+    <Compile Include="..\Toggl\Interfaces\IApiService.cs" />
+    <Compile Include="..\Toggl\Toggl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
