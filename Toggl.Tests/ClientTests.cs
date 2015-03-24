@@ -47,6 +47,13 @@ namespace Toggl.Tests
         }
 
 		[Test]
+	    public void GetViaRestSharp()
+		{
+			var restSharpClient = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+			var res = restSharpClient.GetClientInfo();
+		}
+
+		[Test]
         public void Delete()
         {
 			var addedClient = ClientService.Add(new Client()
