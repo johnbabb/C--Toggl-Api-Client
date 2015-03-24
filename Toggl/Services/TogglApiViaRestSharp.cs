@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using RestSharp;
 
@@ -43,7 +44,7 @@ namespace Toggl
 			return response.Data;
 		}
 
-		public ClientRestSharp GetClientInfo()
+		public UserRestSharp GetUserInfo()
 		{
 			var request = new RestRequest();
 			request.Resource = "me";
@@ -51,7 +52,15 @@ namespace Toggl
 
 			// request.AddParameter("CallSid", callSid, ParameterType.UrlSegment);
 
-			return Execute<ClientRestSharp>(request);
+			return Execute<UserRestSharp>(request);
+		}
+
+		public List<ClientRestSharp> GetClientsVisibleToUser()
+		{
+			var request = new RestRequest();
+			request.Resource = "clients";
+
+			return Execute<List<ClientRestSharp>>(request);
 		}
 	}
 }

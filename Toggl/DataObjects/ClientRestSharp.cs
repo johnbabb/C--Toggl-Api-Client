@@ -10,57 +10,51 @@ namespace Toggl
     /// <summary>
     /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/clients.md#clients
     /// </summary>
-    public class ClientRestSharp
+	public class ClientRestSharp
     {
         /// <summary>
         /// id : The client id
         /// </summary>
-        public int id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// name: The name of the client (string, required, unique in workspace)
         /// </summary>
-        public string fullname { get; set; }
-		public string email { get; set; }
-		public string defualt_wid { get; set; }
-		public string date_format { get; set; }
-		public bool store_start_and_stop_time { get; set; }
-		public int beginning_of_week { get; set; }
-		public string language { get; set; }
-		public string image_url { get; set; }
-		public string new_blog_post { get; set; }
-		
+        public string Name { get; set; }
+
+        /// <summary>
+        /// wid: workspace ID, where the client will be used (integer, required)
+        /// </summary>
+        public int wid { get; set; }
+
         /// <summary>
         /// notes: Notes for the client (string, not required)
         /// </summary>
-        [JsonProperty(PropertyName = "notes")]
         public string Notes { get; set; }
 
         /// <summary>
         /// hrate: The hourly rate for this client (float, not required, available only for pro workspaces)
         /// </summary>
         [JsonProperty(PropertyName = "hrate")]
-        public double? HourlyRate { get; set; }
+        public double? hrate { get; set; }
 
         /// <summary>
         /// cur: The name of the client's currency (string, not required, available only for pro workspaces)
         /// </summary>
-        [JsonProperty(PropertyName = "cur")]
-        public string Currency { get; set; }
+        public string cur { get; set; }
 
         /// <summary>
         /// at: timestamp that is sent in the response, indicates the time client was last updated
         /// </summary>
-        [JsonProperty(PropertyName = "at")]
-        public DateTime? UpdatedOn { get; set; }
+        public DateTime at { get; set; }
 
-		[JsonProperty(PropertyName = "server_deleted_at")]
-		public DateTime? DeletedAt { get; set; }
+		//TODO: add some description
+		public DateTime? server_deleted_at { get; set; }
 		
 
 	    public override string ToString()
 	    {
-		    return string.Format("Id: {0}, Name: {1} {2}", this.id, this.fullname, DeletedAt == null ? string.Empty : "[DELETED]");
+		    return string.Format("Id: {0}, Name: {1} {2}", this.Id, this.Name, server_deleted_at == null ? string.Empty : "[DELETED]");
 	    }
     }
 }

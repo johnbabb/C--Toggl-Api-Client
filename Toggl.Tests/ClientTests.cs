@@ -16,6 +16,16 @@ namespace Toggl.Tests
 			Assert.IsFalse(ClientService.List().Any());
         }
 
+
+		[Test]
+		public void NoClientsByDefaultRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var clientsList = client.GetClientsVisibleToUser();
+			Assert.IsFalse(clientsList.Any());
+		}
+
 	    [Test]
 	    public void Add()
 	    {
@@ -38,6 +48,7 @@ namespace Toggl.Tests
 				WorkspaceId = DefaultWorkspaceId
 			});
 
+
 			var loadedClient = ClientService.Get(addedClient.Id.Value);
 
             Assert.IsNotNull(loadedClient);
@@ -45,13 +56,6 @@ namespace Toggl.Tests
 			Assert.AreEqual(addedClient.Name, loadedClient.Name);
 			Assert.AreEqual(addedClient.WorkspaceId, loadedClient.WorkspaceId);			
         }
-
-		[Test]
-	    public void GetViaRestSharp()
-		{
-			var restSharpClient = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
-			var res = restSharpClient.GetClientInfo();
-		}
 
 		[Test]
         public void Delete()
@@ -123,5 +127,7 @@ namespace Toggl.Tests
 			Assert.AreEqual(addedClient.Name, loadedClient.Name);
 			Assert.AreEqual(addedClient.WorkspaceId, loadedClient.WorkspaceId);		
 	    }
+
+
     }
 }

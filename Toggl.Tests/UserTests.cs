@@ -11,6 +11,18 @@ namespace Toggl.Tests
     [TestFixture]
     public class UserTests : BaseTogglApiTest
     {
+
+		[Test]
+		public void GetViaRestSharp()
+		{
+			var restSharpClient = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+			var user = restSharpClient.GetUserInfo();
+
+			Assert.IsNotNull(user);
+
+
+		}
+
         [Test]
         public void GetCurrentTest()
         {
