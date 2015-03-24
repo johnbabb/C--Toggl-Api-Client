@@ -152,3 +152,5 @@ $RECYCLE.BIN/
 .DS_Store
 packages/Newtonsoft.Json.4.0.8/*
 Mindbox.Tests/*
+packages/RestSharp.105.0.1/*
+NugetPackagingStaff/TogglAPI.Net.0.2.nupkg
