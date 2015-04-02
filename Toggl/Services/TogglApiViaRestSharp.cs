@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Newtonsoft.Json;
+
 using RestSharp;
 
 namespace Toggl
@@ -33,7 +35,7 @@ namespace Toggl
 			client.BaseUrl = new Uri("https://www.toggl.com/api/v8");
 			client.Authenticator = new HttpBasicAuthenticator(username, password);
 			
-			var response = client.Execute<T>(request);
+			var response = client.Execute(request);
 
 			if (response.ErrorException != null)
 			{
@@ -41,7 +43,11 @@ namespace Toggl
 				var togglException = new ApplicationException(message, response.ErrorException);
 				throw togglException;
 			}
-			return response.Data;
+
+			if (response.Content == null)
+				return default(T);
+
+			return JsonConvert.DeserializeObject<T>(response.Content);
 		}
 
 		public UserRestSharp GetUserInfo()
@@ -60,7 +66,12 @@ namespace Toggl
 			var request = new RestRequest();
 			request.Resource = "clients";
 
-			return Execute<List<ClientRestSharp>>(request);
+			var result = Execute<List<ClientRestSharp>>(request);
+
+			if (result == null)
+				return new List<ClientRestSharp>();
+
+			return result;
 		}
 	}
 }

@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="DataObjects\ClientRestSharp.cs" />
+    <Compile Include="DataObjects\ClientsListRestSharp.cs" />
     <Compile Include="DataObjects\DetailedReport.cs" />
     <Compile Include="DataObjects\Report.cs" />
     <Compile Include="DataObjects\ReportTimeEntry.cs" />
