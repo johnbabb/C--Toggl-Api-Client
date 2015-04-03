@@ -27,6 +27,29 @@ namespace Toggl.Tests
 		}
 
 		[Test]
+		public void GetClientsRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var clientsList = client.GetClientsVisibleToUser();
+			Assert.IsFalse(clientsList.Any());
+
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+			{
+				name = "Test Client",
+				wid = workspaceId.Value
+			};
+
+			client.CreateClient(clientToAdd);
+
+			clientsList = client.GetClientsVisibleToUser();
+			Assert.AreEqual(1, clientsList.Count);
+
+		}
+
+		[Test]
 		public void AddClientRestSHarp()
 		{
 			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
@@ -71,7 +94,54 @@ namespace Toggl.Tests
 			Assert.AreEqual(addedClient.wid, loadedClient.wid);
 		}
 
+		[Test]
+		public void UpdateClientRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
 
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+			{
+				name = "Test Client",
+				wid = workspaceId.Value
+			};
+
+			var addedClient = client.CreateClient(clientToAdd);
+
+			addedClient.notes = "Edited client";
+			
+			var editedClient = client.UpdateClient(addedClient);
+
+			Assert.AreEqual(addedClient.name, editedClient.name);
+			Assert.AreEqual(addedClient.cur, editedClient.cur);
+			Assert.AreEqual(addedClient.hrate, editedClient.hrate);
+			Assert.AreEqual("Edited client", editedClient.notes);
+			Assert.AreEqual(addedClient.wid, editedClient.wid);
+		}
+
+		[Test]
+		public void DeleteClientRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+			{
+				name = "Test Client",
+				wid = workspaceId.Value
+			};
+
+			var addedClient = client.CreateClient(clientToAdd);
+
+			Assert.AreEqual(1, client.GetClientsVisibleToUser().Count);
+
+			client.DeleteClient(addedClient.id.Value);
+
+			Assert.AreEqual(0, client.GetClientsVisibleToUser().Count);			
+		}
+		
 	    [Test]
 	    public void Add()
 	    {

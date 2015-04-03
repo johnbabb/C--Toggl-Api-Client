@@ -116,5 +116,30 @@ namespace Toggl
 
 			return result;
 		}
+
+		public ClientRestSharp UpdateClient(ClientRestSharp updatedClient)
+		{
+			var request = new RestRequest();
+			request.Resource = "clients/{client_id}";
+			request.Method = Method.PUT;
+			request.RootElement = "data";
+			request.RequestFormat = DataFormat.Json;
+			request.AddBody(new { client = updatedClient });
+			request.AddParameter("client_id", updatedClient.id.Value, ParameterType.UrlSegment);
+
+			return Execute<ClientRestSharp>(request);		
+		}
+
+		public void DeleteClient(int id)
+		{
+			var request = new RestRequest();
+			request.Resource = "clients/{client_id}";
+			request.Method = Method.DELETE;
+			request.RootElement = "data";
+			request.RequestFormat = DataFormat.Json;
+			request.AddParameter("client_id", id, ParameterType.UrlSegment);
+
+			Execute<object>(request);	
+		}
 	}
 }
