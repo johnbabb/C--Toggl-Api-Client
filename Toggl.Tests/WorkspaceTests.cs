@@ -11,6 +11,15 @@ namespace Toggl.Tests
     public class WorkspaceTests : BaseTogglApiTest
     {
 		[Test]
+		public void GetWorkSpacesRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var workspaces = client.GetWorkspaces();
+			Assert.AreEqual(workspaces.Count(), 1); //by default user also have one workspace
+		}
+
+		[Test]
         public void GetWorkSpaces()
 	    {
 		    var workspaces = WorkspaceService.List();

@@ -26,6 +26,52 @@ namespace Toggl.Tests
 			Assert.IsFalse(clientsList.Any());
 		}
 
+		[Test]
+		public void AddClientRestSHarp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+						{
+							name = "Test Client",
+							wid = workspaceId.Value
+						};
+
+			var addedClient = client.CreateClient(clientToAdd);
+			
+			Assert.IsNotNull(addedClient);
+			Assert.AreEqual("Test Client", addedClient.name);
+			Assert.AreEqual(workspaceId, addedClient.wid);
+			Assert.IsTrue(addedClient.id.HasValue);
+		}
+
+		[Test]
+		public void GetClientDetailsRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+			{
+				name = "Test Client",
+				wid = workspaceId.Value
+			};
+
+			var addedClient = client.CreateClient(clientToAdd);
+
+			var loadedClient = client.GetClientDetails(addedClient.id.Value);
+
+			Assert.AreEqual(addedClient.name, loadedClient.name);
+			Assert.AreEqual(addedClient.cur, loadedClient.cur);
+			Assert.AreEqual(addedClient.hrate, loadedClient.hrate);
+			Assert.AreEqual(addedClient.notes, loadedClient.notes);
+			Assert.AreEqual(addedClient.wid, loadedClient.wid);
+		}
+
+
 	    [Test]
 	    public void Add()
 	    {

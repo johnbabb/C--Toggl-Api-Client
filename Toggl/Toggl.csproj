@@ -66,6 +66,7 @@
     <Compile Include="DataObjects\UserAdd.cs" />
     <Compile Include="DataObjects\UserExtended.cs" />
     <Compile Include="DataObjects\UserEdit.cs" />
+    <Compile Include="DataObjects\WorkspaceRestSharp.cs" />
     <Compile Include="Interfaces\IApiServiceAsync.cs" />
     <Compile Include="Interfaces\IClientServiceAsync.cs" />
     <Compile Include="Interfaces\IProjectServiceAsync.cs" />

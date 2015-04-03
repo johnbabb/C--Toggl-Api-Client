@@ -12,20 +12,21 @@ namespace Toggl
     /// </summary>
 	public class ClientRestSharp
     {
+		public int? id { get; set; }
         /// <summary>
         /// name: The name of the client (string, required, unique in workspace)
         /// </summary>
-        public string Name { get; set; }
+        public string name { get; set; }
 
         /// <summary>
         /// wid: workspace ID, where the client will be used (integer, required)
         /// </summary>
-        public int? wid { get; set; }
+        public int wid { get; set; }
 
         /// <summary>
         /// notes: Notes for the client (string, not required)
         /// </summary>
-        public string Notes { get; set; }
+        public string notes { get; set; }
 
         /// <summary>
         /// hrate: The hourly rate for this client (float, not required, available only for pro workspaces)
@@ -40,7 +41,7 @@ namespace Toggl
         /// <summary>
         /// at: timestamp that is sent in the response, indicates the time client was last updated
         /// </summary>
-        public DateTime? at { get; set; }
+        public DateTime at { get; set; }
 
 		//TODO: add some description
 		public DateTime? server_deleted_at { get; set; }
@@ -48,7 +49,7 @@ namespace Toggl
 
 	    public override string ToString()
 	    {
-		    return string.Format("Name: {1} {2}", this.Name, server_deleted_at == null ? string.Empty : "[DELETED]");
+		    return string.Format("Name: {0} {1}", this.name, server_deleted_at == null ? string.Empty : "[DELETED]");
 	    }
     }
 }

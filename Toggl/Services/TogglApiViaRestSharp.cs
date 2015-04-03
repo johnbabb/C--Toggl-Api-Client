@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Newtonsoft.Json;
 
@@ -35,7 +36,10 @@ namespace Toggl
 			client.BaseUrl = new Uri("https://www.toggl.com/api/v8");
 			client.Authenticator = new HttpBasicAuthenticator(username, password);
 			
-			var response = client.Execute(request);
+			var response = client.Execute<T>(request);
+
+			if (response.Content == "null") // Toggl returns "null", when no elements found
+				return default(T);
 
 			if (response.ErrorException != null)
 			{
@@ -44,10 +48,14 @@ namespace Toggl
 				throw togglException;
 			}
 
-			if (response.Content == null)
-				return default(T);
-
-			return JsonConvert.DeserializeObject<T>(response.Content);
+			if (response.StatusCode != HttpStatusCode.OK)
+				throw new ApplicationException(
+					string.Format(
+						"Response status code: {0}, Response content: {1}",
+						response.StatusCode, 
+						response.Content ?? "empty"));
+	
+			return response.Data;
 		}
 
 		public UserRestSharp GetUserInfo()
@@ -56,8 +64,6 @@ namespace Toggl
 			request.Resource = "me";
 			request.RootElement = "data";
 
-			// request.AddParameter("CallSid", callSid, ParameterType.UrlSegment);
-
 			return Execute<UserRestSharp>(request);
 		}
 
@@ -65,11 +71,48 @@ namespace Toggl
 		{
 			var request = new RestRequest();
 			request.Resource = "clients";
-
+			
 			var result = Execute<List<ClientRestSharp>>(request);
 
 			if (result == null)
 				return new List<ClientRestSharp>();
+
+			return result;
+		}
+
+		public ClientRestSharp CreateClient(ClientRestSharp clientToAdd)
+		{
+			var request = new RestRequest();
+			request.Resource = "clients";
+			request.Method = Method.POST;
+			request.RootElement = "data";
+			request.RequestFormat = DataFormat.Json;
+			request.AddBody(new { client = clientToAdd });
+			
+			return Execute<ClientRestSharp>(request);			
+		}
+
+		public ClientRestSharp GetClientDetails(int id)
+		{
+			var request = new RestRequest();
+			request.Resource = "clients/{client_id}";
+			request.Method = Method.GET;
+			request.RootElement = "data";
+			request.RequestFormat = DataFormat.Json;
+			request.AddParameter("client_id", id, ParameterType.UrlSegment);
+
+			return Execute<ClientRestSharp>(request);
+		}
+
+		public List<WorkspaceRestSharp> GetWorkspaces()
+		{
+			var request = new RestRequest();
+			request.Resource = "workspaces";
+
+			var result = Execute<List<WorkspaceRestSharp>>(request);
+
+			if (result == null)
+				return new List<WorkspaceRestSharp>();
 
 			return result;
 		}
