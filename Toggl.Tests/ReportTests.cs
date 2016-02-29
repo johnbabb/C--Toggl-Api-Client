@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Toggl.Extensions;
 using Toggl.QueryObjects;
@@ -23,7 +24,8 @@ namespace Toggl.Tests
                     Start = DateTime.Now.AddDays(-i).ToIsoDateStr(),
                     Stop = DateTime.Now.AddDays(-i).AddMinutes(20).ToIsoDateStr(),
                     ProjectId = DefaultProjectId,
-                    WorkspaceId = DefaultWorkspaceId     
+                    WorkspaceId = DefaultWorkspaceId,
+                    TagNames = new List<string> { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() }
                 });
                 Assert.IsNotNull(expTimeEntry);
             }
@@ -36,8 +38,9 @@ namespace Toggl.Tests
 			};
 
             var result = ReportService.Detailed(standardParams);
-            Assert.AreEqual(result.Data.Count, 6);
-            Assert.AreEqual(result.TotalCount, 6);
+            Assert.AreEqual(6, result.Data.Count);
+            Assert.AreEqual(6, result.TotalCount);
+            Assert.IsTrue(result.Data.All(t => t.TagNames.Count == 2));
         }
 
         [Test]
@@ -64,7 +67,7 @@ namespace Toggl.Tests
 			var standardParams = new DetailedReportParams()
 			{
 				UserAgent = "TogglAPI.Net",
-				WorkspaceId = DefaultWorkspaceId				
+				WorkspaceId = DefaultWorkspaceId
 			};
 
             var result = ReportService.Detailed(standardParams);

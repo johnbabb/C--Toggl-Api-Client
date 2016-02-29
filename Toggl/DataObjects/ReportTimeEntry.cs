@@ -63,7 +63,10 @@ namespace Toggl.DataObjects
 		[JsonProperty(PropertyName = "billable")]
 		public long? Billable { get; set; }
 
-		public override string ToString()
+        [JsonProperty(PropertyName = "tags")]
+        public List<string> TagNames { get; set; }
+
+        public override string ToString()
 		{
 			return string.Format("Id: {0}, Start: {1}, Stop: {2}, TaskId: {3}", this.Id, this.Start, this.Stop, this.TaskId);
 		}
