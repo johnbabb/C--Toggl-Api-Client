@@ -125,9 +125,9 @@ namespace Toggl.Services
 		/// <returns>The stopped TimeEntry.</returns>
         public async System.Threading.Tasks.Task<TimeEntry> Stop(TimeEntry obj)
         {
-            var url = ApiRoutes.TimeEntry.TimeEntryStopUrl;
+            var url = string.Format(ApiRoutes.TimeEntry.TimeEntryStopUrl, obj.Id);
 
-            var response = await ToggleSrv.Post(url, obj.ToJson());
+            var response = await ToggleSrv.Put(url, obj.ToJson());
             var timeEntry = response.GetData<TimeEntry>();
 
             return timeEntry;
