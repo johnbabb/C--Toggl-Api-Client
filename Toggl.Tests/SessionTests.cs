@@ -10,14 +10,12 @@ namespace Toggl.Tests
     [TestFixture]
     public class SessionTests
     {
-       
         [Test]
-        [TestCase(Constants.ApiToken)]
-        public void GetSessionByApiToken(string apiToken)
+        public void GetSessionByApiToken()
         {
-            var t = new ApiService(apiToken);
+            var t = new ApiService(Constants.ApiToken);
             var s = t.GetSession();
-            Assert.AreEqual(s.ApiToken, Constants.ApiToken);
+            Assert.AreEqual(Constants.ApiToken, s.ApiToken);
         }
     }
 }

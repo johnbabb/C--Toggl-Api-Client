@@ -6,18 +6,14 @@ using Toggl.Interfaces;
 
 namespace Toggl.Services
 {
-    public class TimeEntryService : ITimeEntryService
-    {
+	using System.Net;
 
+	public class TimeEntryService : ITimeEntryService
+    {
         private IApiService ToggleSrv { get; set; }
 
         public TimeEntryService(string apiKey)
             : this(new ApiService(apiKey))
-        {
-
-        }
-        
-        public TimeEntryService():this(new ApiService())
         {
 
         }
@@ -28,7 +24,8 @@ namespace Toggl.Services
         }
 
         /// <summary>
-        /// https://www.toggl.com/public/api#get_time_entries
+        /// 
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#get-time-entries-started-in-a-specific-time-range
         /// </summary>
         /// <returns></returns>
         public List<TimeEntry> ListRecent()
@@ -40,9 +37,10 @@ namespace Toggl.Services
         {
             return List(new QueryObjects.TimeEntryParams());
         }
+
         /// <summary>
         /// 
-        /// https://www.toggl.com/public/api#get_time_entries_by_range
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#get-time-entries-started-in-a-specific-time-range
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -60,11 +58,25 @@ namespace Toggl.Services
 
         /// <summary>
         /// 
-        /// https://www.toggl.com/public/api#get_time_entry
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#get-time-entry-details
+        /// </summary>
+        /// <returns></returns>
+	    public TimeEntry Current()
+        {
+            var url = ApiRoutes.TimeEntry.TimeEntryCurrentUrl;
+
+            var timeEntry = ToggleSrv.Get(url).GetData<TimeEntry>();
+
+            return timeEntry;
+        }
+
+	    /// <summary>
+        /// 
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#get-time-entry-details
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TimeEntry Get(int id)
+        public TimeEntry Get(long id)
         {
             var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
             
@@ -74,7 +86,8 @@ namespace Toggl.Services
         }
         
         /// <summary>
-        /// https://www.toggl.com/public/api#post_time_entries
+        /// 
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#create-a-time-entry
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -88,7 +101,7 @@ namespace Toggl.Services
         }
 
         /// <summary>
-        /// https://www.toggl.com/public/api#put_time_entries
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#update-a-time-entry
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -103,18 +116,38 @@ namespace Toggl.Services
 
         /// <summary>
         /// 
-        /// https://www.toggl.com/public/api#del_time_entries
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#delete-a-time-entry
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TimeEntry Delete(int id)
+        public bool Delete(long id)
         {
+			var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
 
-            var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
+            var rsp = ToggleSrv.Delete(url);
 
-            var timeEntry = ToggleSrv.Delete(url).GetData<TimeEntry>();
-
-            return timeEntry;
+            return rsp.StatusCode == HttpStatusCode.OK;
         }
+
+		public bool DeleteIfAny(long[] ids)
+		{
+			if (!ids.Any() || ids == null)
+				return true;
+			return Delete(ids);
+		}
+
+		public bool Delete(long[] ids)
+		{
+			if (!ids.Any() || ids == null)
+				throw new ArgumentNullException("ids");
+
+			var result = new Dictionary<long, bool>(ids.Length);
+			foreach (var id in ids)
+			{
+				result.Add(id, Delete(id));
+			}
+
+			return !result.ContainsValue(false);
+		}       
     }
 }

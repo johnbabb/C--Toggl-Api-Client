@@ -53,6 +53,14 @@ namespace Toggl
         /// </summary>
         [JsonProperty(PropertyName = "at")]
         public DateTime? UpdatedOn { get; set; }
-        
+
+		[JsonProperty(PropertyName = "server_deleted_at")]
+		public DateTime? DeletedAt { get; set; }
+		
+
+	    public override string ToString()
+	    {
+		    return string.Format("Id: {0}, Name: {1} {2}", this.Id, this.Name, DeletedAt == null ? string.Empty : "[DELETED]");
+	    }
     }
 }

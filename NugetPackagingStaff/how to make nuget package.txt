@@ -1,0 +1,2 @@
+nuget.exe spec [path to dll]
+nuget.exe pack [path to spec file]

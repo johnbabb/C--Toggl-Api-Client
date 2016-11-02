@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+   <id>TogglAPI.Net</id>
+    <version>0.1</version>
+    <authors>Pirozhenko Ilya</authors>
+    <owners>Pirozhenko Ilya</owners>
+    <projectUrl>https://github.com/sochix/TogglAPI.Net</projectUrl>
+    <iconUrl>https://www.dropbox.com/s/wdlrdcoqym7f0lo/togglApi.net.jpg?dl=0</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>TogglAPI.Net is a C# wrapper for the http://toggl.com</description>
+    <releaseNotes>Initial release, so don't use it in production.</releaseNotes>
+    <copyright>Copyright 2014. Pirozhenko Ilya</copyright>
+    <tags>toggl api sdk togglapi wrapper</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="4.0.8" />
+    </dependencies>
+  </metadata>
+</package>

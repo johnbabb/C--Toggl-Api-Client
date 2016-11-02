@@ -12,6 +12,6 @@ namespace Toggl.Interfaces
         List<Project> List();
 
         Project Get(int id);
-        Project Add(Project obj);
+        Project Add(Project project);
     }
 }

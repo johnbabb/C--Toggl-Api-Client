@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
-using Toggl.Properties;
 
 namespace Toggl.Interfaces
 {
@@ -17,6 +16,8 @@ namespace Toggl.Interfaces
         ApiResponse Get(string url);
 
         ApiResponse Get(string url, List<KeyValuePair<string, string>> args);
+
+        TResponse Get<TResponse>(string url, List<KeyValuePair<string, string>> args);
 
         ApiResponse Delete(string url);
 

@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{12E821E7-6E4D-4714-80DD-9157FDDF8179}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Toggl</RootNamespace>
+    <AssemblyName>Toggl</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Toggl.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Toggl\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\DetailedReport.cs">
+      <Link>DataObjects\DetailedReport.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\Report.cs">
+      <Link>DataObjects\Report.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\ReportTimeEntry.cs">
+      <Link>DataObjects\ReportTimeEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\UserAdd.cs">
+      <Link>DataObjects\UserAdd.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\UserExtended.cs">
+      <Link>DataObjects\UserExtended.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\UserEdit.cs">
+      <Link>DataObjects\UserEdit.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IApiServiceAsync.cs">
+      <Link>Interfaces\IApiServiceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IClientServiceAsync.cs">
+      <Link>Interfaces\IClientServiceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IProjectServiceAsync.cs">
+      <Link>Interfaces\IProjectServiceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IReportServiceAsync.cs">
+      <Link>Interfaces\IReportServiceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IReportService.cs">
+      <Link>Interfaces\IReportService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\ITagServiceAsync.cs">
+      <Link>Interfaces\ITagServiceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\ITaskServiceAsync.cs">
+      <Link>Interfaces\ITaskServiceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\ITimeEntryServiceAsync.cs">
+      <Link>Interfaces\ITimeEntryServiceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IUserServiceAsync.cs">
+      <Link>Interfaces\IUserServiceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IWorkspaceServiceAsync.cs">
+      <Link>Interfaces\IWorkspaceServiceAsync.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\QueryObjects\DetailedReportParams.cs">
+      <Link>QueryObjects\DetailedReportParams.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\QueryObjects\ReportParams.cs">
+      <Link>QueryObjects\ReportParams.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Responses\ApiResponse.cs">
+      <Link>Responses\ApiResponse.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Toggl\Routes\ApiRoutes.cs">
+      <Link>Routes\ApiRoutes.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Requests\ApiRequest.cs">
+      <Link>Requests\ApiRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Converters\TogglDateTimeConverter.cs">
+      <Link>Converters\TogglDateTimeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\BaseDataObject.cs">
+      <Link>DataObjects\BaseDataObject.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\NewBlogPost.cs">
+      <Link>DataObjects\NewBlogPost.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Extensions\Strings.cs">
+      <Link>Extensions\Strings.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Extensions\Dates.cs">
+      <Link>Extensions\Dates.cs</Link>
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="..\Toggl\QueryObjects\TimeEntryParams.cs">
+      <Link>QueryObjects\TimeEntryParams.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\Client.cs">
+      <Link>DataObjects\Client.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\Tag.cs">
+      <Link>DataObjects\Tag.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\Session.cs">
+      <Link>DataObjects\Session.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\TimeEntry.cs">
+      <Link>DataObjects\TimeEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\Project.cs">
+      <Link>DataObjects\Project.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\Task.cs">
+      <Link>DataObjects\Task.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\User.cs">
+      <Link>DataObjects\User.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\DataObjects\Workspace.cs">
+      <Link>DataObjects\Workspace.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Services\ClientService.cs">
+      <Link>Services\ClientService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IClientService.cs">
+      <Link>Interfaces\IClientService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IProjectService.cs">
+      <Link>Interfaces\IProjectService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\ITagService.cs">
+      <Link>Interfaces\ITagService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\ITaskService.cs">
+      <Link>Interfaces\ITaskService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\ITimeEntryService.cs">
+      <Link>Interfaces\ITimeEntryService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IUserService.cs">
+      <Link>Interfaces\IUserService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IWorkspaceService.cs">
+      <Link>Interfaces\IWorkspaceService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Services\ReportService.cs">
+      <Link>Services\ReportService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Services\TagService.cs">
+      <Link>Services\TagService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Services\UserService.cs">
+      <Link>Services\UserService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Services\ProjectService.cs">
+      <Link>Services\ProjectService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Services\WorkspaceService.cs">
+      <Link>Services\WorkspaceService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Services\TaskService.cs">
+      <Link>Services\TaskService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Services\ApiService.cs">
+      <Link>Services\ApiService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Services\TimeEntryService.cs">
+      <Link>Services\TimeEntryService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Interfaces\IApiService.cs">
+      <Link>Interfaces\IApiService.cs</Link>
+    </Compile>
+    <Compile Include="..\Toggl\Toggl.cs">
+      <Link>Toggl.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

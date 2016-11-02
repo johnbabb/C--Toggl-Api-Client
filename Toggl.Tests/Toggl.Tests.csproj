@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Toggl.Tests</RootNamespace>
     <AssemblyName>Toggl.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -23,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -32,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit-console-runner">
@@ -42,6 +45,7 @@
       <HintPath>NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,15 +54,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\BaseTogglApiTest.cs" />
     <Compile Include="ClientTests.cs" />
+    <Compile Include="ReportTests.cs" />
+    <Compile Include="TogglApiTestWithDefaultProject.cs" />
     <Compile Include="UserTests.cs" />
     <Compile Include="ProjectTests.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Constants.cs" />
+    <Compile Include="Infrastructure\Constants.cs" />
     <Compile Include="TaskTests.cs" />
     <Compile Include="SessionTests.cs" />
     <Compile Include="Program.cs" />
@@ -74,14 +76,10 @@
     <None Include="NUnit\nunit.util.dll" />
     <None Include="NUnit\nunit.core.interfaces.dll" />
     <None Include="NUnit\nunit.core.dll" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Toggl\Toggl.csproj">
-      <Project>{AE43A30C-8515-41F2-A018-AA9AE9B80C27}</Project>
+      <Project>{ae43a30c-8515-41f2-a018-aa9ae9b80c27}</Project>
       <Name>Toggl</Name>
     </ProjectReference>
   </ItemGroup>

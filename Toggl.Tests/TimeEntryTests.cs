@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting;
 using System.Text;
 using NUnit.Framework;
 using Toggl.DataObjects;
@@ -11,182 +12,254 @@ using Toggl.Services;
 namespace Toggl.Tests
 {
     [TestFixture]
-    public class TimeEntryTests
+	public class TimeEntryTests : TogglApiTestWithDefaultProject
     {
-        TimeEntryService timeEntrySrv = new TimeEntryService();
-
-        [SetUp]
-        public void Init()
-        { /* ... */ }
-
-        [TearDown]
-        public void Dispose()
-        { /* ... */ }
-        [Test]
+		[Test]
         public void GetTimeEntries()
         {
-            var entries = timeEntrySrv.List();
-            Assert.GreaterOrEqual(entries.Count(), 0);    
+            var entries = TimeEntryService.List();
+            Assert.AreEqual(entries.Count(), 0);    
         }
+
+		[Test]
+		public void GetTimeEntriesByDateRange()
+		{
+			var startDate = DateTime.Now.AddMonths(-2);
+			var endDate = DateTime.Now.AddMonths(-1);
+
+			for (int i = 0; i < 3; i++)
+			{
+				var te = TimeEntryService.Add(new TimeEntry()
+				{
+					IsBillable = true,
+					CreatedWith = "TogglAPI.Net",
+					Duration = 900,
+					Start = startDate.AddMonths(i).ToIsoDateStr(),
+					WorkspaceId = DefaultWorkspaceId
+				});
+				Assert.IsNotNull(te);
+			}
+	       
+            var rte = new TimeEntryParams {StartDate = startDate, EndDate = endDate};
+			Assert.AreEqual(2, TimeEntryService.List(rte).Count());
+			rte = new TimeEntryParams { StartDate = startDate, EndDate = DateTime.Now };
+			Assert.AreEqual(3, TimeEntryService.List(rte).Count());            
+        }
+
+		[Test]
+		public void GetTimeEntriesByTaskId()
+		{
+			var task1 = TaskService.Add(new Task
+			{
+				IsActive = true,
+				Name = "task1",
+				EstimatedSeconds = 3600,
+				WorkspaceId = DefaultWorkspaceId,
+				ProjectId = DefaultProjectId
+			});
+			Assert.IsNotNull(task1);
+
+			var task2 = TaskService.Add(new Task
+			{
+				IsActive = true,
+				Name = "task2",
+				EstimatedSeconds = 3600,
+				WorkspaceId = DefaultWorkspaceId,
+				ProjectId = DefaultProjectId
+			});
+			Assert.IsNotNull(task2);
+
+			for (int i = 0; i < 3; i++)
+			{
+				var timeEntry = TimeEntryService.Add(new TimeEntry()
+				{
+					IsBillable = true,
+					CreatedWith = "TogglAPI.Net",
+					Duration = 900,
+					Start = DateTime.Now.ToIsoDateStr(),
+					WorkspaceId = DefaultWorkspaceId,
+					TaskId = task1.Id
+				});
+
+				Assert.IsNotNull(timeEntry);
+			}
+
+			for (int i = 0; i < 3; i++)
+			{
+				var timeEntry = TimeEntryService.Add(new TimeEntry()
+				{
+					IsBillable = true,
+					CreatedWith = "TogglAPI.Net",
+					Duration = 900,
+					Start = DateTime.Now.ToIsoDateStr(),
+					WorkspaceId = DefaultWorkspaceId,
+					TaskId = task2.Id
+				});
+
+				Assert.IsNotNull(timeEntry);
+			}
+
+			Assert.AreEqual(3, TimeEntryService.List().Count(te => te.TaskId == task1.Id));
+			Assert.AreEqual(3, TimeEntryService.List().Count(te => te.TaskId == task2.Id));
+		}
+
         [Test]
-        [TestCase("1/1/2012", "1/1/2013")]
-        public void GetTimeEntriesByDateRange(DateTime from, DateTime to)
+        public void Get()
         {
+			var timeEntry = TimeEntryService.Add(new TimeEntry()
+			{
+				IsBillable = true,
+				CreatedWith = "TogglAPI.Net",
+				Duration = 900,
+				Start = DateTime.Now.ToIsoDateStr(),				
+				WorkspaceId = DefaultWorkspaceId
+				
+			});
 
-            var rte = new TimeEntryParams();
-            rte.StartDate = from;
-            rte.EndDate = to;
+			Assert.IsNotNull(timeEntry);
 
-            var entries = timeEntrySrv.List(rte);
-
-            Assert.GreaterOrEqual(entries.Count(), 0);
-
+	        var loadedTimeEntry = TimeEntryService.Get(timeEntry.Id.Value);
+			Assert.IsNotNull(loadedTimeEntry);
+			Assert.AreEqual(timeEntry.Id, loadedTimeEntry.Id);
+			Assert.AreEqual(timeEntry.IsBillable, loadedTimeEntry.IsBillable);
+			Assert.AreEqual(timeEntry.CreatedWith, loadedTimeEntry.CreatedWith);
+			Assert.AreEqual(timeEntry.Duration, loadedTimeEntry.Duration);
+			Assert.AreEqual(timeEntry.WorkspaceId, loadedTimeEntry.WorkspaceId);            
         }
-        
-        [Test]
-        [TestCase(51575828)]
-        public void GetTimeEntryByID(int id)
-        {
 
-            var entry = timeEntrySrv.Get(id);
-            Assert.IsTrue(entry.Id == id);
-        }
         [Test]
         public void Add()
         {
-      
-      
-            var tags = new List<string>();
-            tags.Add("one");
+			var timeEntry = TimeEntryService.Add(new TimeEntry()
+			{
+				IsBillable = true,
+				CreatedWith = "TogglAPI.Net",
+				Duration = 900,
+				Start = DateTime.Now.ToIsoDateStr(),
+				Stop = DateTime.Now.AddMinutes(10).ToIsoDateStr(),
+				WorkspaceId = DefaultWorkspaceId
+			});
 
-            var act = new TimeEntry()
-                          {
-                              IsBillable = true,
-                              CreatedWith = "TimeEntryTestAdd",
-                              Description = "Test Desc" + DateTime.Now.Ticks,
-                              Duration = 900,
-                              Start = DateTime.Now.ToIsoDateStr(),
-                              Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                              ProjectId =Constants.DefaultProjectId,
-                              TagNames = tags,
-                              WorkspaceId = Constants.DefaultWorkspaceId
-                
-            };
-
-            var exp = timeEntrySrv.Add(act);
-
-            Assert.GreaterOrEqual(exp.Id, 0);
+			Assert.IsNotNull(timeEntry);
+			Assert.AreEqual(1, TimeEntryService.List().Count());
         }
 
         [Test]
         public void Edit()
         {
+			var timeEntry = TimeEntryService.Add(new TimeEntry()
+			{
+				IsBillable = true,
+				CreatedWith = "TogglAPI.Net",
+				Duration = 900,
+				Start = DateTime.Now.ToIsoDateStr(),
+				WorkspaceId = DefaultWorkspaceId
 
-            
-            var tags = new List<string>();
-            tags.Add("one");
-            tags.Add("two");
+			});
 
-            var exp = new TimeEntry()
-            {
-                Id = Constants.DefaultTimeEntryId,
-                IsBillable = true,
-                CreatedWith = "TimeEntryTestAdd",
-                Description = "Test Desc" + DateTime.Now.Ticks,
-                Duration = 1000,
-                Start = DateTime.Now.ToIsoDateStr(),
-                //Stop =  DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                ProjectId = Constants.DefaultProjectId,
-                TagNames = tags,
-                WorkspaceId = Constants.DefaultWorkspaceId
+			Assert.IsNotNull(timeEntry);
 
-            };
-            exp = timeEntrySrv.Add(exp);
+			var loadedTimeEntry = TimeEntryService.Get(timeEntry.Id.Value);
+			Assert.IsNotNull(loadedTimeEntry);
 
-            Assert.NotNull(exp);
-            Assert.Greater(exp.Id, 0);
+	        loadedTimeEntry.Duration = 1200;
+	        var editedTimeEntry = TimeEntryService.Edit(loadedTimeEntry);
 
-            exp = timeEntrySrv.Get(exp.Id.Value);
-
-            exp.Duration += 1000;
-            exp.Description += "more by edit";
-            tags.Add(exp.Duration.ToString());
-            exp.TagNames = tags;
-            
-           
-
-            var act = timeEntrySrv.Edit(exp);
-
-            Assert.NotNull(act);
-            Assert.Greater(act.Id, 0);
-            Assert.AreEqual(act.Id, exp.Id);
+			Assert.AreEqual(timeEntry.Id, editedTimeEntry.Id);
+			Assert.AreEqual(timeEntry.IsBillable, editedTimeEntry.IsBillable);
+			Assert.AreEqual(timeEntry.CreatedWith, editedTimeEntry.CreatedWith);
+			Assert.AreEqual(loadedTimeEntry.Duration, editedTimeEntry.Duration);
+			Assert.AreEqual(timeEntry.WorkspaceId, editedTimeEntry.WorkspaceId);        
         }
         
         [Test]
         public void Delete()
         {
-            var actLst = timeEntrySrv.List();
-            var act = actLst.LastOrDefault();
-            var expCnt = actLst.Count()-1;
-            
+			var timeEntry = TimeEntryService.Add(new TimeEntry()
+			{
+				IsBillable = true,
+				CreatedWith = "TogglAPI.Net",
+				Duration = 900,
+				Start = DateTime.Now.ToIsoDateStr(),
+				WorkspaceId = DefaultWorkspaceId
 
-            var exp = timeEntrySrv.Delete((int)act.Id);
+			});
 
-            var actCnt = timeEntrySrv.List().Count();
-
-            Assert.AreEqual(actCnt, expCnt);
+			Assert.IsNotNull(timeEntry);
+			Assert.AreEqual(1, TimeEntryService.List().Count());
+			Assert.IsTrue(TimeEntryService.Delete(timeEntry.Id.Value));
+			Assert.AreEqual(0, TimeEntryService.List().Count());
         }
-        
-        [Test]
-        public void HasProject()
-        {
 
-            var act = new TimeEntry()
+		[Test]
+		public void EditTaskId()
+		{
+			var task1 = TaskService.Add(new Task
             {
-                IsBillable = true,
-                CreatedWith = "TimeEntryTestAdd",
-                Description = "Test Desc" + DateTime.Now.Ticks,
-                Duration = 1000,
-                Start = DateTime.Now.ToIsoDateStr(),
-                Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                ProjectId = Constants.DefaultProjectId
+                IsActive = true,
+                Name = "task1",
+                EstimatedSeconds = 3600,
+                WorkspaceId = DefaultWorkspaceId,
+				ProjectId = DefaultProjectId
+            });
+			Assert.IsNotNull(task1);   
 
-            };
-
-            var tmp = timeEntrySrv.Add(act);
-            Assert.IsNotNull(tmp);
-            var exp = timeEntrySrv.Get(tmp.Id.Value);
-            Assert.IsNotNull(exp);
-            Assert.IsNotNull(exp.ProjectId.Value);
-        }
-
-        [Test]
-        public void HasWorkspace()
-        {
-
-            var act = new TimeEntry()
+			var task2 = TaskService.Add(new Task
             {
-                IsBillable = true,
-                CreatedWith = "TimeEntryTestAdd",
-                Description = "Test Desc" + DateTime.Now.Ticks,
-                Duration = 1000,
-                Start = DateTime.Now.ToIsoDateStr(),
-                Stop = DateTime.Now.AddMinutes(20).ToIsoDateStr(),
-                
-                WorkspaceId = Constants.DefaultWorkspaceId
+                IsActive = true,
+                Name = "task2",
+                EstimatedSeconds = 3600,
+                WorkspaceId = DefaultWorkspaceId,
+				ProjectId = DefaultProjectId
+            });
+			Assert.IsNotNull(task2);
 
-            };
+			for (int i = 0; i < 3; i++)
+			{
+				var timeEntry = TimeEntryService.Add(new TimeEntry()
+				{
+					IsBillable = true,
+					CreatedWith = "TogglAPI.Net",
+					Duration = 900,
+					Start = DateTime.Now.ToIsoDateStr(),
+					WorkspaceId = DefaultWorkspaceId,
+					TaskId = task1.Id
+				});
 
-            var tmp = timeEntrySrv.Add(act);
-            Assert.IsNotNull(tmp);
-            var exp = timeEntrySrv.Get(tmp.Id.Value);
-            Assert.IsNotNull(exp);
-            Assert.IsNotNull(exp.WorkspaceId.Value);
-        }
+				Assert.IsNotNull(timeEntry);
+			}
+
+			for (int i = 0; i < 3; i++)
+			{
+				var timeEntry = TimeEntryService.Add(new TimeEntry()
+				{
+					IsBillable = true,
+					CreatedWith = "TogglAPI.Net",
+					Duration = 900,
+					Start = DateTime.Now.ToIsoDateStr(),
+					WorkspaceId = DefaultWorkspaceId,
+					TaskId = task2.Id
+				});
+
+				Assert.IsNotNull(timeEntry);
+			}
+
+			Assert.AreEqual(3, TimeEntryService.List().Count(te => te.TaskId == task1.Id));
+			Assert.AreEqual(3, TimeEntryService.List().Count(te => te.TaskId == task2.Id));
+
+			var task2TimeEntries = TimeEntryService.List().Where(te => te.TaskId == task2.Id).ToList();
+			foreach (var timeEntry in task2TimeEntries)
+			{
+				timeEntry.TaskId = task1.Id;
+				Assert.IsNotNull(TimeEntryService.Edit(timeEntry));				
+			}
+
+			Assert.AreEqual(6, TimeEntryService.List().Count(te => te.TaskId == task1.Id));
+			Assert.AreEqual(0, TimeEntryService.List().Count(te => te.TaskId == task2.Id));
+		}
 
     }
-
-    }
+ }
 
 
 

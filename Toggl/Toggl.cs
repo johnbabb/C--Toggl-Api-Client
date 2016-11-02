@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Toggl.Interfaces;
-using Toggl.Properties;
 using Toggl.Services;
 
 namespace Toggl
@@ -59,10 +58,6 @@ namespace Toggl
             TimeEntry = new TimeEntryService(ApiService);
             User = new UserService(ApiService);
             Workspace = new WorkspaceService(ApiService);
-        }
-        public Toggl()
-            : this(Settings.Default.ApiToken)
-        {
-        }
+        }        
     }
 }

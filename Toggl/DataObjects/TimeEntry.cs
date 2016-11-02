@@ -12,19 +12,22 @@ namespace Toggl
     public class TimeEntry : BaseDataObject
     {
         [JsonProperty(PropertyName = "id")]
-        public int? Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
 
         [JsonProperty(PropertyName = "wid")]
-        public int? WorkspaceId { get; set; }
+		public long? WorkspaceId { get; set; }
 
         [JsonProperty(PropertyName = "pid")]
-        public int? ProjectId { get; set; }
+		public long? ProjectId { get; set; }
 
-        [JsonProperty(PropertyName = "tid")]
-        public int? TaskId { get; set; }
+		[JsonProperty(PropertyName = "tid")]
+		public long? TaskId { get; set; }
+
+		[JsonProperty(PropertyName = "task")]
+		public string TaskName { get; set; }
 
         [JsonProperty(PropertyName = "billable")]
         public bool? IsBillable { get; set; }
@@ -40,7 +43,7 @@ namespace Toggl
         public string Stop { get; set; }
 
         [JsonProperty(PropertyName = "duration")]
-        public int? Duration { get; set; }
+        public long? Duration { get; set; }
 
         [JsonProperty(PropertyName = "created_with")]
         public string CreatedWith { get; set; }
@@ -54,5 +57,9 @@ namespace Toggl
         [JsonProperty(PropertyName = "at")]
         public DateTime? UpdatedOn { get; set; }
 
+		public override string ToString()
+		{
+			return string.Format("Id: {0}, Start: {1}, Stop: {2}, TaskId: {3}", this.Id, this.Start, this.Stop, this.TaskId);
+		}
     }
 }

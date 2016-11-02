@@ -6,16 +6,15 @@ namespace Toggl.Interfaces
     {
         /// <summary>
         /// 
-        /// https://www.toggl.com/public/api#get_tasks
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/tasks.md#get-task-details
         /// </summary>
+        /// <param name="id"></param>
         /// <returns></returns>
-        List<Task> List();
-
-        Task Get(int id);
+		Task Get(int id);
 
         /// <summary>
         /// 
-        /// https://www.toggl.com/public/api#post_tasks
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/tasks.md#create-a-task
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
@@ -23,7 +22,7 @@ namespace Toggl.Interfaces
 
         /// <summary>
         /// 
-        /// https://www.toggl.com/public/api#put_tasks
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/tasks.md#update-a-task
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
@@ -31,7 +30,7 @@ namespace Toggl.Interfaces
 
         /// <summary>
         /// 
-        /// https://www.toggl.com/public/api#del_tasks
+        /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/tasks.md#delete-a-task
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>

@@ -8,114 +8,242 @@ using Toggl.Services;
 namespace Toggl.Tests
 {
     [TestFixture]
-    public class ClientTests
+    public class ClientTests : BaseTogglApiTest
     {
-        
-        [Test]
-        public void List()
+	    [Test]
+        public void NoClientsByDefault()
         {
-            var srv = new ClientService();
-
-            var obj = srv.List();
-
-            Assert.GreaterOrEqual(obj.Count(), 0);
+			Assert.IsFalse(ClientService.List().Any());
         }
 
-        [Test]
-        public void GetById()
+
+		[Test]
+		public void NoClientsByDefaultRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var clientsList = client.GetClientsVisibleToUser();
+			Assert.IsFalse(clientsList.Any());
+		}
+
+		[Test]
+		public void GetClientsRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var clientsList = client.GetClientsVisibleToUser();
+			Assert.IsFalse(clientsList.Any());
+
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+			{
+				name = "Test Client",
+				wid = workspaceId.Value
+			};
+
+			client.CreateClient(clientToAdd);
+
+			clientsList = client.GetClientsVisibleToUser();
+			Assert.AreEqual(1, clientsList.Count);
+
+		}
+
+		[Test]
+		public void AddClientRestSHarp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+						{
+							name = "Test Client",
+							wid = workspaceId.Value
+						};
+
+			var addedClient = client.CreateClient(clientToAdd);
+			
+			Assert.IsNotNull(addedClient);
+			Assert.AreEqual("Test Client", addedClient.name);
+			Assert.AreEqual(workspaceId, addedClient.wid);
+			Assert.IsTrue(addedClient.id.HasValue);
+		}
+
+		[Test]
+		public void GetClientDetailsRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+			{
+				name = "Test Client",
+				wid = workspaceId.Value
+			};
+
+			var addedClient = client.CreateClient(clientToAdd);
+
+			var loadedClient = client.GetClientDetails(addedClient.id.Value);
+
+			Assert.AreEqual(addedClient.name, loadedClient.name);
+			Assert.AreEqual(addedClient.cur, loadedClient.cur);
+			Assert.AreEqual(addedClient.hrate, loadedClient.hrate);
+			Assert.AreEqual(addedClient.notes, loadedClient.notes);
+			Assert.AreEqual(addedClient.wid, loadedClient.wid);
+		}
+
+		[Test]
+		public void UpdateClientRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+			{
+				name = "Test Client",
+				wid = workspaceId.Value
+			};
+
+			var addedClient = client.CreateClient(clientToAdd);
+
+			addedClient.notes = "Edited client";
+			
+			var editedClient = client.UpdateClient(addedClient);
+
+			Assert.AreEqual(addedClient.name, editedClient.name);
+			Assert.AreEqual(addedClient.cur, editedClient.cur);
+			Assert.AreEqual(addedClient.hrate, editedClient.hrate);
+			Assert.AreEqual("Edited client", editedClient.notes);
+			Assert.AreEqual(addedClient.wid, editedClient.wid);
+		}
+
+		[Test]
+		public void DeleteClientRestSharp()
+		{
+			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+
+			var workspaceId = client.GetWorkspaces().Single().id;
+
+			var clientToAdd = new ClientRestSharp()
+			{
+				name = "Test Client",
+				wid = workspaceId.Value
+			};
+
+			var addedClient = client.CreateClient(clientToAdd);
+
+			Assert.AreEqual(1, client.GetClientsVisibleToUser().Count);
+
+			client.DeleteClient(addedClient.id.Value);
+
+			Assert.AreEqual(0, client.GetClientsVisibleToUser().Count);			
+		}
+		
+	    [Test]
+	    public void Add()
+	    {
+		    var addedClient = ClientService.Add(new Client()
+							{
+								Name = "Client #1",
+								WorkspaceId = DefaultWorkspaceId
+							});
+
+			Assert.IsNotNull(addedClient);
+			Assert.AreEqual(1, ClientService.List().Count());
+	    }
+		
+		[Test]
+        public void Get()
         {
-            var srv = new ClientService();
+			var addedClient = ClientService.Add(new Client()
+			{
+				Name = "Client #1",
+				WorkspaceId = DefaultWorkspaceId
+			});
 
-            var obj = GetClientMock();
 
-            obj = srv.Add(obj);
+			var loadedClient = ClientService.Get(addedClient.Id.Value);
 
-            var expId = obj.Id;           
-
-            var actObj = srv.Get(expId.Value);
-            
-            Assert.IsNotNull(actObj);
-
-            Assert.IsTrue(actObj.Id.HasValue);
-
-            Assert.GreaterOrEqual(actObj.Id, 1);
+            Assert.IsNotNull(loadedClient);
+			Assert.AreEqual(addedClient.Id, loadedClient.Id);
+			Assert.AreEqual(addedClient.Name, loadedClient.Name);
+			Assert.AreEqual(addedClient.WorkspaceId, loadedClient.WorkspaceId);			
         }
 
-        [Test]
-        public void Add()
-        {
-            var workSpace = new WorkspaceService().List().FirstOrDefault();
-            var srv = new ClientService();
-
-            var obj = new Client()
-            {
-                Name = "New Client" + DateTime.Now.Ticks,
-                HourlyRate = new Random(13).NextDouble(),
-                Currency = "USD",
-                WorkspaceId =  workSpace.Id
-            };
-            var act = srv.Add(obj);
-
-            Assert.Greater(act.Id, 0);
-        }
-
-        [Test]
-        public void Edit()
-        {
-
-            var workSpace = new WorkspaceService().List().FirstOrDefault();
-            var srv = new ClientService();
-
-            var obj = new Client()
-            {
-                Name = "New Client" + DateTime.Now.Ticks,
-                HourlyRate = new Random(13).NextDouble(),
-                Currency = "USD",
-                WorkspaceId = workSpace.Id
-            };
-            var exp = srv.Add(obj);
-
-            Assert.Greater(exp.Id, 0);
-
-            exp.Name = "Edit Test - " + DateTime.Now.Ticks;
-            var act = srv.Edit(exp);
-            Assert.True(act.Name == exp.Name);
-            Assert.True(act.Name != obj.Name);
-
-
-        }
-
-        [Test]
+		[Test]
         public void Delete()
         {
-            
-            var srv = new ClientService();
+			var addedClient = ClientService.Add(new Client()
+			{
+				Name = "Client #1",
+				WorkspaceId = DefaultWorkspaceId
+			});
 
-            var obj = GetClientMock();
-            
-            obj = srv.Add(obj);
-            
-            var expId = obj.Id;
-
-            var act = srv.Delete(obj.Id.Value);
-            
-            Assert.True(act == true);
-
-            var actObj = srv.Get(expId.Value);
-
-            Assert.IsFalse(actObj.Id.HasValue);
-
+			Assert.IsNotNull(addedClient);
+			Assert.AreEqual(1, ClientService.List().Count);
+			Assert.IsTrue(ClientService.Delete(addedClient.Id.Value));
+			Assert.IsFalse(ClientService.List().Any());
         }
-        private Client GetClientMock()
-        {
-            return new Client()
-            {
-                Name = "New Client" + DateTime.Now.Ticks,
-                HourlyRate = new Random(13).NextDouble(),
-                Currency = "USD",
-                WorkspaceId = Constants.DefaultWorkspaceId
-            };
-        }
+
+		[Test]
+		public void BulkDelete()
+		{
+			var ids = new List<int>();
+			for (int i = 0; i < 3; i++)
+			{
+				var addedClient = ClientService.Add(new Client()
+				{
+					Name = "Client #" + i,
+					WorkspaceId = DefaultWorkspaceId
+				});
+				Assert.IsNotNull(addedClient);
+				ids.Add(addedClient.Id.Value);
+			}
+
+			Assert.AreEqual(3, ClientService.List().Count);
+			Assert.IsTrue(ClientService.Delete(ids.ToArray()));
+			Assert.IsFalse(ClientService.List().Any());
+		}
+
+		[Test]
+		public void Edit()
+		{
+			var addedClient = ClientService.Add(new Client()
+			{
+				Name = "Client #1",
+				WorkspaceId = DefaultWorkspaceId
+			});
+
+			var loadedClient = ClientService.Get(addedClient.Id.Value);
+			loadedClient.Name = "TestEdit";
+			var editedClient = ClientService.Edit(loadedClient);
+
+			Assert.IsNotNull(editedClient);
+			Assert.AreEqual(addedClient.Id, editedClient.Id);
+			Assert.AreEqual(loadedClient.Name, editedClient.Name);
+			Assert.AreEqual(addedClient.WorkspaceId, editedClient.WorkspaceId);	
+		}
+
+	    [Test]
+	    public void GetByName()
+	    {
+			var addedClient = ClientService.Add(new Client()
+			{
+				Name = "Client #1",
+				WorkspaceId = DefaultWorkspaceId
+			});
+
+			var loadedClient = ClientService.GetByName("Client #1");
+
+			Assert.IsNotNull(loadedClient);
+			Assert.AreEqual(addedClient.Id, loadedClient.Id);
+			Assert.AreEqual(addedClient.Name, loadedClient.Name);
+			Assert.AreEqual(addedClient.WorkspaceId, loadedClient.WorkspaceId);		
+	    }
+
 
     }
 }

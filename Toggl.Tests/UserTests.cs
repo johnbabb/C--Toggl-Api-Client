@@ -9,34 +9,40 @@ using Toggl.Services;
 namespace Toggl.Tests
 {
     [TestFixture]
-    public class UserTests
+    public class UserTests : BaseTogglApiTest
     {
-       
+
+		[Test]
+		public void GetViaRestSharp()
+		{
+			var restSharpClient = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+			var user = restSharpClient.GetUserInfo();
+
+			Assert.IsNotNull(user);
+
+
+		}
 
         [Test]
         public void GetCurrentTest()
         {
-            var t = new UserService();
-            var obj = t.GetCurrent();
-            
-            Assert.AreEqual(Constants.DefaultUserId, obj.Id);
+            var currentUser = UserService.GetCurrent();
+            Assert.IsNotNull(currentUser);
         }
-        
+
         [Test]
         public void GetCurrentExtendedTest()
         {
-            var t = new UserService();
-            var obj = t.GetCurrentExtended();
+            var currentUser = UserService.GetCurrentExtended();
 
-            Assert.AreEqual(Constants.DefaultUserId, obj.Id);
-
-            Assert.Greater(obj.Clients.Count(), 0);
-            Assert.Greater(obj.Projects.Count(), 0);
-            Assert.Greater(obj.Tags.Count(), 0);
-            Assert.Greater(obj.TimeEntries.Count(), 0);
-            Assert.Greater(obj.Workspaces.Count(), 0);
+            Assert.AreEqual(0, currentUser.Clients.Count(client => client.DeletedAt == null));
+            Assert.IsNull(currentUser.Projects);
+            Assert.IsNull(currentUser.Tags);
+            Assert.IsNull(currentUser.TimeEntries);
+            Assert.AreEqual(1, currentUser.Workspaces.Count());
         }
 
+		/*
         [Test]
         public void GetCurrentChangedTest()
         {
@@ -63,6 +69,8 @@ namespace Toggl.Tests
 
             
         }
+		 * */
+
         [Test]
         [TestCase(0)]
         [TestCase(1)]
@@ -73,7 +81,7 @@ namespace Toggl.Tests
         [TestCase(6)]
         public void EditTest(int dow)
         {
-            var srv = new UserService();
+			var srv = new UserService(Constants.ApiToken);
             var exp = srv.GetCurrent();
             exp.BeginningOfWeek = dow;
 
@@ -86,7 +94,7 @@ namespace Toggl.Tests
         public void AddTest()
         {
             return;
-            var srv = new UserService();
+			var srv = new UserService(Constants.ApiToken);
             var exp = new User();
             exp.Email = "john.babb" + DateTime.Now.Ticks + "@ikoios.com";
             
@@ -95,5 +103,17 @@ namespace Toggl.Tests
 
             Assert.AreEqual(act.BeginningOfWeek, exp.BeginningOfWeek);
         }
+
+        [Test]
+        public void ResetApiToken()
+        {
+            var oldToken = Constants.ApiToken;
+            var srv = new UserService(oldToken);
+
+            var act = srv.ResetApiToken();
+            Constants.ApiToken = act;           // Update the ApiToken, so that other tests can use the new active apiToken
+            Assert.AreNotEqual(oldToken, act);
+        }
+
     }
 }

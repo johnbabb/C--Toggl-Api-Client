@@ -10,7 +10,7 @@ namespace Toggl.Interfaces
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/clients.md#get-clients-visible-to-user
         /// </summary>
         /// <returns></returns>
-        List<Client> List();
+        List<Client> List(bool includeDeleted = false);
 
         Client Get(int id);
 

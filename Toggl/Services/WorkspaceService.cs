@@ -6,7 +6,6 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using Toggl.Interfaces;
-using Toggl.Properties;
 
 namespace Toggl.Services
 {
@@ -15,21 +14,12 @@ namespace Toggl.Services
     /// </summary>
     public class WorkspaceService : IWorkspaceService
     {
-
-
-
-        private IApiService ToggleSrv { get; set; }
+		private IApiService ToggleSrv { get; set; }
 
         public WorkspaceService(string apiKey)
             : this(new ApiService(apiKey))
         {
 
-        }
-
-        public WorkspaceService()
-            : this(new ApiService())
-        {
-            
         }
 
         public WorkspaceService(IApiService srv)
