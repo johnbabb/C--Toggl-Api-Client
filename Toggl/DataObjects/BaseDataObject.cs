@@ -8,25 +8,36 @@ namespace Toggl.DataObjects
 {
     public class BaseDataObject
     {
-        public List<KeyValuePair<string,string>> ToKeyValuePair()
+        public List<KeyValuePair<string, string>> ToKeyValuePair()
         {
             var lst = new List<KeyValuePair<string, string>>();
 
-            this.GetType().GetProperties().ToList()
+            GetType().GetProperties().ToList()
                 .ForEach(p =>
                          {
                              var val = p.GetValue(this, null);
                              var jsonProperty = p.GetCustomAttributes(typeof(JsonPropertyAttribute), false).Single() as JsonPropertyAttribute;
-                             if (jsonProperty != null && val != null)
+
+                             if (jsonProperty == null || val == null) return;
+
+                             var ints = val as IEnumerable<int>;
+
+                             if (ints != null)
+                             {
+                                 var param = string.Join(",", ints);
+                                 var pair = new KeyValuePair<string, string>(jsonProperty.PropertyName, param);
+                                 lst.Add(pair);
+                             }
+                             else
                              {
                                  var pair = new KeyValuePair<string, string>(jsonProperty.PropertyName, val.ToString());
-                                 lst.Add(pair); 
-                             }                                              
-                            });
+                                 lst.Add(pair);
+                             }
+                         });
 
             return lst;
         }
-        public string ToJson(string objName="")
+        public string ToJson(string objName = "")
         {
             var cverts = new List<JsonConverter>();
             cverts.Add(new IsoDateTimeConverter());
@@ -43,6 +54,6 @@ namespace Toggl.DataObjects
 
             return "{\"" + propNm + "\":" + data + "}";
         }
-        
+
     }
 }
