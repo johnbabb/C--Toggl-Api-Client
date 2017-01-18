@@ -166,7 +166,7 @@ namespace Toggl.Services
             {
                 value += apiRequest.Data;
                 authRequest.ContentLength = value.Length;
-                using (StreamWriter writer = new StreamWriter(authRequest.GetRequestStream(), Encoding.ASCII))
+                using (StreamWriter writer = new StreamWriter(authRequest.GetRequestStream(), Encoding.UTF8))
                 {
                     writer.Write(value);
                 }
