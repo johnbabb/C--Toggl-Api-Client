@@ -144,6 +144,19 @@ namespace Toggl.Tests
 			Assert.AreEqual(1, TimeEntryService.List().Count());
         }
 
+	    [Test]
+	    public void Start()
+	    {
+		    var timeEntry = TimeEntryService.Add(new TimeEntry()
+		    {
+			    CreatedWith = "TogglAPI.Net",
+				Description = "Start a new task",
+				WorkspaceId = DefaultWorkspaceId
+		    });
+
+			Assert.IsNotNull(timeEntry);
+	    }
+
         [Test]
         public void Edit()
         {

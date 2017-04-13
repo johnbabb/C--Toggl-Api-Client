@@ -100,6 +100,34 @@ namespace Toggl.Services
             return timeEntry;
         }
 
+		/// <summary>
+		/// Start a TimeEntry
+		/// </summary>
+		/// <param name="obj">A TimeEntry object.</param>
+		/// <returns>The runnig TimeEntry.</returns>
+		public TimeEntry Start(TimeEntry obj)
+		{
+            var url = ApiRoutes.TimeEntry.TimeEntryStartUrl;
+
+            var timeEntry = ToggleSrv.Post(url, obj.ToJson()).GetData<TimeEntry>();
+
+            return timeEntry;
+		}
+
+		/// <summary>
+		/// Stop a TimeEntry
+		/// </summary>
+		/// <param name="obj">A TimeEntry object.</param>
+		/// <returns>The stopped TimeEntry.</returns>
+		public TimeEntry Stop(TimeEntry obj)
+		{
+            var url = string.Format(ApiRoutes.TimeEntry.TimeEntryStopUrl, obj.Id);
+
+            var timeEntry = ToggleSrv.Put(url, obj.ToJson()).GetData<TimeEntry>();
+
+            return timeEntry;
+		}
+
         /// <summary>
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#update-a-time-entry
         /// </summary>
