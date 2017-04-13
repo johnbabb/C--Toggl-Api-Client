@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Toggl.DataObjects;
@@ -180,7 +181,7 @@ namespace Toggl.Services
             return rsp;
         }
 
-        private ApiResponse Get(ApiRequest apiRequest)
+        private HttpWebRequest ManufactureRequest(ApiRequest apiRequest)
         {
             string value = "";
 
@@ -198,24 +199,70 @@ namespace Toggl.Services
             var authRequest = (HttpWebRequest)HttpWebRequest.Create(apiRequest.Url);
 
             authRequest.Method = apiRequest.Method;
-			authRequest.ContentType = apiRequest.ContentType;
-			authRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
-			
+            authRequest.ContentType = apiRequest.ContentType;
+            authRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
+
             authRequest.Headers.Add(GetAuthHeader());
 
             if (apiRequest.Method == "POST" || apiRequest.Method == "PUT")
             {
-	            var utd8WithoutBom = new UTF8Encoding(false);
+                var utd8WithoutBom = new UTF8Encoding(false);
 
                 value += apiRequest.Data;
-				authRequest.ContentLength = utd8WithoutBom.GetByteCount(value);
-				using (var writer = new StreamWriter(authRequest.GetRequestStream(), utd8WithoutBom))
+                authRequest.ContentLength = utd8WithoutBom.GetByteCount(value);
+                using (var writer = new StreamWriter(authRequest.GetRequestStream(), utd8WithoutBom))
                 {
                     writer.Write(value);
                 }
             }
+            return authRequest;
+        }
 
-            var authResponse = (HttpWebResponse)authRequest.GetResponse();
+        private ApiResponse Get(ApiRequest apiRequest)
+        {
+            HttpWebResponse authResponse = null;
+
+            while (true)
+            {
+                try
+                {
+                    HttpWebRequest authRequest = ManufactureRequest(apiRequest);
+
+                    authResponse = (HttpWebResponse)authRequest.GetResponse();
+                    Console.WriteLine(((int)authResponse.StatusCode).ToString());
+                    break;
+                }
+                catch (System.Net.WebException ex)
+                {
+                    // Pay attention to HTTP 429 responses to work with the Leaky bucket
+                    // mentioned at https://github.com/toggl/toggl_api_docs  
+                    // retry as necessary
+
+                    if (ex.Status == WebExceptionStatus.ProtocolError)
+                    {
+                        var response = ex.Response as HttpWebResponse;
+                        if (response != null)
+                        {
+                            int statusCode = (int)response.StatusCode;
+                            Console.WriteLine(statusCode.ToString());
+                            if (statusCode == 429)
+                            {
+                                Thread.Sleep(1500); // 1500ms based on cursory testing
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                        else {
+                            throw;
+                        }
+                    }
+                    else {
+                        throw;
+                    }
+                }
+            }
             string content = "";
             using (var reader = new StreamReader(authResponse.GetResponseStream(), Encoding.UTF8))
             {
