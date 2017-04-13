@@ -60,6 +60,14 @@ namespace Toggl.Services
             });
         }
 
+        public TResponse Get<TResponse>(string url)
+        {
+            return Get<TResponse>(new ApiRequest()
+            {
+                Url = url
+            });
+        }
+
         public TResponse Get<TResponse>(string url, List<KeyValuePair<string, string>> args)
         {
             return Get<TResponse>(new ApiRequest()

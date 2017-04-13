@@ -73,5 +73,10 @@ namespace Toggl
             public static readonly string EditUrl                   = TogglBaseUrl + "/me";
             public static readonly string AddUrl                    = TogglBaseUrl + "/signups";
         }
+
+        public static class Dashboard
+        {
+            public static readonly string DashboardUrl              = TogglBaseUrl + "/dashboard/{0}";
+        }
     }
 }

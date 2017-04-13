@@ -57,9 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="DataObjects\Activity.cs" />
     <Compile Include="DataObjects\ClientRestSharp.cs" />
     <Compile Include="DataObjects\ClientsListRestSharp.cs" />
+    <Compile Include="DataObjects\Dashboard.cs" />
     <Compile Include="DataObjects\DetailedReport.cs" />
+    <Compile Include="DataObjects\MostActiveUser.cs" />
     <Compile Include="DataObjects\Report.cs" />
     <Compile Include="DataObjects\ReportTimeEntry.cs" />
     <Compile Include="DataObjects\UserRestSharp.cs" />
@@ -69,6 +72,7 @@
     <Compile Include="DataObjects\WorkspaceRestSharp.cs" />
     <Compile Include="Interfaces\IApiServiceAsync.cs" />
     <Compile Include="Interfaces\IClientServiceAsync.cs" />
+    <Compile Include="Interfaces\IDashboardService.cs" />
     <Compile Include="Interfaces\IProjectServiceAsync.cs" />
     <Compile Include="Interfaces\IReportServiceAsync.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
@@ -111,6 +115,7 @@
     <Compile Include="Interfaces\ITimeEntryService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IWorkspaceService.cs" />
+    <Compile Include="Services\DashboardService.cs" />
     <Compile Include="Services\ProjectServiceAsync.cs" />
     <Compile Include="Services\ReportServiceAsync.cs" />
     <Compile Include="Services\ReportService.cs" />

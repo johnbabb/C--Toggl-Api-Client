@@ -19,6 +19,7 @@ namespace Toggl.Tests
 		public UserService UserService;
 		public TimeEntryService TimeEntryService;
 		public ReportService ReportService;
+        public DashboardService DashboardService;
 
 		public int DefaultWorkspaceId;
 
@@ -35,6 +36,7 @@ namespace Toggl.Tests
 			UserService = new UserService(Constants.ApiToken);
 			TimeEntryService = new TimeEntryService(Constants.ApiToken);
 			ReportService = new ReportService(Constants.ApiToken);
+            DashboardService = new DashboardService(Constants.ApiToken);
 
 			foreach (var workspace in workspaces)
 			{

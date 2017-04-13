@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DashboardTests.cs" />
     <Compile Include="Infrastructure\BaseTogglApiTest.cs" />
     <Compile Include="ClientTests.cs" />
     <Compile Include="ReportTests.cs" />
@@ -82,6 +83,9 @@
       <Project>{ae43a30c-8515-41f2-a018-aa9ae9b80c27}</Project>
       <Name>Toggl</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

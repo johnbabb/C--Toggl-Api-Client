@@ -17,6 +17,8 @@ namespace Toggl.Interfaces
 
         ApiResponse Get(string url, List<KeyValuePair<string, string>> args);
 
+        TResponse Get<TResponse>(string url);
+
         TResponse Get<TResponse>(string url, List<KeyValuePair<string, string>> args);
 
         ApiResponse Delete(string url);
