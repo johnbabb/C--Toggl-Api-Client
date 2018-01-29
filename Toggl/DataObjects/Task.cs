@@ -29,7 +29,7 @@ namespace Toggl
         [JsonProperty(PropertyName = "estimated_seconds")]
         public int? EstimatedSeconds { get; set; }
 
-        [JsonProperty(PropertyName = "is_active")]
+        [JsonProperty(PropertyName = "active")]
         public bool? IsActive { get; set; }
 
         [JsonProperty(PropertyName = "at")]
