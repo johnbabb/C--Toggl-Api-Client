@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-
-using Newtonsoft.Json;
-
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace Toggl
 {
-	public class TogglApiViaRestSharp
+    public class TogglApiViaRestSharp
 	{
 		private readonly string username;
 		private readonly string password;
