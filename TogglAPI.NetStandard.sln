@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2043
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TogglAPI.NetStandard", "TogglAPI.NetStandard\TogglAPI.NetStandard.csproj", "{B61712BC-3A67-43DF-BFAE-66DAB0A2126F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TogglAPI.NetStandard.Tests", "TogglAPI.NetStandard.Tests\TogglAPI.NetStandard.Tests.csproj", "{EAA087F9-26DA-4326-9761-B5792AC15F6C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B61712BC-3A67-43DF-BFAE-66DAB0A2126F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B61712BC-3A67-43DF-BFAE-66DAB0A2126F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B61712BC-3A67-43DF-BFAE-66DAB0A2126F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B61712BC-3A67-43DF-BFAE-66DAB0A2126F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA087F9-26DA-4326-9761-B5792AC15F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA087F9-26DA-4326-9761-B5792AC15F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA087F9-26DA-4326-9761-B5792AC15F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA087F9-26DA-4326-9761-B5792AC15F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38A733D3-AA4C-4775-82BF-91C901784F1D}
+	EndGlobalSection
+EndGlobal

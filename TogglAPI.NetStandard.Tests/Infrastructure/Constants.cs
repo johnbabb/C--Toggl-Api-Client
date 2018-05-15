@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System.IO;
 using System.Xml;
 
 namespace Toggl.Tests
@@ -36,7 +37,7 @@ namespace Toggl.Tests
 
         private static string ReadApiToken()
         {
-            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var config = ConfigurationManager.OpenExeConfiguration(Path.Combine(Directory.GetCurrentDirectory(), "TogglAPI.NetStandard.Tests.dll"));
             var setting = GetSetting(config, "ApiToken");
             var result = setting.Value.ValueXml.InnerText;
             return result;

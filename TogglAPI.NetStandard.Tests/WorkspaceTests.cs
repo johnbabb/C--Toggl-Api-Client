@@ -13,7 +13,7 @@ namespace Toggl.Tests
 		[Test]
 		public void GetWorkSpacesRestSharp()
 		{
-			var client = new TogglApiViaRestSharp("53e8569674f124ac8226e786168bbd76", "api_token");
+			var client = new TogglApiViaRestSharp("6eae86fe55a39666057f045af4e3ca83", "api_token");
 
 			var workspaces = client.GetWorkspaces();
 			Assert.AreEqual(workspaces.Count(), 1); //by default user also have one workspace
