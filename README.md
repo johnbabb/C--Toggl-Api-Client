@@ -67,7 +67,7 @@ the api key 2d1d95cef10e17831ec505e9e6f9f7ea is a test account so please use it 
 
         hours.Select(s=>s).Dump();
 
-## For more code samples check out the the Toggl.Tests Project
+## For more code samples check out the Toggl.Tests Project
 
 ## Copyright
 
