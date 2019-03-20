@@ -78,5 +78,10 @@ namespace Toggl
         {
             public static readonly string DashboardUrl              = TogglBaseUrl + "/dashboard/{0}";
         }
+
+        public static class Tag
+        {
+            public readonly static string TagsUrl = TogglBaseUrl + "/tags";
+        }
     }
 }
