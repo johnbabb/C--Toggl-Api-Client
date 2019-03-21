@@ -9,6 +9,6 @@ namespace Toggl.Interfaces
         /// https://www.toggl.com/public/api#get_tags
         /// </summary>
         /// <returns></returns>
-        List<Client> List();
+        List<Tag> List();
     }
 }

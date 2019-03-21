@@ -13,7 +13,7 @@ namespace Toggl
         public string Name { get; set; }
         [JsonProperty(PropertyName = "id")]
         public int? Id { get; set; }
-        [JsonProperty(PropertyName = "workspace")]
-        public Workspace Workspace { get; set; }
+        [JsonProperty(PropertyName = "wid")]
+        public int? WorkspaceId { get; set; }
     }
 }
