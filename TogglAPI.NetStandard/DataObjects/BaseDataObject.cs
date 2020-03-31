@@ -20,7 +20,7 @@ namespace Toggl.DataObjects
 
                              if (jsonProperty == null || val == null) return;
 
-                             var ints = val as IEnumerable<int>;
+                             var ints = val as List<int>;
 
                              if (ints != null)
                              {
