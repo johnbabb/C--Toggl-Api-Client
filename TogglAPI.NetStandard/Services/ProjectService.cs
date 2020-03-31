@@ -103,7 +103,13 @@ namespace Toggl.Services
 			var rsp = ToggleSrv.Delete(url);
 
 			return rsp.StatusCode == HttpStatusCode.OK;
-		}    
-       
+		}
+
+        public Project Edit(Project project)
+        {
+            var url = string.Format(ApiRoutes.Project.DetailUrl, project.Id);
+            return ToggleSrv.Put(url, project.ToJson()).GetData<Project>();
+        }
+
     }
 }

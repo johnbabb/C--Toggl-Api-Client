@@ -13,5 +13,6 @@ namespace Toggl.Interfaces
 
         Project Get(int id);
         Project Add(Project project);
+        Project Edit(Project project);
     }
 }
